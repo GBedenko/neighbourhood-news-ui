@@ -9,7 +9,7 @@ const app = express()
 
 const handlebars = require('express-handlebars').create({defaultLayout: 'main'})
 const bodyParser = require('body-parser')
-app.use(express.static('public'))
+app.use(express.static(__dirname + '/public'))
 app.use(bodyParser.urlencoded({ extended: true }))
 
 app.engine('handlebars', handlebars.engine)
@@ -27,8 +27,19 @@ app.get('/create_article', (req, res) => {
 	res.render('create_article')
 })
 
-app.get('/articles/', (req, res) => {
-	res.render('articles')
+app.get('/articles', (req, res) => {
+
+	request('http://localhost:8081/api/v1.0/articles', (error, response, body) => {
+
+		const articlesJSON = JSON.parse(body)
+
+		res.render('articles', {articles: articlesJSON})
+	})
+})
+
+app.get('/articles/:id', (req, res) => {
+
+	res.redirect('/articles')
 })
 
 app.post('/articles', async(req, res) => {
