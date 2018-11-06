@@ -1,8 +1,6 @@
 <table>
     {{#each articles}}
-        <tr>
-            <td><a href="/articles/{{this._id}}">{{this.heading}}</a></td>
-            <td>{{this.content}}</td>
-        </tr>
+        <h3>{{this.heading}}</h3>
+        <p>{{this.content}}</p>
     {{/each}}
 </table>

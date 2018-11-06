@@ -20,7 +20,7 @@ const port = 8080
 const request = require('request')
 
 app.get('/', async(req, res) => {
-	res.render('home')
+	res.redirect('/articles')
 })
 
 app.get('/create_article', (req, res) => {
