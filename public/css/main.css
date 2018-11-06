@@ -10,3 +10,8 @@ a:link, a:visited {
 a:hover, a:active {
     background-color: blue;
 }
+
+body {
+    max-width: 1500px;
+    margin: auto;
+}
