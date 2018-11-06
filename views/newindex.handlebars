@@ -1,0 +1,26 @@
+
+<!doctype html>
+
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>Bookshop</title>
+		<meta name="description" content="Google Book Search">
+		<meta name="author" content="Mark Tyers">
+	</head>
+	<body>
+		<h1>Bookshop</h1>
+		<form action="/search" method="get">
+			<input type="text" name="q">
+			<input type="submit" value="Search">
+		</form>
+		<ol>
+		{{#if query}}
+			<h3>There are {{count}} results matching {{query}}</h3>
+		{{/if}}
+	    {{#each locals}}
+	      <li>{{this.title}}</li>
+	    {{/each}}
+    	</ol>
+	</body>
+</html>

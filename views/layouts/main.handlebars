@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link href="/css/style.css" type="text/css" rel="stylesheet" />
+	{{#if title}}
+		<title>{{title}}</title>
+	{{else}}
+		<title>Local News Application</title>
+	{{/if}}
+</head>
+<body>
+	<header>
+		<h1>Local News</h1>
+	</header>
+	<table id="menu">
+		<tr>
+			<td><a href="/">Home Page</a></td>
+			<td><a href="/articles">News Articles</a></td>
+			<td><a href="/events">Local Events</a></td>
+			<td><a href="/most_viewed">Most Viewed</a></td>
+			<td><a href="/most_recent">Most Recent</a></td>
+			<td><a href="/highest_rated">Highest Rated</a></td>
+		</tr>
+	</table>
+	{{{body}}}
+</body>
+</html>

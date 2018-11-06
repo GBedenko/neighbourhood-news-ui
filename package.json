@@ -4,6 +4,7 @@
   "description": "API for UI only (Part of Local News Application)",
   "main": "index.js",
   "scripts": {
+    "start": "node index.js",
     "test": "jest --coverage",
     "watch": "node_modules/.bin/jest --coverage --watchAll"
   },
@@ -20,6 +21,7 @@
   "dependencies": {
     "eslint": "^5.8.0",
     "express": "^4.16.4",
+    "express-handlebars": "^3.0.0",
     "jest": "^23.6.0",
     "mongodb": "^3.1.8"
   }
