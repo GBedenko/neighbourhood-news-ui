@@ -34,10 +34,10 @@ app.get('/articles/', (req, res) => {
 app.post('/articles', async(req, res) => {
 	console.log(req.body)
 
-	let newArticle = JSON.stringify(req.body)
+	const newArticle = JSON.stringify(req.body)
 
 	request.post({
-		headers: {'content-type' : 'application/json'},
+		headers: {'content-type': 'application/json'},
 		url: 'http://localhost:8081/api/v1.0/articles',
 		body: newArticle}, () => {
 			console.log("POST request sent to API")
