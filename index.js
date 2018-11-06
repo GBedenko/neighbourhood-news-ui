@@ -23,6 +23,10 @@ app.get('/search', async(req, res) => {
 	res.render('search')
 })
 
+app.get('/articles/', (req, res) => {
+	res.render('articles')
+})
+
 app.get('/articles/:id', (req, res) => {
 	console.log(req.params.id)
 	res.render('article')
