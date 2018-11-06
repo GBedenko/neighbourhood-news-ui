@@ -21,12 +21,12 @@ app.get('/', async(req, res) => {
 	res.render('home')
 })
 
-app.get('/search', async(req, res) => {
-	res.render('search')
-})
-
 app.get('/create_article', async(req, res) => {
 	res.render('create_article')
+})
+
+app.post('/articles', async(req, res) => {
+	console.log(req.body)
 })
 
 app.get('/create_event', async(req, res) => {

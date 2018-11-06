@@ -1,0 +1,11 @@
+<h1>Create a new Article:</h1>
+
+<form action="/articles" method="get">
+    <p>Heading:<br/><input type="text" name="heading" placeholder="Article Heading" value="" autofocus></p>
+    <p>Content:<br/><textarea name="content" style="width:250px;height:150px;"></textarea></p>
+    <p>Access Status:<br />
+        <input type="radio" name="access_status" value="public" checked> Public<br>
+        <input type="radio" name="access_status" value="private"> Private<br>
+    </p>
+    <p><input type="submit" value="Add Article"></p>
+</form>
