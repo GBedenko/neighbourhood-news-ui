@@ -1,0 +1,8 @@
+<table>
+    {{#each articles}}
+        <tr>
+            <td><a href="/articles/{{this._id}}">{{this.heading}}</a></td>
+            <td>{{this.content}}</td>
+        </tr>
+    {{/each}}
+</table>
