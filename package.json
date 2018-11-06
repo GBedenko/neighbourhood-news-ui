@@ -1,26 +1,25 @@
 {
   "name": "bedenkog-local-news-ui",
   "version": "1.0.0",
-  "description": "API for UI only (Part of Local News Application)",
-  "main": "index.js",
-  "scripts": {
-    "test": "jest --coverage",
-    "watch": "node_modules/.bin/jest --coverage --watchAll"
-  },
-  "jest": {
-    "testEnvironment": "node",
-    "verbose": true
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.coventry.ac.uk/340CT-1819SEPJAN/bedenkog-local-news-ui"
-  },
-  "author": "bedenkog",
-  "license": "ISC",
+  "private": true,
   "dependencies": {
-    "eslint": "^5.8.0",
-    "express": "^4.16.4",
-    "jest": "^23.6.0",
-    "mongodb": "^3.1.8"
-  }
+    "react": "^16.6.0",
+    "react-dom": "^16.6.0",
+    "react-scripts": "^2.1.1"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
 }
