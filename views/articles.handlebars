@@ -1,6 +1,11 @@
-<table>
-    {{#each articles}}
-        <h3>{{this.heading}}</h3>
-        <p>{{this.content}}</p>
-    {{/each}}
-</table>
+<head>
+	<link href="/css/articles.css" type="text/css" rel="stylesheet" />
+</head>
+<div class="articles">
+    <table>
+        {{#each articles}}
+            <h3>{{this.heading}}</h3>
+            <p>{{this.content}}</p>
+        {{/each}}
+    </table>
+</div>
