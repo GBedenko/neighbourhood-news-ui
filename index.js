@@ -37,9 +37,19 @@ app.get('/articles', (req, res) => {
 	})
 })
 
-app.get('/articles/:id', (req, res) => {
+app.get('/articles/:article_id', (req, res) => {
 
-	res.redirect('/articles')
+	request('http://localhost:8081/api/v1.0/articles/' + req.params.article_id, (err, resp, body) => {
+
+		const articleJSON = JSON.parse(body)
+
+		res.render('article', {article: articleJSON})
+	})
+})
+
+app.get('/rate_article/:article_id', (req, res) => {
+
+	
 })
 
 app.post('/articles', async(req, res) => {
