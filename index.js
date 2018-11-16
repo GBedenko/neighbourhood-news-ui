@@ -49,7 +49,7 @@ app.get('/articles/:article_id', (req, res) => {
 
 app.get('/rate_article/:article_id', (req, res) => {
 
-	
+	res.redirect('/')
 })
 
 app.post('/articles', async(req, res) => {

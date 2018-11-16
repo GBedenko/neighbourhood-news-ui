@@ -4,13 +4,11 @@
 
 <div class="row">
     <div class="articles">
-        {{#each articles}}
-        <a href="/articles/" + {{this._id}}>
+        {{#each articles}}        
             <div class="article">
-                <h3>{{this.heading}}</h3></a>
+                <a href="/articles/{{this._id}}"><h3>{{this.heading}}</h3></a>
                 <p>{{this.content}}</p>
             </div>
-        </a>
         {{/each}}
     </div>
     <div class="pinned_content">
