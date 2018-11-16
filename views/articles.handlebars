@@ -1,3 +1,6 @@
-<h2>{{title}}</h1>
-<h3>ISBN: {{isbn}}</h2>
-<h3>Author: {{author}}</h2>
+<table>
+    {{#each articles}}
+        <h3>{{this.heading}}</h3>
+        <p>{{this.content}}</p>
+    {{/each}}
+</table>
