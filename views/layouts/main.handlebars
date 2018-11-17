@@ -6,7 +6,7 @@
 	{{#if title}}
 		<title>{{title}}</title>
 	{{else}}
-		<title>Local News Application</title>
+		<title>Local News Application - Genaro Bedenko</title>
 	{{/if}}
 </head>
 <body>
@@ -36,7 +36,19 @@
 			</form>
 		</ul>
 	</header>	
-	
-	{{{body}}}
+
+	<div class="row">
+		<div class="main_content">
+			{{{body}}}			
+		</div>
+		<div class="pinned_content">
+			<div class="pinned_articles">
+				<h3>Pinned Articles:</h3>
+			</div>
+			<div class="pinned_events">
+				<h3>Pinned Events:</h3>
+			</div>    
+    	</div>
+	</div>
 </body>
 </html>

@@ -2,21 +2,9 @@
 	<link href="/css/articles.css" type="text/css" rel="stylesheet" />
 </head>
 
-<div class="row">
-    <div class="articles">
-        {{#each articles}}        
-            <div class="article">
-                <a href="/articles/{{this._id}}"><h3>{{this.heading}}</h3></a>
-                <p>{{this.content}}</p>
-            </div>
-        {{/each}}
+{{#each articles}}        
+    <div class="article">
+        <a href="/articles/{{this._id}}"><h3>{{this.heading}}</h3></a>
+        <p>{{this.content}}</p>
     </div>
-    <div class="pinned_content">
-        <div class="pinned_articles">
-            <h3>Pinned Articles:</h3>
-        </div>
-        <div class="pinned_events">
-            <h3>Pinned Events:</h3>
-        </div>    
-    </div>
-</div>
+{{/each}}
