@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link href="/css/main.css" type="text/css" rel="stylesheet" />
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+	{{#if title}}
+		<title>{{title}}</title>
+	{{else}}
+		<title>Local News Application - Genaro Bedenko</title>
+	{{/if}}
+</head>
+<body>
+	<header>
+		<ul id="upper_navbar">
+			<li><a href="/">Local News and Events Application</a></li>
+			<li><a href="/create_article">Create Article</a></li>
+			<li><a href="/create_event">Create Event</a></li>
+			
+			<div id="login_or_register">
+				<li><a href="/login">Login</a></li>
+				<li><a href="/register">Register</a></li>
+			</div>
+		</ul>
+
+		<ul id="lower_navbar">
+			<li><a class="active" href="/">Home</a></li>
+			<li><a href="/articles">News Articles</a></li>
+			<li><a href="/events">Local Events</a></li>
+			<li><a href="/most_recent">Most Recent Posts</a></li>
+			<li><a href="/highest_rated">Highest Rated Posts</a></li>
+			<li><a href="/most_viewed">Most Viewed Posts</a></li>
+
+			<form id="search_bar" action="/search">
+				<input id="search_box" type="text" placeholder="Search..." name="search">
+				<button type="submit">Search</button>
+			</form>
+		</ul>
+	</header>	
+
+	<div class="row">
+		<div class="main_content">
+			{{{body}}}			
+		</div>
+		<div class="pinned_content">
+			<div class="pinned_articles">
+				<h3>Pinned Articles:</h3>
+			</div>
+			<div class="pinned_events">
+				<h3>Pinned Events:</h3>
+			</div>    
+    	</div>
+	</div>
+</body>
+</html>

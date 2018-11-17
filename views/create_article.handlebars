@@ -1,0 +1,25 @@
+<!doctype html>
+
+<html lang="en">
+	<head>
+	    <link href="/css/create_article.css" type="text/css" rel="stylesheet" />
+		<meta charset="utf-8">
+		<title>Post an Article</title>
+		<meta name="description" content="Form to add a new article">
+	</head>
+	<body>
+        <div class="create_article">
+            <h1>Create a new Article:</h1>
+
+            <form action="/articles" method="post">
+                <p>Heading:<br/><input type="text" name="heading" placeholder="Article Heading" value="" autofocus></p>
+                <p>Content:<br/><textarea name="content" style="width:250px;height:150px;"></textarea></p>
+                <p>Access Status:<br />
+                    <input type="radio" name="access_status" value="public" checked> Public<br>
+                    <input type="radio" name="access_status" value="private"> Private<br>
+                </p>
+                <input type="submit" value="Submit">
+            </form>
+        </div>       
+	</body>
+</html>
