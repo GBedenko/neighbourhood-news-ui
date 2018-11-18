@@ -15,16 +15,13 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.engine('handlebars', handlebars.engine)
 app.set('view engine', 'handlebars')
 
-const port = 8080
-
 const request = require('request')
+const bcrypt = require('bcrypt')
+
+const port = 8080
 
 app.get('/', async(req, res) => {
 	res.redirect('/articles')
-})
-
-app.get('/create_article', (req, res) => {
-	res.render('create_article')
 })
 
 app.get('/articles', (req, res) => {
@@ -35,21 +32,6 @@ app.get('/articles', (req, res) => {
 
 		res.render('articles', {articles: articlesJSON})
 	})
-})
-
-app.get('/articles/:article_id', (req, res) => {
-
-	request('http://localhost:8081/api/v1.0/articles/' + req.params.article_id, (err, resp, body) => {
-
-		const articleJSON = JSON.parse(body)
-
-		res.render('article', {article: articleJSON})
-	})
-})
-
-app.get('/rate_article/:article_id', (req, res) => {
-
-	res.redirect('/')
 })
 
 app.post('/articles', async(req, res) => {
@@ -67,18 +49,69 @@ app.post('/articles', async(req, res) => {
 	res.redirect('/')
 })
 
+app.get('/articles/:article_id', (req, res) => {
+
+	request('http://localhost:8081/api/v1.0/articles/' + req.params.article_id, (err, resp, body) => {
+
+		const articleJSON = JSON.parse(body)
+
+		res.render('article', {article: articleJSON})
+	})
+})
+
+app.get('/create_article', (req, res) => {
+	res.render('create_article')
+})
+
+app.get('/rate_article/:article_id', (req, res) => {
+
+	res.redirect('/')
+})
+
+
+
 app.get('/create_event', async(req, res) => {
 	res.render('create_event')
+})
+
+// GET request to show form for registering new account
+app.get('/register', async(req, res) => {
+	res.render('register')
+})
+
+// POST request for a new account being registered
+app.post('/register', async(req, res) => {
+
+	// Hash the password using bcrypt
+	const passwordHash = await bcrypt.hashSync(req.body.password, 10)
+	delete req.body.password
+	req.body.passwordHash = passwordHash
+
+	request.post({
+		url: 'http://localhost:8082/api/v1.0/users',
+		body: req.body,
+		json: true
+	  }, function(error, response, body){
+	  console.log(body);
+	});
+
+	res.redirect('/')
 })
 
 app.get('/login', async(req, res) => {
 	res.render('login')
 })
 
-app.get('/register', async(req, res) => {
-	res.render('register')
-})
+app.post('/login', async(req, res) => {
 
+	request('http://localhost:8082/api/v1.0/users/' + req.body.username, (err, resp, body) => {
+	
+		const userJSON = JSON.parse(body)
+
+		console.log(userJSON)
+		res.render.redirect('/')
+	})
+})
 
 app.get('/articles/:id', (req, res) => {
 	console.log(req.params.id)
