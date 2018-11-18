@@ -1,0 +1,10 @@
+<head>
+	<link href="/css/events.css" type="text/css" rel="stylesheet" />
+</head>
+
+{{#each events}}        
+    <div class="event">
+        <a href="/events/{{this._id}}"><h3>{{this.heading}}</h3></a>
+        <p>{{this.content}}</p>
+    </div>
+{{/each}}
