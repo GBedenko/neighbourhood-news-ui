@@ -2,29 +2,83 @@
 
 'use strict'
 
-console.log("Server Booting Up...")
+console.log("Booting Up UI Server...")
 
+// Express and Handlebars setup
 const express = require('express')
 const app = express()
-
 const handlebars = require('express-handlebars').create({defaultLayout: 'main'})
 const bodyParser = require('body-parser')
 app.use(express.static(__dirname + '/public'))
 app.use(bodyParser.urlencoded({ extended: true }))
-
 app.engine('handlebars', handlebars.engine)
 app.set('view engine', 'handlebars')
 
+// UI microservice uses port 8080
 const port = 8080
 
+// Import other required libraries
+const bcrypt = require('bcrypt')
 const request = require('request')
 
+// Import mediator to link with other microservices
+const uiMediator = require('./modules/ui-mediator')
+
+// Root page is welcome page, every user has to have an account
 app.get('/', async(req, res) => {
-	res.redirect('/articles')
+	res.render('welcome', {layout: false})
 })
 
-app.get('/create_article', (req, res) => {
-	res.render('create_article')
+// POST request for a new account being registered
+app.post('/register', async(req, res) => {
+
+	// Hash the password using bcrypt
+	const passwordHash = await bcrypt.hashSync(req.body.password, 10)
+	delete req.body.password
+
+	const newUser = {
+		emailAddress: req.body.emailAddress,
+		userName: req.body.username,
+		password: passwordHash
+	}
+	
+	const addUserResponse = await uiMediator.addUser(newUser)
+	
+	if(addUserResponse) {
+		res.redirect('/all_posts')
+	} else {
+		res.render('welcome')
+	}
+})
+
+app.post('/login', async(req, res) => {
+
+	// Hash the password using bcrypt
+	const passwordHash = await bcrypt.hashSync(req.body.password, 10)
+	delete req.body.password
+
+	const existingUser = {
+		userName: req.body.username,
+		password: passwordHash
+	}
+
+	const checkUserCredientialsResponse = await uiMediator.queryUser(existingUser)
+
+	if(checkUserCredientialsResponse) {
+		res.redirect('/all_posts')
+	} else {
+		res.render('welcome')
+	}
+})
+
+app.get('/all_posts', (req, res) => {
+
+	request('http://localhost:8081/api/v1.0/articles', (error, response, body) => {
+
+		const articlesJSON = JSON.parse(body)
+
+		res.render('articles', {user: {name: 'GBedenko', isAdmin: true}, articles: articlesJSON})
+	})
 })
 
 app.get('/articles', (req, res) => {
@@ -33,7 +87,17 @@ app.get('/articles', (req, res) => {
 
 		const articlesJSON = JSON.parse(body)
 
-		res.render('articles', {articles: articlesJSON})
+		res.render('articles', {user: {name: 'GBedenko', isAdmin: true}, articles: articlesJSON})
+	})
+})
+
+app.get('/events', (req, res) => {
+
+	request('http://localhost:8081/api/v1.0/events', (error, response, body) => {
+
+		const eventsJSON = JSON.parse(body)
+
+		res.render('articles', {user: {name: 'GBedenko', isAdmin: true}, events: eventsJSON})
 	})
 })
 
@@ -45,11 +109,6 @@ app.get('/articles/:article_id', (req, res) => {
 
 		res.render('article', {article: articleJSON})
 	})
-})
-
-app.get('/rate_article/:article_id', (req, res) => {
-
-	res.redirect('/')
 })
 
 app.post('/articles', async(req, res) => {
@@ -67,23 +126,32 @@ app.post('/articles', async(req, res) => {
 	res.redirect('/')
 })
 
+app.get('/create_article', (req, res) => {
+	res.render('create_article')
+})
+
 app.get('/create_event', async(req, res) => {
 	res.render('create_event')
 })
 
-app.get('/login', async(req, res) => {
-	res.render('login')
+app.get('/admin_dashboard', async(req, res) => {
+	res.render('admin_dashboard')
 })
 
-app.get('/register', async(req, res) => {
-	res.render('register')
+app.get('/rate_article/:article_id', (req, res) => {
+
+	res.redirect('/')
+})
+
+app.get('/user/:user_id', (req, res) => {
+
+	res.render('user', {username: 'GBedenko'})
 })
 
 
-app.get('/articles/:id', (req, res) => {
-	console.log(req.params.id)
-	res.render('article')
-})
+
+
+
 
 // Runs the server on provided port
 app.listen(port, () => console.log(`Server listening on port ${port}`));

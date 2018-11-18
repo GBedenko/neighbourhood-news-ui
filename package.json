@@ -19,6 +19,7 @@
   "author": "bedenkog",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^3.0.2",
     "eslint": "^5.8.0",
     "express": "^4.16.4",
     "express-handlebars": "^3.0.0",
