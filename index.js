@@ -126,6 +126,20 @@ app.post('/articles', async(req, res) => {
 	res.redirect('/')
 })
 
+app.post('/events', async(req, res) => {
+	console.log(req.body)
+
+	const newEvent = JSON.stringify(req.body)
+
+	request.post({
+		headers: {'content-type': 'application/json'},
+		url: 'http://localhost:8081/api/v1.0/events',
+		body: newEvent}, () => {
+			console.log("POST request sent to API")
+		})
+
+	res.redirect('/events')
+})
 app.get('/create_article', (req, res) => {
 	res.render('create_article', {user: {name: 'GBedenko', isAdmin: true}})
 })
@@ -145,7 +159,7 @@ app.get('/rate_article/:article_id', (req, res) => {
 
 app.get('/user/:user_id', (req, res) => {
 
-	res.render('user', {username: 'GBedenko'})
+	res.render('user', {user: {name: 'GBedenko', isAdmin: true}})
 })
 
 // Runs the server on provided port
