@@ -72,7 +72,7 @@ app.post('/login', async(req, res) => {
 })
 
 app.get('/all_posts', (req, res) => {
-
+	
 	request('http://localhost:8081/api/v1.0/articles', (error, response, body) => {
 
 		const articlesJSON = JSON.parse(body)
@@ -127,15 +127,15 @@ app.post('/articles', async(req, res) => {
 })
 
 app.get('/create_article', (req, res) => {
-	res.render('create_article')
+	res.render('create_article', {user: {name: 'GBedenko', isAdmin: true}})
 })
 
 app.get('/create_event', async(req, res) => {
-	res.render('create_event')
+	res.render('create_event', {user: {name: 'GBedenko', isAdmin: true}})
 })
 
 app.get('/admin_dashboard', async(req, res) => {
-	res.render('admin_dashboard')
+	res.render('admin_dashboard', {user: {name: 'GBedenko', isAdmin: true}})
 })
 
 app.get('/rate_article/:article_id', (req, res) => {
@@ -147,11 +147,6 @@ app.get('/user/:user_id', (req, res) => {
 
 	res.render('user', {username: 'GBedenko'})
 })
-
-
-
-
-
 
 // Runs the server on provided port
 app.listen(port, () => console.log(`Server listening on port ${port}`));

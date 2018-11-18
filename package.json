@@ -8,14 +8,13 @@
     "test": "jest --coverage",
     "watch": "node_modules/.bin/jest --coverage --watchAll"
   },
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+  "jest": {
+    "testEnvironment": "node",
+    "verbose": true
   },
-  "eslintConfig": {
-    "extends": "react-app"
+  "repository": {
+    "type": "git",
+    "url": "https://github.coventry.ac.uk/340CT-1819SEPJAN/bedenkog-local-news-ui"
   },
   "author": "bedenkog",
   "license": "ISC",
