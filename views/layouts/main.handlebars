@@ -12,18 +12,20 @@
 <body>
 	<header>
 		<ul id="upper_navbar">
-			<li><a href="/">Local News and Events Application</a></li>
+			<li><a href="/all_posts">Local News and Events Application</a></li>
 			<li><a href="/create_article">Create Article</a></li>
 			<li><a href="/create_event">Create Event</a></li>
 			
-			<div id="login_or_register">
-				<li><a href="/login">Login</a></li>
-				<li><a href="/register">Register</a></li>
+			<div id="user_logged_in">
+				<li><a href="/user/{{this.user.name}}">{{this.user.name}}</a></li>
+				{{#if user.isAdmin}}
+					<li><a href="/admin_dashboard">Admin Dashboard</a></li>
+				{{/if}}
 			</div>
 		</ul>
 
 		<ul id="lower_navbar">
-			<li><a class="active" href="/">Home</a></li>
+			<li><a class="active" href="/all_posts">Home</a></li>
 			<li><a href="/articles">News Articles</a></li>
 			<li><a href="/events">Local Events</a></li>
 			<li><a href="/most_recent">Most Recent Posts</a></li>

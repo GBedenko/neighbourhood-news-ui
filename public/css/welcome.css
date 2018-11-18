@@ -1,0 +1,9 @@
+#registerForm, #loginForm {
+    width: 30%;
+    margin: 100px;
+    margin-left: 500px;
+}
+
+.welcomeBanner {
+    margin-top: 50px; 
+}
