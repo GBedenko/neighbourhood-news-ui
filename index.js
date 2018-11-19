@@ -163,10 +163,17 @@ app.get('/create_event', async(req, res) => {
 
 app.get('/admin_dashboard', async(req, res) => {
 
-	const articles = await uiMediator.getAllArticles()
-	// const events = await uiMediator.getAllEvents()
+	request('http://localhost:8081/api/v1.0/articles', (error, response, body) => {
 
-	res.render('admin_dashboard', {user: {name: 'GBedenko', isAdmin: true}, articles: articles, events: events})
+		const articlesJSON = JSON.parse(body)
+
+		request('http://localhost:8081/api/v1.0/events', (error, response, body) => {
+
+			const eventsJSON = JSON.parse(body)
+
+			res.render('admin_dashboard', {user: {name: 'GBedenko', isAdmin: true}, articles: articlesJSON, events: eventsJSON})
+		})
+	})
 })
 
 app.get('/rate_article/:article_id', (req, res) => {

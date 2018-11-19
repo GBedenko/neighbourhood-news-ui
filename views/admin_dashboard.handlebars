@@ -13,7 +13,7 @@
     <tbody>
         {{#each articles}}
         <tr>
-            <th scope="row">{{this.heading}}</th>
+            <td>{{this.heading}}</td>
             <td>{{this.user}}</td>
             <td>{{this.status}}</td>
             <td><a href="/articles/make_public/{{this._id}}">Make Public</a></td>
@@ -39,7 +39,7 @@
     <tbody>
         {{#each events}}
         <tr>
-            <th scope="row">{{this.title}}</th>
+            <td>{{this.title}}</td>
             <td>{{this.user}}</td>
             <td>{{this.status}}</td>
             <td><a href="/events/make_public/{{this._id}}">Make Public</a></td>

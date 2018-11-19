@@ -1,6 +1,6 @@
 'use strict'
 
-const request = require('request-promise')
+const request = require('sync-request');
 
 const articlesAndEventsAPI = "http://localhost:8081/api/v1.0/"
 const commentsAPI = "http://localhost:8082/api/v1.0/"
@@ -56,16 +56,14 @@ exports.queryUser = async(existingUserObject) => {
 
 exports.getAllArticles = async() => {
 
-	const events = await request(articlesAndEventsAPI + "events")
-	console.log(events)
-	// const getAllArticlesResponse = await getAllArticles
-	// console.log(response)
-	// return getAllArticlesResponse
+	const articlesResponse = await request('GET', articlesAndEventsAPI + "articles")
+	const articles = articlesResponse.getBody()
+	return articles
 }
 
 exports.getAllEvents = async() => {
-
-	const getAllEventsResponse = await request(articlesAndEventsAPI + "events")
-
-	return getAllEventsResponse
+	
+	const eventsResponse = await request('GET', articlesAndEventsAPI + "events")
+	const events = eventsResponse.getBody()
+	return events
 }
