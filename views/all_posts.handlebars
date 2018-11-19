@@ -1,10 +1,10 @@
 <head>
-	<link href="/css/articles.css" type="text/css" rel="stylesheet" />
+	<link href="/css/all_posts.css" type="text/css" rel="stylesheet" />
 </head>
 
-{{#each articles}}        
-    <div class="article">
-        <a href="/articles/{{this._id}}"><h3>{{this.heading}}</h3></a>
+{{#each posts}}        
+    <div class="post">
+        <a href="/posts/{{this._id}}"><h3>{{this.title}}</h3></a>
         <p>{{this.content}}</p>
     </div>
 {{/each}}

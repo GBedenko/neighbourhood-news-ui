@@ -3,16 +3,23 @@
 }
 
 .eventContent {
-    width: 60%;
+    width: 100%;
 }
 
 .eventImage {
     border-style: solid;
-    width: 40%;
+    width: 50%;
+    height: 300px;
+    margin: auto;
+    margin-bottom: 50px;
 }
 
 .eventVideo {
     border-style: solid;
+    width: 50%;
+    height: 300px;
+    margin: auto;
+    margin-bottom: 50px;
 }
 
 .sharingOptions {

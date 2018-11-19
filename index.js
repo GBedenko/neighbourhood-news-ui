@@ -71,15 +71,15 @@ app.post('/login', async(req, res) => {
 	}
 })
 
-app.get('/all_posts', (req, res) => {
+// app.get('/all_posts', (req, res) => {
 	
-	request('http://localhost:8081/api/v1.0/articles', (error, response, body) => {
+// 	request('http://localhost:8081/api/v1.0/articles', (error, response, body) => {
 
-		const articlesJSON = JSON.parse(body)
+// 		const articlesJSON = JSON.parse(body)
 
-		res.render('articles', {user: {name: 'GBedenko', isAdmin: true}, articles: articlesJSON})
-	})
-})
+// 		res.render('all_posts', {user: {name: 'GBedenko', isAdmin: true}, posts: posts})
+// 	})
+// })
 
 app.get('/articles', (req, res) => {
 
@@ -92,7 +92,6 @@ app.get('/articles', (req, res) => {
 })
 
 app.get('/events', async(req, res) => {
-	console.log('requestin events')
 
 	// const allEvents = await uiMediator.getAllEvents()
 	// console.log("all events recieved")
