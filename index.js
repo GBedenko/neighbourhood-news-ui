@@ -162,7 +162,11 @@ app.get('/create_event', async(req, res) => {
 })
 
 app.get('/admin_dashboard', async(req, res) => {
-	res.render('admin_dashboard', {user: {name: 'GBedenko', isAdmin: true}})
+
+	const articles = await uiMediator.getAllArticles()
+	// const events = await uiMediator.getAllEvents()
+
+	res.render('admin_dashboard', {user: {name: 'GBedenko', isAdmin: true}, articles: articles, events: events})
 })
 
 app.get('/rate_article/:article_id', (req, res) => {

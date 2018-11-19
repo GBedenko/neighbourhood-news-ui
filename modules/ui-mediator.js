@@ -1,6 +1,6 @@
 'use strict'
 
-const request = require('request')
+const request = require('request-promise')
 
 const articlesAndEventsAPI = "http://localhost:8081/api/v1.0/"
 const commentsAPI = "http://localhost:8082/api/v1.0/"
@@ -18,13 +18,12 @@ exports.addArticle = async(newArticleObject) => {
 
 exports.addEvent = async(newEventObject) => {
     
-    request.post({
-		url: articlesAndEventsAPI + "events",
-		body: newEventObject,
-		json: true
-	  }, (error, response, body) => {
-	  console.log(body);
-	});
+  const addEventResponse = await request.post({	url: articlesAndEventsAPI + "events",
+																								body: newEventObject,
+																								json: true
+																								})
+									
+	return addEventResponse
 }
 
 exports.addComment = async(newCommentObject) => {
@@ -55,13 +54,18 @@ exports.queryUser = async(existingUserObject) => {
 	return queryUserResponse
 }
 
+exports.getAllArticles = async() => {
+
+	const events = await request(articlesAndEventsAPI + "events")
+	console.log(events)
+	// const getAllArticlesResponse = await getAllArticles
+	// console.log(response)
+	// return getAllArticlesResponse
+}
+
 exports.getAllEvents = async() => {
 
 	const getAllEventsResponse = await request(articlesAndEventsAPI + "events")
 
-	request.get(articlesAndEventsAPI + "events", (error, response, body) => {
-		let json = JSON.parse(body);
-		console.log(body);
-	});
-
+	return getAllEventsResponse
 }
