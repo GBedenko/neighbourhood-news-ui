@@ -77,7 +77,7 @@ app.get('/all_posts', (req, res) => {
 
 		const articlesJSON = JSON.parse(body)
 
-		res.render('articles', {user: {name: 'GBedenko', isAdmin: true}, articles: articlesJSON})
+		res.render('all_posts', {user: {name: 'GBedenko', isAdmin: true}, articles: articlesJSON})
 	})
 })
 
@@ -91,13 +91,16 @@ app.get('/articles', (req, res) => {
 	})
 })
 
-app.get('/events', (req, res) => {
+app.get('/events', async(req, res) => {
+
+	// const allEvents = await uiMediator.getAllEvents()
+	// console.log("all events recieved")
 
 	request('http://localhost:8081/api/v1.0/events', (error, response, body) => {
 
 		const eventsJSON = JSON.parse(body)
 
-		res.render('articles', {user: {name: 'GBedenko', isAdmin: true}, events: eventsJSON})
+		res.render('events', {user: {name: 'GBedenko', isAdmin: true}, events: eventsJSON})
 	})
 })
 
@@ -108,6 +111,16 @@ app.get('/articles/:article_id', (req, res) => {
 		const articleJSON = JSON.parse(body)
 
 		res.render('article', {article: articleJSON})
+	})
+})
+
+app.get('/events/:event_id', (req, res) => {
+
+	request('http://localhost:8081/api/v1.0/events/' + req.params.event_id, (err, resp, body) => {
+
+		const eventJSON = JSON.parse(body)
+
+		res.render('event', {event: eventJSON})
 	})
 })
 

@@ -1,12 +1,12 @@
-.article {
+.event {
     margin-left: 50px;
 }
 
-.articleContent {
+.eventContent {
     width: 100%;
 }
 
-.articleImage {
+.eventImage {
     border-style: solid;
     width: 50%;
     height: 300px;
@@ -14,7 +14,7 @@
     margin-bottom: 50px;
 }
 
-.articleVideo {
+.eventVideo {
     border-style: solid;
     width: 50%;
     height: 300px;

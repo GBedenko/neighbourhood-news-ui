@@ -54,3 +54,14 @@ exports.queryUser = async(existingUserObject) => {
 	
 	return queryUserResponse
 }
+
+exports.getAllEvents = async() => {
+
+	const getAllEventsResponse = await request(articlesAndEventsAPI + "events")
+
+	request.get(articlesAndEventsAPI + "events", (error, response, body) => {
+		let json = JSON.parse(body);
+		console.log(body);
+	});
+
+}
