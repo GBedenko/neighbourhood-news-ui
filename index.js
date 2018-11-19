@@ -21,8 +21,11 @@ const port = 8080
 const bcrypt = require('bcrypt')
 const request = require('request')
 
-// Import mediator to link with other microservices
-const uiMediator = require('./modules/ui-mediator')
+// Import mediators to link with other microservices
+const articlesMediator = require('./modules/articles-mediator')
+const commentsMediator = require('./modules/comments-mediator')
+const eventsMediator = require('./modules/events-mediator')
+const usersMediator = require('./modules/users-mediator')
 
 // Root page is welcome page, every user has to have an account
 app.get('/', async(req, res) => {
@@ -42,7 +45,7 @@ app.post('/register', async(req, res) => {
 		password: passwordHash
 	}
 	
-	const addUserResponse = await uiMediator.addUser(newUser)
+	const addUserResponse = await articlesMediator.addUser(newUser)
 	
 	if(addUserResponse) {
 		res.redirect('/all_posts')
@@ -62,7 +65,7 @@ app.post('/login', async(req, res) => {
 		password: passwordHash
 	}
 
-	const checkUserCredientialsResponse = await uiMediator.queryUser(existingUser)
+	const checkUserCredientialsResponse = await articlesMediator.queryUser(existingUser)
 
 	if(checkUserCredientialsResponse) {
 		res.redirect('/all_posts')
@@ -71,88 +74,125 @@ app.post('/login', async(req, res) => {
 	}
 })
 
-app.get('/all_posts', (req, res) => {
+// Endpoint to show all posts in UI (Homepage)
+app.get('/all_posts', async(req, res) => {
 	
-	request('http://localhost:8081/api/v1.0/articles_and_events', (error, response, body) => {
+	// GET all Articles
+	const getArticles = articlesMediator.getAllArticles().then((resp) => resp).catch((error) => console.log(error))
+	const articles = await getArticles
+	const articlesJSON = JSON.parse(articles)
 
-		const postsJSON = JSON.parse(body)
+	// GET all Events
+	const getEvents = eventsMediator.getAllEvents().then((resp) => resp).catch((error) => console.log(error))
+	const events = await getEvents
+	const eventsJSON = JSON.parse(events)
 
-		res.render('all_posts', {user: {name: 'GBedenko', isAdmin: true}, posts: postsJSON})
-	})
+	// Articles and Events joined together in one list
+	const postsJSON = articlesJSON.concat(eventsJSON)
+
+	// GET all pinned articles
+	const getPinnedArticles = articlesMediator.getAllArticles({pinned: true}).then((resp) => resp).catch((error) => console.log(error))
+	const pinnedArticles = await getPinnedArticles
+	const pinnedArticlesJSON = JSON.parse(pinnedArticles)
+
+	// GET all pinned events
+	const getPinnedEvents = eventsMediator.getAllEvents({pinned: true}).then((resp) => resp).catch((error) => console.log(error))
+	const pinnedEvents = await getPinnedEvents
+	const pinnedEventsJSON = JSON.parse(pinnedEvents)
+
+	// Show all posts and pinned content to the UI
+	res.render('all_posts', {user: {name: 'GBedenko', isAdmin: true},
+							 posts: postsJSON,
+							 pinnedArticles: pinnedArticlesJSON,
+							 pinnedEvents: pinnedEventsJSON })
 })
 
-app.get('/articles', (req, res) => {
+// Endpoint for showing all Articles in UI
+app.get('/articles', async(req, res) => {
 
-	request('http://localhost:8081/api/v1.0/articles', (error, response, body) => {
+	const getArticles = articlesMediator.getAllArticles().then((resp) => resp).catch((error) => console.log(error))
 
-		const articlesJSON = JSON.parse(body)
+	const articles = await getArticles
 
-		res.render('articles', {user: {name: 'GBedenko', isAdmin: true}, articles: articlesJSON})
-	})
+	const articlesJSON = JSON.parse(articles)
+
+	res.render('articles', {user: {name: 'GBedenko', isAdmin: true}, articles: articlesJSON})
 })
 
+// Endpoint for showing one Article in UI
+app.get('/articles/:article_id', async(req, res) => {
+
+	const getArticleByID = articlesMediator.getArticleByID(req.params.article_id).then((resp) => resp).catch((error) => console.log(error))
+
+	const article = await getArticleByID
+
+	const articleJSON = JSON.parse(article)
+
+	res.render('article', {article: articleJSON})
+})
+
+// Endpoint for UI form to post new article to
+app.post('/articles', async(req, res) => {
+		
+	const addArticle = articlesMediator.addArticle(req.body).then((resp) => resp).catch((error) => console.log(error))
+
+	const addArticleResponse = await addArticle
+
+	if(addArticleResponse) res.redirect('/articles')
+})
+
+app.get('/articles/pin/:article_id', async(req, res) => {
+
+	// Retrieve the article object that needs to be pinned
+	const getArticleByID = articlesMediator.getArticleByID(req.params.article_id).then((resp) => resp).catch((error) => console.log(error))
+	const article = await getArticleByID
+	const articleJSON = JSON.parse(article)
+
+	const updateArticle = articlesMediator.updateArticle(req.params.article_id, articleJSON).then((resp) => resp).catch((error) => console.log(error))
+
+	const updateArticleResponse = await updateArticle
+
+	if(updateArticleResponse) res.redirect('/all_posts')
+})
+
+
+
+
+// Endpoint for showing all Events in UI
 app.get('/events', async(req, res) => {
 
-	// const allEvents = await uiMediator.getAllEvents()
-	// console.log("all events recieved")
+	const getEvents = eventsMediator.getAllEvents().then((resp) => resp).catch((error) => console.log(error))
 
-	request('http://localhost:8081/api/v1.0/events', (error, response, body) => {
+	const events = await getEvents
 
-		const eventsJSON = JSON.parse(body)
+	const eventsJSON = JSON.parse(events)
 
-		res.render('events', {user: {name: 'GBedenko', isAdmin: true}, events: eventsJSON})
-	})
+	res.render('events', {user: {name: 'GBedenko', isAdmin: true}, events: eventsJSON})
 })
 
-app.get('/articles/:article_id', (req, res) => {
+// Endpoint for showing one Event in UI
+app.get('/events/:event_id', async(req, res) => {
 
-	request('http://localhost:8081/api/v1.0/articles/' + req.params.article_id, (err, resp, body) => {
+	const getEventByID = eventsMediator.getEventByID(req.params.event_id).then((resp) => resp).catch((error) => console.log(error))
 
-		const articleJSON = JSON.parse(body)
+	const event = await getEventByID
 
-		res.render('article', {article: articleJSON})
-	})
+	const eventJSON = JSON.parse(event)
+
+	res.render('event', {event: eventJSON})
 })
 
-app.get('/events/:event_id', (req, res) => {
-
-	request('http://localhost:8081/api/v1.0/events/' + req.params.event_id, (err, resp, body) => {
-
-		const eventJSON = JSON.parse(body)
-
-		res.render('event', {event: eventJSON})
-	})
-})
-
-app.post('/articles', async(req, res) => {
-	console.log(req.body)
-
-	const newArticle = JSON.stringify(req.body)
-
-	request.post({
-		headers: {'content-type': 'application/json'},
-		url: 'http://localhost:8081/api/v1.0/articles',
-		body: newArticle}, () => {
-			console.log("POST request sent to API")
-		})
-
-	res.redirect('/')
-})
-
+// Endpoint for UI form to post new event to
 app.post('/events', async(req, res) => {
-	console.log(req.body)
 
-	const newEvent = JSON.stringify(req.body)
+	const addEvent = eventsMediator.addEvent(req.body).then((resp) => resp).catch((error) => console.log(error))
 
-	request.post({
-		headers: {'content-type': 'application/json'},
-		url: 'http://localhost:8081/api/v1.0/events',
-		body: newEvent}, () => {
-			console.log("POST request sent to API")
-		})
+	const addEventResponse = await addEvent
 
-	res.redirect('/events')
+	if(addEventResponse) res.redirect('/events')
 })
+
+// Below endpoints are for UI rendering only
 app.get('/create_article', (req, res) => {
 	res.render('create_article', {user: {name: 'GBedenko', isAdmin: true}})
 })
@@ -161,12 +201,21 @@ app.get('/create_event', async(req, res) => {
 	res.render('create_event', {user: {name: 'GBedenko', isAdmin: true}})
 })
 
+// Endpoint for Admin Dashboard showing all articles and events
 app.get('/admin_dashboard', async(req, res) => {
-
-	const articles = await uiMediator.getAllArticles().then((response) => response)
-	const events = await uiMediator.getAllEvents().then((response) => response)
 	
-	res.render('admin_dashboard', {user: {name: 'GBedenko', isAdmin: true}, articles: articles, events: events})
+	// Retrieve all articles from other microservice
+	const getArticles = articlesMediator.getAllArticles().then((resp) => resp).catch((error) => console.log(error))
+	const articles = await getArticles
+	const articlesJSON = JSON.parse(articles)						 
+
+	// Retrieve all events from other microservice
+	const getEvents = eventsMediator.getAllEvents().then((resp) => resp).catch((error) => console.log(error))
+	const events = await getEvents
+	const eventsJSON = JSON.parse(events)
+
+	// Render both lists to the required UI template
+	res.render('admin_dashboard', {user: {name: 'GBedenko', isAdmin: true}, articles: articlesJSON, events: eventsJSON})
 })
 
 app.get('/rate_article/:article_id', (req, res) => {
@@ -177,6 +226,34 @@ app.get('/rate_article/:article_id', (req, res) => {
 app.get('/user/:user_id', (req, res) => {
 
 	res.render('user', {user: {name: 'GBedenko', isAdmin: true}})
+})
+
+app.get('/events/pin/:event_id', (req, res) => {
+
+})
+
+app.get('/articles/unpin_post/:article_id', (req, res) => {
+	
+})
+
+app.get('/events/unpin_post/:event_id', (req, res) => {
+
+})
+
+app.get('/articles/make_public/:article_id', (req, res) => {
+	
+})
+
+app.get('/events/make_public/:event_id', (req, res) => {
+
+})
+
+app.get('/articles/make_private/:article_id', (req, res) => {
+	
+})
+
+app.get('/events/make_private/:event_id', (req, res) => {
+
 })
 
 // Runs the server on provided port

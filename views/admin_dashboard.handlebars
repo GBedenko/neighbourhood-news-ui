@@ -5,7 +5,8 @@
         <tr>
             <th scope="col">Heading</th>
             <th scope="col">User</th>
-            <th scope="col">Status</th>
+            <th scope="col">Pin/Unpin</th>
+            <th scope="col">Change Status</th>
             <th scope="col"></th>
             <th scope="col"></th>
         </tr>
@@ -15,9 +16,17 @@
         <tr>
             <td><a href="/articles/{{this._id}}">{{this.heading}}</a></td>
             <td>{{this.user}}</td>
+            {{#if this.pinned}}
+            <td><a href="/articles/unpin/{{this._id}}">Unpin this Post</a></td>
+            {{else}}
+            <td><a href="/articles/pin/{{this._id}}">Pin this Post</a></td>
+            {{/if}}
             <td>{{this.status}}</td>
-            <td><a href="/articles/make_public/{{this._id}}">Make Public</a></td>
+            {{#if this.public}}
             <td><a href="/articles/make_private/{{this._id}}">Make Private</a></td>
+            {{else}}
+            <td><a href="/articles/make_public/{{this._id}}">Make Public</a></td>
+            {{/if}}
         </tr>
         {{/each}}
     </tbody>
@@ -31,7 +40,8 @@
         <tr>
             <th scope="col">Title</th>
             <th scope="col">User</th>
-            <th scope="col">Status</th>
+            <th scope="col">Pin/Unpin</th>
+            <th scope="col">Change Status</th>
             <th scope="col"></th>
             <th scope="col"></th>
         </tr>
@@ -41,9 +51,20 @@
         <tr>
             <td><a href="/events/{{this._id}}">{{this.title}}</a></td>
             <td>{{this.user}}</td>
+
+            {{#if this.pinned}}
+            <td><a href="/events/unpin/{{this._id}}">Unpin this Post</a></td>
+            {{else}}
+            <td><a href="/events/pin/{{this._id}}">Pin this Post</a></td>
+            {{/if}}
+
             <td>{{this.status}}</td>
-            <td><a href="/events/make_public/{{this._id}}">Make Public</a></td>
+
+            {{#if this.public}}
             <td><a href="/events/make_private/{{this._id}}">Make Private</a></td>
+            {{else}}
+            <td><a href="/events/make_public/{{this._id}}">Make Public</a></td>
+            {{/if}}            
         </tr>
         {{/each}}
     </tbody>

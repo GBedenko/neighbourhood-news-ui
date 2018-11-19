@@ -30,7 +30,7 @@
     padding: 10px;
 }
 
-#upper_navbar {
+.upper_navbar {
     list-style-type: none;
     margin: 0;
     padding: 0;
@@ -39,7 +39,7 @@
     font-size: 25px;
 }
 
-#lower_navbar {
+.lower_navbar {
     list-style-type: none;
     margin: 0;
     padding: 0;
@@ -48,7 +48,7 @@
     background-color: #333;
 }
 
-#search_bar {
+.search_bar {
     width: 300px;
     height: 25px;
     float: right;
@@ -59,11 +59,11 @@
     float: right;
 }
 
-li {
+.upper_navbar li, .lower_navbar li {
     float: left;
 }
 
-li a {
+.upper_navbar li a, .lower_navbar li a {
     display: block;
     color: white;
     text-align: center;
@@ -71,6 +71,6 @@ li a {
     text-decoration: none;
 }
 
-li a:hover {
+.upper_navbar li a:hover, .lower_navbar li a:hover {
     background-color: rgb(33, 197, 189);
 }
