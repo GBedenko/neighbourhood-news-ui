@@ -5,27 +5,21 @@
         <tr>
             <th scope="col">Heading</th>
             <th scope="col">User</th>
-            <th scope="col">Change Status</th>
+            <th scope="col">Status</th>
+            <th scope="col"></th>
+            <th scope="col"></th>
         </tr>
     </thead>
     <tbody>
+        {{#each articles}}
         <tr>
-        <th scope="row"></th>
-            <td></td>
-            <td><a href="#">Make Public</a><a href="#">Make Private</a></td>
+            <th scope="row">{{this.heading}}</th>
+            <td>{{this.user}}</td>
+            <td>{{this.status}}</td>
+            <td><a href="/articles/make_public/{{this._id}}">Make Public</a></td>
+            <td><a href="/articles/make_private/{{this._id}}">Make Private</a></td>
         </tr>
-        <tr>
-        <th scope="row"></th>
-        <td></td>
-        <td></td>
-        <td></td>
-        </tr>
-        <tr>
-        <th scope="row"></th>
-        <td></td>
-        <td></td>
-        <td></td>
-        </tr>
+        {{/each}}
     </tbody>
     </table>
 </div>
@@ -35,29 +29,23 @@
     <table class="table">
     <thead>
         <tr>
-            <th scope="col">Heading</th>
+            <th scope="col">Title</th>
             <th scope="col">User</th>
-            <th scope="col">Change Status</th>
+            <th scope="col">Status</th>
+            <th scope="col"></th>
+            <th scope="col"></th>
         </tr>
     </thead>
     <tbody>
+        {{#each events}}
         <tr>
-        <th scope="row"></th>
-            <td></td>
-            <td><a href="#">Make Public</a><a href="#">Make Private</a></td>
+            <th scope="row">{{this.title}}</th>
+            <td>{{this.user}}</td>
+            <td>{{this.status}}</td>
+            <td><a href="/events/make_public/{{this._id}}">Make Public</a></td>
+            <td><a href="/events/make_private/{{this._id}}">Make Private</a></td>
         </tr>
-        <tr>
-        <th scope="row"></th>
-        <td></td>
-        <td></td>
-        <td></td>
-        </tr>
-        <tr>
-        <th scope="row"></th>
-        <td></td>
-        <td></td>
-        <td></td>
-        </tr>
+        {{/each}}
     </tbody>
     </table>
 </div>
