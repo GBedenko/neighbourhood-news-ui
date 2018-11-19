@@ -73,11 +73,11 @@ app.post('/login', async(req, res) => {
 
 app.get('/all_posts', (req, res) => {
 	
-	request('http://localhost:8081/api/v1.0/articles', (error, response, body) => {
+	request('http://localhost:8081/api/v1.0/articles_and_events', (error, response, body) => {
 
-		const articlesJSON = JSON.parse(body)
+		const postsJSON = JSON.parse(body)
 
-		res.render('all_posts', {user: {name: 'GBedenko', isAdmin: true}, articles: articlesJSON})
+		res.render('all_posts', {user: {name: 'GBedenko', isAdmin: true}, posts: postsJSON})
 	})
 })
 
