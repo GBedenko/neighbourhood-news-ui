@@ -13,7 +13,7 @@
     <tbody>
         {{#each articles}}
         <tr>
-            <td>{{this.heading}}</td>
+            <td><a href="/articles/{{this._id}}">{{this.heading}}</a></td>
             <td>{{this.user}}</td>
             <td>{{this.status}}</td>
             <td><a href="/articles/make_public/{{this._id}}">Make Public</a></td>
@@ -39,7 +39,7 @@
     <tbody>
         {{#each events}}
         <tr>
-            <td>{{this.title}}</td>
+            <td><a href="/events/{{this._id}}">{{this.title}}</a></td>
             <td>{{this.user}}</td>
             <td>{{this.status}}</td>
             <td><a href="/events/make_public/{{this._id}}">Make Public</a></td>
