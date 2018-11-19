@@ -116,7 +116,20 @@ app.get('/articles', async(req, res) => {
 
 	const articlesJSON = JSON.parse(articles)
 
-	res.render('articles', {user: {name: 'GBedenko', isAdmin: true}, articles: articlesJSON})
+	// GET all pinned articles
+	const getPinnedArticles = articlesMediator.getAllArticles({pinned: true}).then((resp) => resp).catch((error) => console.log(error))
+	const pinnedArticles = await getPinnedArticles
+	const pinnedArticlesJSON = JSON.parse(pinnedArticles)
+
+	// GET all pinned events
+	const getPinnedEvents = eventsMediator.getAllEvents({pinned: true}).then((resp) => resp).catch((error) => console.log(error))
+	const pinnedEvents = await getPinnedEvents
+	const pinnedEventsJSON = JSON.parse(pinnedEvents)
+
+	res.render('articles', {user: {name: 'GBedenko', isAdmin: true},
+							articles: articlesJSON,
+							pinnedArticles: pinnedArticlesJSON,
+							pinnedEvents: pinnedEventsJSON })
 })
 
 // Endpoint for showing one Article in UI
@@ -128,7 +141,20 @@ app.get('/articles/:article_id', async(req, res) => {
 
 	const articleJSON = JSON.parse(article)
 
-	res.render('article', {article: articleJSON})
+	// GET all pinned articles
+	const getPinnedArticles = articlesMediator.getAllArticles({pinned: true}).then((resp) => resp).catch((error) => console.log(error))
+	const pinnedArticles = await getPinnedArticles
+	const pinnedArticlesJSON = JSON.parse(pinnedArticles)
+
+	// GET all pinned events
+	const getPinnedEvents = eventsMediator.getAllEvents({pinned: true}).then((resp) => resp).catch((error) => console.log(error))
+	const pinnedEvents = await getPinnedEvents
+	const pinnedEventsJSON = JSON.parse(pinnedEvents)
+
+	res.render('article', {user: {name: 'GBedenko', isAdmin: true},
+							article: articleJSON,
+							pinnedArticles: pinnedArticlesJSON,
+							pinnedEvents: pinnedEventsJSON })
 })
 
 // Endpoint for UI form to post new article to
@@ -167,7 +193,20 @@ app.get('/events', async(req, res) => {
 
 	const eventsJSON = JSON.parse(events)
 
-	res.render('events', {user: {name: 'GBedenko', isAdmin: true}, events: eventsJSON})
+	// GET all pinned articles
+	const getPinnedArticles = articlesMediator.getAllArticles({pinned: true}).then((resp) => resp).catch((error) => console.log(error))
+	const pinnedArticles = await getPinnedArticles
+	const pinnedArticlesJSON = JSON.parse(pinnedArticles)
+
+	// GET all pinned events
+	const getPinnedEvents = eventsMediator.getAllEvents({pinned: true}).then((resp) => resp).catch((error) => console.log(error))
+	const pinnedEvents = await getPinnedEvents
+	const pinnedEventsJSON = JSON.parse(pinnedEvents)
+
+	res.render('events', {user: {name: 'GBedenko', isAdmin: true},
+						  events: eventsJSON,
+						  pinnedArticles: pinnedArticlesJSON,
+						  pinnedEvents: pinnedEventsJSON })
 })
 
 // Endpoint for showing one Event in UI
@@ -179,7 +218,20 @@ app.get('/events/:event_id', async(req, res) => {
 
 	const eventJSON = JSON.parse(event)
 
-	res.render('event', {event: eventJSON})
+	// GET all pinned articles
+	const getPinnedArticles = articlesMediator.getAllArticles({pinned: true}).then((resp) => resp).catch((error) => console.log(error))
+	const pinnedArticles = await getPinnedArticles
+	const pinnedArticlesJSON = JSON.parse(pinnedArticles)
+
+	// GET all pinned events
+	const getPinnedEvents = eventsMediator.getAllEvents({pinned: true}).then((resp) => resp).catch((error) => console.log(error))
+	const pinnedEvents = await getPinnedEvents
+	const pinnedEventsJSON = JSON.parse(pinnedEvents)
+
+	res.render('event', {user: {name: 'GBedenko', isAdmin: true},
+						  event: eventJSON,
+						  pinnedArticles: pinnedArticlesJSON,
+						  pinnedEvents: pinnedEventsJSON })
 })
 
 // Endpoint for UI form to post new event to
@@ -193,12 +245,38 @@ app.post('/events', async(req, res) => {
 })
 
 // Below endpoints are for UI rendering only
-app.get('/create_article', (req, res) => {
-	res.render('create_article', {user: {name: 'GBedenko', isAdmin: true}})
+app.get('/create_article', async(req, res) => {
+
+	// GET all pinned articles
+	const getPinnedArticles = articlesMediator.getAllArticles({pinned: true}).then((resp) => resp).catch((error) => console.log(error))
+	const pinnedArticles = await getPinnedArticles
+	const pinnedArticlesJSON = JSON.parse(pinnedArticles)
+
+	// GET all pinned events
+	const getPinnedEvents = eventsMediator.getAllEvents({pinned: true}).then((resp) => resp).catch((error) => console.log(error))
+	const pinnedEvents = await getPinnedEvents
+	const pinnedEventsJSON = JSON.parse(pinnedEvents)
+
+	res.render('create_article', {user: {name: 'GBedenko', isAdmin: true},
+								  pinnedArticles: pinnedArticlesJSON,
+								  pinnedEvents: pinnedEventsJSON })
 })
 
 app.get('/create_event', async(req, res) => {
-	res.render('create_event', {user: {name: 'GBedenko', isAdmin: true}})
+
+	// GET all pinned articles
+	const getPinnedArticles = articlesMediator.getAllArticles({pinned: true}).then((resp) => resp).catch((error) => console.log(error))
+	const pinnedArticles = await getPinnedArticles
+	const pinnedArticlesJSON = JSON.parse(pinnedArticles)
+
+	// GET all pinned events
+	const getPinnedEvents = eventsMediator.getAllEvents({pinned: true}).then((resp) => resp).catch((error) => console.log(error))
+	const pinnedEvents = await getPinnedEvents
+	const pinnedEventsJSON = JSON.parse(pinnedEvents)
+
+	res.render('create_event', {user: {name: 'GBedenko', isAdmin: true},
+								  pinnedArticles: pinnedArticlesJSON,
+								  pinnedEvents: pinnedEventsJSON })
 })
 
 // Endpoint for Admin Dashboard showing all articles and events
@@ -214,8 +292,22 @@ app.get('/admin_dashboard', async(req, res) => {
 	const events = await getEvents
 	const eventsJSON = JSON.parse(events)
 
+	// GET all pinned articles
+	const getPinnedArticles = articlesMediator.getAllArticles({pinned: true}).then((resp) => resp).catch((error) => console.log(error))
+	const pinnedArticles = await getPinnedArticles
+	const pinnedArticlesJSON = JSON.parse(pinnedArticles)
+
+	// GET all pinned events
+	const getPinnedEvents = eventsMediator.getAllEvents({pinned: true}).then((resp) => resp).catch((error) => console.log(error))
+	const pinnedEvents = await getPinnedEvents
+	const pinnedEventsJSON = JSON.parse(pinnedEvents)
+	
 	// Render both lists to the required UI template
-	res.render('admin_dashboard', {user: {name: 'GBedenko', isAdmin: true}, articles: articlesJSON, events: eventsJSON})
+	res.render('admin_dashboard', {user: {name: 'GBedenko', isAdmin: true},
+								   articles: articlesJSON,
+								   events: eventsJSON,
+								   pinnedArticles: pinnedArticlesJSON,
+								   pinnedEvents: pinnedEventsJSON })
 })
 
 app.get('/rate_article/:article_id', (req, res) => {

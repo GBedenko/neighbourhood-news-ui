@@ -11,13 +11,10 @@
         <div class="articleContent">
             <p>{{this.article.content}}</p>
         </div>
-        <div class="articleVideo">
-            <video>{{this.article.video}}</video>
-        </div>
     </div>  
     <br/>
     <div class="sharingOptions">
-        <a href="/rate_article/" + {{this.article._id}}>Rate this post</a>
-        <a href="/pin_article">Pin this post (Admins only)</a>
+        <a href="/rate/{{this.article._id}}">Rate this post</a>
+        <a href="/pin/{{this.article._id}}">Pin this post (Admins only)</a>
     </div>
 </div>

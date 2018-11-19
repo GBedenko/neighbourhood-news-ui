@@ -2,7 +2,7 @@
 
 const request = require('request');
 
-const eventsAPI = "http://localhost:8081/api/v1.0/events"
+const eventsAPI = "http://localhost:8081/api/v1.0/events/"
 
 exports.addEvent = (newEventObject) => new Promise((resolve, reject) => {
 	
@@ -26,7 +26,7 @@ exports.getAllEvents = (query) => new Promise((resolve, reject) => {
 })
 
 exports.getEventByID = (eventID) => new Promise((resolve, reject) => {
-
+	
 	request.get({headers: {'content-type': 'application/json'}, url: eventsAPI + eventID}, (err, resp, body) => {
 
 		resolve(body)
