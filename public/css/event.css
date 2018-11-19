@@ -1,0 +1,20 @@
+.event {
+    margin-left: 50px;
+}
+
+.eventContent {
+    width: 60%;
+}
+
+.eventImage {
+    border-style: solid;
+    width: 40%;
+}
+
+.eventVideo {
+    border-style: solid;
+}
+
+.sharingOptions {
+    width: 100%;
+}
