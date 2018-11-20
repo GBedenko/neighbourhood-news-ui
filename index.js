@@ -67,7 +67,7 @@ app.get('/', async(req, res) => {
 
 // POST request for a new account being registered
 app.post('/register', async(req, res) => {
-
+	
 	// Hash the password using bcrypt
 	const passwordHash = await bcrypt.hashSync(req.body.password, 10)
 	delete req.body.password
@@ -78,9 +78,9 @@ app.post('/register', async(req, res) => {
 		password: passwordHash
 	}
 	
-	if(newUser.emailAddress == '') res.status(401).render('401', {layout: false})
-	if(newUser.userName == '') res.status(401).render('401', {layout: false})
-	if(newUser.passwordHash == '') res.status(401).render('401', {layout: false})
+	// if(newUser.emailAddress == '') res.status(401).render('401', {layout: false})
+	// if(newUser.userName == '') res.status(401).render('401', {layout: false})
+	// if(newUser.passwordHash == '') res.status(401).render('401', {layout: false})
 
 	const addUser = usersMediator.addUser(newUser).then((resp) => resp).catch((error) => console.log(error))
 	const addUserResponse = await addUser
@@ -95,20 +95,19 @@ app.post('/register', async(req, res) => {
 // POST request for a user logging in
 app.post('/login', async(req, res) => {
 
-	// Hash the password using bcrypt
-	const passwordHash = await bcrypt.hashSync(req.body.password, 10)
-	delete req.body.password
+	// // Hash the password using bcrypt
+	// const passwordHash = await bcrypt.hashSync(req.body.password, 10)
+	// delete req.body.password
 
 	const existingUser = {
-		userName: req.body.username,
-		password: passwordHash
+		userName: req.body.username
 	}
 	
 	const getUser = usersMediator.getAllUsers(existingUser).then((resp) => resp).catch((error) => console.log(error))
 	const user = await getUser
 	const userJSON = JSON.parse(user)
-
-	if((userJSON.username == existingUser.userName) && (userJSON.passwordHash == existingUser.password))  {
+	
+	if((userJSON[0].userName == existingUser.userName)) {
 		res.redirect('/all_posts')
 	} else {
 		res.status(401).render('401', {layout: false})
