@@ -35,45 +35,50 @@ app.get('/', async(req, res) => {
 // POST request for a new account being registered
 app.post('/register', async(req, res) => {
 
-	// // Hash the password using bcrypt
-	// const passwordHash = await bcrypt.hashSync(req.body.password, 10)
-	// delete req.body.password
+	// Hash the password using bcrypt
+	const passwordHash = await bcrypt.hashSync(req.body.password, 10)
+	delete req.body.password
 
-	// const newUser = {
-	// 	emailAddress: req.body.emailAddress,
-	// 	userName: req.body.username,
-	// 	password: passwordHash
-	// }
+	const newUser = {
+		emailAddress: req.body.emailAddress,
+		userName: req.body.username,
+		password: passwordHash
+	}
 	
-	// const addUserResponse = await articlesMediator.addUser(newUser)
+	if(newUser.emailAddress == '') res.status(401).render('401', {layout: false})
+	if(newUser.userName == '') res.status(401).render('401', {layout: false})
+	if(newUser.passwordHash == '') res.status(401).render('401', {layout: false})
+
+	const addUser = usersMediator.addUser(newUser).then((resp) => resp).catch((error) => console.log(error))
+	const addUserResponse = await addUser
 	
-	// if(addUserResponse) {
-	// 	res.redirect('/all_posts')
-	// } else {
-	// 	res.render('welcome')
-	// }
-	res.redirect('/all_posts')
+	if(addUserResponse) {
+		res.redirect('/all_posts')
+	} else {
+		res.status(401).render('401', {layout: false})
+	}
 })
 
 app.post('/login', async(req, res) => {
 
-	// // Hash the password using bcrypt
-	// const passwordHash = await bcrypt.hashSync(req.body.password, 10)
-	// delete req.body.password
+	// Hash the password using bcrypt
+	const passwordHash = await bcrypt.hashSync(req.body.password, 10)
+	delete req.body.password
 
-	// const existingUser = {
-	// 	userName: req.body.username,
-	// 	password: passwordHash
-	// }
+	const existingUser = {
+		userName: req.body.username,
+		password: passwordHash
+	}
+	
+	const getUser = usersMediator.getAllUsers(existingUser).then((resp) => resp).catch((error) => console.log(error))
+	const user = await getUser
+	const userJSON = JSON.parse(user)
 
-	// const checkUserCredientialsResponse = await articlesMediator.queryUser(existingUser)
-
-	// if(checkUserCredientialsResponse) {
-	// 	res.redirect('/all_posts')
-	// } else {
-	// 	res.render('welcome')
-	// }
-	res.redirect('/all_posts')
+	if((userJSON.username == existingUser.userName) && (userJSON.passwordHash == existingUser.password))  {
+		res.redirect('/all_posts')
+	} else {
+		res.status(401).render('401', {layout: false})
+	}
 })
 
 // Endpoint to show all posts in UI (Homepage)
