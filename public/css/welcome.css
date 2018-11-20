@@ -1,5 +1,6 @@
 .welcomeBanner {
-    margin-top: 50px; 
+    margin-top: 50px;
+    padding-top: 50px; 
 }
 
 .loginBox {
@@ -11,4 +12,8 @@
 .registerBox {
     padding: 80px;
     width: 40%;
+}
+
+.welcomePage {
+    background: #b3d9ff;
 }
