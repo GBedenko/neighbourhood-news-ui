@@ -7,8 +7,7 @@
 }
 
 .articleImage {
-    border-style: solid;
-    width: 50%;
+    width: 500px;
     height: 300px;
     margin: auto;
     margin-bottom: 50px;
@@ -24,4 +23,11 @@
 
 .sharingOptions {
     width: 100%;
+    padding-left: 20px;
+    background: #b3d9ff;
+}
+
+.sharingOptions li {
+    list-style-type: none;
+    display: inline;
 }
