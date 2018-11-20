@@ -33,15 +33,6 @@ exports.getArticleByID = (articleID) => new Promise((resolve, reject) => {
 	})
 })
 
-exports.getEventByID = (eventID) => new Promise((resolve, reject) => {
-
-	request.get({headers: {'content-type': 'application/json'}, url: eventsAPI + eventID}, (err, resp, body) => {
-
-		resolve(body)
-	})
-})
-
-
 exports.updateArticle = (articleID, updatedArticleObject) => new Promise((resolve, reject) => {
 		
 	request.put({headers: {'content-type': 'application/json'}, url: articlesAPI + articleID, body: JSON.stringify(updatedArticleObject)}, (err, resp, body) => {

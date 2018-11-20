@@ -12,3 +12,5 @@ exports.addUser = async(newUserObject) => {
 	
 	return addUserResponse
 }
+
+exports.getUser = async(userID)

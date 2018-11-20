@@ -183,7 +183,7 @@ app.get('/articles/pin/:article_id', async(req, res) => {
 
 	const updateArticleResponse = await updateArticle
 
-	if(updateArticleResponse) res.redirect('/all_posts')
+	if(updateArticleResponse) res.redirect('/admin_dashboard')
 })
 
 app.get('/articles/unpin/:article_id', async(req, res) => {
@@ -200,15 +200,41 @@ app.get('/articles/unpin/:article_id', async(req, res) => {
 
 	const updateArticleResponse = await updateArticle
 
-	if(updateArticleResponse) res.redirect('/all_posts')
+	if(updateArticleResponse) res.redirect('/admin_dashboard')
 })
 
-app.get('/events/pin/:event_id', (req, res) => {
+app.get('/events/pin/:event_id', async(req, res) => {
 
+	// Retrieve the event object that needs to be pinned
+	const getEventByID = eventsMediator.getEventByID(req.params.article_id).then((resp) => resp).catch((error) => console.log(error))
+	const event = await getEventByID
+	const eventJSON = JSON.parse(event)
+
+	// Change pinned status to true in the object
+	eventJSON.pinned = true
+
+	const updateEvent = eventsMediator.updateEvent(req.params.article_id, eventJSON).then((resp) => resp).catch((error) => console.log(error))
+
+	const updateEventResponse = await updateEvent
+
+	if(updateEventResponse) res.redirect('/admin_dashboard')
 })
 
-app.get('/events/unpin/:event_id', (req, res) => {
+app.get('/events/unpin/:event_id', async(req, res) => {
 
+	// Retrieve the event object that needs to be pinned
+	const getEventByID = eventsMediator.getEventByID(req.params.article_id).then((resp) => resp).catch((error) => console.log(error))
+	const event = await getEventByID
+	const eventJSON = JSON.parse(event)
+
+	// Change pinned status to false in the object
+	eventJSON.pinned = false
+
+	const updateEvent = eventsMediator.updateEvent(req.params.article_id, eventJSON).then((resp) => resp).catch((error) => console.log(error))
+
+	const updateEventResponse = await updateEvent
+
+	if(updateEventResponse) res.redirect('/admin_dashboard')
 })
 
 
