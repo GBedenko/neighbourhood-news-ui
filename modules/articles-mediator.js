@@ -6,9 +6,11 @@ const articlesAPI = "http://localhost:8081/api/v1.0/articles/"
 
 exports.addArticle = (newArticleObject) => new Promise((resolve, reject) => {
 	
-	// New articles are private and not pinned by default
+	// Set default extra values for a new article object
 	newArticleObject.public = false
 	newArticleObject.pinned = false
+	newArticleObject.likes = 0
+	newArticleObject.dislikes = 0
 
 	// Send POST request to add new article in Articles and Events API
     request.post({headers: {'content-type': 'application/json'}, url: articlesAPI, body: JSON.stringify(newArticleObject)}, (err, resp, body) => {
