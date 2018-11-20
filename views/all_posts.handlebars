@@ -1,10 +1,19 @@
 <head>
 	<link href="/css/articles.css" type="text/css" rel="stylesheet" />
+	<link href="/css/events.css" type="text/css" rel="stylesheet" />
 </head>
 
-{{#each articles}}        
+{{#each posts}}    
+    {{#if this.heading}}    
     <div class="article">
         <a href="/articles/{{this._id}}"><h3>{{this.heading}}</h3></a>
         <p>{{this.content}}</p>
     </div>
+    {{/if}}
+    {{#if this.title}}    
+    <div class="event">
+        <a href="/events/{{this._id}}"><h3>{{this.title}}</h3></a>
+        <p>{{this.content}}</p>
+    </div>
+    {{/if}}
 {{/each}}
