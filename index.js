@@ -34,20 +34,19 @@ app.get('/', async(req, res) => {
 
 // POST request for a new account being registered
 app.post('/register', async(req, res) => {
-
 	// Hash the password using bcrypt
 	const passwordHash = await bcrypt.hashSync(req.body.password, 10)
 	delete req.body.password
 
 	const newUser = {
-		emailAddress: req.body.emailAddress,
+		emailAddress: req.body.email,
 		userName: req.body.username,
 		password: passwordHash
 	}
 	
-	if(newUser.emailAddress == '') res.status(401).render('401', {layout: false})
-	if(newUser.userName == '') res.status(401).render('401', {layout: false})
-	if(newUser.passwordHash == '') res.status(401).render('401', {layout: false})
+	// if(newUser.emailAddress == '') res.status(401).render('401', {layout: false})
+	// if(newUser.userName == '') res.status(401).render('401', {layout: false})
+	// if(newUser.passwordHash == '') res.status(401).render('401', {layout: false})
 
 	const addUser = usersMediator.addUser(newUser).then((resp) => resp).catch((error) => console.log(error))
 	const addUserResponse = await addUser
