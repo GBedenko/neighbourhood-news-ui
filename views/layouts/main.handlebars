@@ -11,7 +11,7 @@
 </head>
 <body>
 	<header>
-		<ul id="upper_navbar">
+		<ul class="upper_navbar">
 			<li><a href="/all_posts">Local News and Events Application</a></li>
 			<li><a href="/create_article">Create Article</a></li>
 			<li><a href="/create_event">Create Event</a></li>
@@ -24,7 +24,7 @@
 			</div>
 		</ul>
 
-		<ul id="lower_navbar">
+		<ul class="lower_navbar">
 			<li><a class="active" href="/all_posts">Home</a></li>
 			<li><a href="/articles">News Articles</a></li>
 			<li><a href="/events">Local Events</a></li>
@@ -32,7 +32,7 @@
 			<li><a href="/all_posts?sort=highest_rated">Highest Rated Posts</a></li>
 			<li><a href="/all_posts?sort=most_viewed">Most Viewed Posts</a></li>
 
-			<form id="search_bar" action="/search">
+			<form class="search_bar" action="/search">
 				<input id="search_box" type="text" placeholder="Search..." name="search">
 				<button type="submit">Search</button>
 			</form>
@@ -46,9 +46,19 @@
 		<div class="pinned_content">
 			<div class="pinned_articles">
 				<h3>Pinned Articles:</h3>
+				<ol>					
+				{{#each pinnedArticles}}
+				<li><a href="/articles/{{this._id}}">{{this.heading}}</a></li>
+				{{/each}}
+				</ol>
 			</div>
 			<div class="pinned_events">
 				<h3>Pinned Events:</h3>
+				<ol>					
+				{{#each pinnedEvents}}
+				<li><a href="/events/{{this._id}}">{{this.title}}</a></li>
+				{{/each}}
+				</ol>
 			</div>    
     	</div>
 	</div>
