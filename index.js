@@ -27,7 +27,21 @@ const commentsMediator = require('./modules/comments-mediator')
 const eventsMediator = require('./modules/events-mediator')
 const usersMediator = require('./modules/users-mediator')
 
-// Root page is welcome page, every user has to have an account
+// TODO BELOW
+app.get('/rate_article/:article_id', (req, res) => {
+
+	res.redirect('/')
+})
+
+// Request the user's own account page
+app.get('/user/:user_id', (req, res) => {
+
+	res.render('user', {user: {name: 'GBedenko', isAdmin: true}})
+})
+// TODO ABOVE
+
+
+// Request for the root page renders the welcome/login/register page (every user must have an account)
 app.get('/', async(req, res) => {
 	res.render('welcome', {layout: false})
 })
@@ -40,7 +54,7 @@ app.post('/register', async(req, res) => {
 	delete req.body.password
 
 	const newUser = {
-		emailAddress: req.body.emailAddress,
+		emailAddress: req.body.email,
 		userName: req.body.username,
 		password: passwordHash
 	}
@@ -59,6 +73,7 @@ app.post('/register', async(req, res) => {
 	}
 })
 
+// POST request for a user logging in
 app.post('/login', async(req, res) => {
 
 	// Hash the password using bcrypt
@@ -81,7 +96,7 @@ app.post('/login', async(req, res) => {
 	}
 })
 
-// Endpoint to show all posts in UI (Homepage)
+// Request to show all posts in UI (shown on homepage)
 app.get('/all_posts', async(req, res) => {
 	
 	// GET all Articles
@@ -114,7 +129,7 @@ app.get('/all_posts', async(req, res) => {
 							 pinnedEvents: pinnedEventsJSON })
 })
 
-// Endpoint for showing all Articles in UI
+// Request to show all articles in UI
 app.get('/articles', async(req, res) => {
 
 	const getArticles = articlesMediator.getAllArticles().then((resp) => resp).catch((error) => console.log(error))
@@ -139,7 +154,7 @@ app.get('/articles', async(req, res) => {
 							pinnedEvents: pinnedEventsJSON })
 })
 
-// Endpoint for showing one Article in UI
+// Request to show one article in UI
 app.get('/articles/:article_id', async(req, res) => {
 
 	const getArticleByID = articlesMediator.getArticleByID(req.params.article_id).then((resp) => resp).catch((error) => console.log(error))
@@ -164,7 +179,7 @@ app.get('/articles/:article_id', async(req, res) => {
 							pinnedEvents: pinnedEventsJSON })
 })
 
-// Endpoint for UI form to post new article to
+// POST request for a new article being created
 app.post('/articles', async(req, res) => {
 		
 	const addArticle = articlesMediator.addArticle(req.body).then((resp) => resp).catch((error) => console.log(error))
@@ -174,76 +189,7 @@ app.post('/articles', async(req, res) => {
 	if(addArticleResponse) res.redirect('/articles')
 })
 
-app.get('/articles/pin/:article_id', async(req, res) => {
-
-	// Retrieve the article object that needs to be pinned
-	const getArticleByID = articlesMediator.getArticleByID(req.params.article_id).then((resp) => resp).catch((error) => console.log(error))
-	const article = await getArticleByID
-	const articleJSON = JSON.parse(article)
-
-	// Change pinned status to true in the object
-	articleJSON.pinned = true
-
-	const updateArticle = articlesMediator.updateArticle(req.params.article_id, articleJSON).then((resp) => resp).catch((error) => console.log(error))
-
-	const updateArticleResponse = await updateArticle
-
-	if(updateArticleResponse) res.redirect('/admin_dashboard')
-})
-
-app.get('/articles/unpin/:article_id', async(req, res) => {
-	
-	// Retrieve the article object that needs to be unpinned
-	const getArticleByID = articlesMediator.getArticleByID(req.params.article_id).then((resp) => resp).catch((error) => console.log(error))
-	const article = await getArticleByID
-	const articleJSON = JSON.parse(article)
-
-	// Change pinned status to false in the object
-	articleJSON.pinned = false
-
-	const updateArticle = articlesMediator.updateArticle(req.params.article_id, articleJSON).then((resp) => resp).catch((error) => console.log(error))
-
-	const updateArticleResponse = await updateArticle
-
-	if(updateArticleResponse) res.redirect('/admin_dashboard')
-})
-
-app.get('/events/pin/:event_id', async(req, res) => {
-
-	// Retrieve the event object that needs to be pinned
-	const getEventByID = eventsMediator.getEventByID(req.params.article_id).then((resp) => resp).catch((error) => console.log(error))
-	const event = await getEventByID
-	const eventJSON = JSON.parse(event)
-
-	// Change pinned status to true in the object
-	eventJSON.pinned = true
-
-	const updateEvent = eventsMediator.updateEvent(req.params.article_id, eventJSON).then((resp) => resp).catch((error) => console.log(error))
-
-	const updateEventResponse = await updateEvent
-
-	if(updateEventResponse) res.redirect('/admin_dashboard')
-})
-
-app.get('/events/unpin/:event_id', async(req, res) => {
-
-	// Retrieve the event object that needs to be pinned
-	const getEventByID = eventsMediator.getEventByID(req.params.article_id).then((resp) => resp).catch((error) => console.log(error))
-	const event = await getEventByID
-	const eventJSON = JSON.parse(event)
-
-	// Change pinned status to false in the object
-	eventJSON.pinned = false
-
-	const updateEvent = eventsMediator.updateEvent(req.params.article_id, eventJSON).then((resp) => resp).catch((error) => console.log(error))
-
-	const updateEventResponse = await updateEvent
-
-	if(updateEventResponse) res.redirect('/admin_dashboard')
-})
-
-
-// Endpoint for showing all Events in UI
+// Request to show all articles in UI
 app.get('/events', async(req, res) => {
 
 	const getEvents = eventsMediator.getAllEvents().then((resp) => resp).catch((error) => console.log(error))
@@ -268,7 +214,7 @@ app.get('/events', async(req, res) => {
 						  pinnedEvents: pinnedEventsJSON })
 })
 
-// Endpoint for showing one Event in UI
+// Request to show one event in UI
 app.get('/events/:event_id', async(req, res) => {
 
 	const getEventByID = eventsMediator.getEventByID(req.params.event_id).then((resp) => resp).catch((error) => console.log(error))
@@ -293,7 +239,7 @@ app.get('/events/:event_id', async(req, res) => {
 						  pinnedEvents: pinnedEventsJSON })
 })
 
-// Endpoint for UI form to post new event to
+// POST request for a new event being created
 app.post('/events', async(req, res) => {
 
 	const addEvent = eventsMediator.addEvent(req.body).then((resp) => resp).catch((error) => console.log(error))
@@ -303,7 +249,7 @@ app.post('/events', async(req, res) => {
 	if(addEventResponse) res.redirect('/events')
 })
 
-// Below endpoints are for UI rendering only
+// Request for form to create a new article
 app.get('/create_article', async(req, res) => {
 
 	// GET all pinned articles
@@ -321,6 +267,7 @@ app.get('/create_article', async(req, res) => {
 								  pinnedEvents: pinnedEventsJSON })
 })
 
+// Request for form to create a new event
 app.get('/create_event', async(req, res) => {
 
 	// GET all pinned articles
@@ -338,7 +285,7 @@ app.get('/create_event', async(req, res) => {
 								  pinnedEvents: pinnedEventsJSON })
 })
 
-// Endpoint for Admin Dashboard showing all articles and events
+// Request the Admin Dashboard showing all articles and events
 app.get('/admin_dashboard', async(req, res) => {
 	
 	// Retrieve all articles from other microservice
@@ -369,30 +316,148 @@ app.get('/admin_dashboard', async(req, res) => {
 								   pinnedEvents: pinnedEventsJSON })
 })
 
-app.get('/rate_article/:article_id', (req, res) => {
+// Request to pin an article (show it on every page)
+app.get('/articles/pin/:article_id', async(req, res) => {
 
-	res.redirect('/')
+	// Retrieve the article object that needs to be pinned
+	const getArticleByID = articlesMediator.getArticleByID(req.params.article_id).then((resp) => resp).catch((error) => console.log(error))
+	const article = await getArticleByID
+	const articleJSON = JSON.parse(article)
+
+	// Change pinned status to true in the object
+	articleJSON.pinned = true
+
+	const updateArticle = articlesMediator.updateArticle(req.params.article_id, articleJSON).then((resp) => resp).catch((error) => console.log(error))
+
+	const updateArticleResponse = await updateArticle
+
+	if(updateArticleResponse) res.redirect('/admin_dashboard')
 })
 
-app.get('/user/:user_id', (req, res) => {
-
-	res.render('user', {user: {name: 'GBedenko', isAdmin: true}})
-})
-
-app.get('/articles/make_public/:article_id', (req, res) => {
+// Request to unpin an article (not shown on every page)
+app.get('/articles/unpin/:article_id', async(req, res) => {
 	
+	// Retrieve the article object that needs to be unpinned
+	const getArticleByID = articlesMediator.getArticleByID(req.params.article_id).then((resp) => resp).catch((error) => console.log(error))
+	const article = await getArticleByID
+	const articleJSON = JSON.parse(article)
+
+	// Change pinned status to false in the object
+	articleJSON.pinned = false
+
+	const updateArticle = articlesMediator.updateArticle(req.params.article_id, articleJSON).then((resp) => resp).catch((error) => console.log(error))
+
+	const updateArticleResponse = await updateArticle
+
+	if(updateArticleResponse) res.redirect('/admin_dashboard')
 })
 
-app.get('/events/make_public/:event_id', (req, res) => {
+// Request to pin an event (show it on every page)
+app.get('/events/pin/:event_id', async(req, res) => {
 
+	// Retrieve the event object that needs to be pinned
+	const getEventByID = eventsMediator.getEventByID(req.params.article_id).then((resp) => resp).catch((error) => console.log(error))
+	const event = await getEventByID
+	const eventJSON = JSON.parse(event)
+
+	// Change pinned status to true in the object
+	eventJSON.pinned = true
+
+	const updateEvent = eventsMediator.updateEvent(req.params.article_id, eventJSON).then((resp) => resp).catch((error) => console.log(error))
+
+	const updateEventResponse = await updateEvent
+
+	if(updateEventResponse) res.redirect('/admin_dashboard')
 })
 
-app.get('/articles/make_private/:article_id', (req, res) => {
-	
+// Request to unpin an event (not shown on every page)
+app.get('/events/unpin/:event_id', async(req, res) => {
+
+	// Retrieve the event object that needs to be pinned
+	const getEventByID = eventsMediator.getEventByID(req.params.article_id).then((resp) => resp).catch((error) => console.log(error))
+	const event = await getEventByID
+	const eventJSON = JSON.parse(event)
+
+	// Change pinned status to false in the object
+	eventJSON.pinned = false
+
+	const updateEvent = eventsMediator.updateEvent(req.params.article_id, eventJSON).then((resp) => resp).catch((error) => console.log(error))
+
+	const updateEventResponse = await updateEvent
+
+	if(updateEventResponse) res.redirect('/admin_dashboard')
 })
 
-app.get('/events/make_private/:event_id', (req, res) => {
+// Request to make an article public (shown to users)
+app.get('/articles/make_public/:article_id', async(req, res) => {
 
+	// Retrieve the article object that needs to be pinned
+	const getArticleByID = articlesMediator.getArticleByID(req.params.article_id).then((resp) => resp).catch((error) => console.log(error))
+	const article = await getArticleByID
+	const articleJSON = JSON.parse(article)
+
+	// Change public status to true in the object
+	articleJSON.public = true
+
+	const updateArticle = articlesMediator.updateArticle(req.params.article_id, articleJSON).then((resp) => resp).catch((error) => console.log(error))
+
+	const updateArticleResponse = await updateArticle
+
+	if(updateArticleResponse) res.redirect('/admin_dashboard')
+})
+
+// Request to make an article private (not shown to users)
+app.get('/articles/make_private/:article_id', async(req, res) => {
+
+	// Retrieve the article object that needs to be pinned
+	const getArticleByID = articlesMediator.getArticleByID(req.params.article_id).then((resp) => resp).catch((error) => console.log(error))
+	const article = await getArticleByID
+	const articleJSON = JSON.parse(article)
+
+	// Change public status to false
+	articleJSON.public = false
+
+	const updateArticle = articlesMediator.updateArticle(req.params.article_id, articleJSON).then((resp) => resp).catch((error) => console.log(error))
+
+	const updateArticleResponse = await updateArticle
+
+	if(updateArticleResponse) res.redirect('/admin_dashboard')
+})
+
+// Request to make an event public (shown to users)
+app.get('/events/make_public/:event_id', async(req, res) => {
+
+	// Retrieve the event object that needs to be pinned
+	const getEventByID = eventsMediator.getEventByID(req.params.article_id).then((resp) => resp).catch((error) => console.log(error))
+	const event = await getEventByID
+	const eventJSON = JSON.parse(event)
+
+	// Change public status to true
+	eventJSON.public = true
+
+	const updateEvent = eventsMediator.updateEvent(req.params.article_id, eventJSON).then((resp) => resp).catch((error) => console.log(error))
+
+	const updateEventResponse = await updateEvent
+
+	if(updateEventResponse) res.redirect('/admin_dashboard')
+})
+
+// Request to make an event private (not shown to users)
+app.get('/events/make_private/:event_id', async(req, res) => {
+
+	// Retrieve the event object that needs to be pinned
+	const getEventByID = eventsMediator.getEventByID(req.params.article_id).then((resp) => resp).catch((error) => console.log(error))
+	const event = await getEventByID
+	const eventJSON = JSON.parse(event)
+
+	// Change public status to false
+	eventJSON.public = false
+
+	const updateEvent = eventsMediator.updateEvent(req.params.article_id, eventJSON).then((resp) => resp).catch((error) => console.log(error))
+
+	const updateEventResponse = await updateEvent
+
+	if(updateEventResponse) res.redirect('/admin_dashboard')
 })
 
 // Runs the server on provided port
