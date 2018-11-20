@@ -13,9 +13,8 @@ exports.addUser = (newUserObject) => new Promise((resolve, reject) => {
 })
 
 exports.getAllUsers = (query) => new Promise((resolve, reject) => {
-
 	request.get({headers: {'content-type': 'application/json'}, url: usersAPI, body: JSON.stringify(query)}, (err, resp, body) => {
-
+		
 		resolve(body)
 	})
 })
