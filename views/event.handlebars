@@ -16,7 +16,15 @@
     </div>  
     <br/>
     <div class="sharingOptions">
-        <a href="/rate/{{this.event._id}}">Rate this post</a>
-        <a href="/pin/{{this.event._id}}">Pin this post (Admins only)</a>
+        <div class="row">
+            <ul>
+                <li><a href="/like_event/{{this.article._id}}">Like this post</a><p>{{this.event.likes}} people like this event</p></li>
+                <li><a href="/dislike_event/{{this.article._id}}">Dislike this post</a><p>{{this.event.dislikes}} people dislike this event</p></li>
+            </ul>
+            <ul>
+                <li><a href="/like_user/{{this.article.user}}">Like this user</a><p>{{this.user.likes}} people like this user</p></li>
+                <li><a href="/dislike_user/{{this.article.user}}">Dislike this user</a><p>{{this.user.dislikes}} people dislike this user</p></li></li>
+            </ul>
+        </div>
     </div>
 </div>

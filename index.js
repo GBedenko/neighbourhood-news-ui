@@ -28,15 +28,34 @@ const eventsMediator = require('./modules/events-mediator')
 const usersMediator = require('./modules/users-mediator')
 
 // TODO BELOW
-app.get('/rate_article/:article_id', (req, res) => {
+app.get('/like_article/:article_id', (req, res) => {
 
 	res.redirect('/')
 })
 
-// Request the user's own account page
-app.get('/user/:user_id', (req, res) => {
+app.get('/dislike_article/:article_id', (req, res) => {
 
-	res.render('user', {user: {name: 'GBedenko', isAdmin: true}})
+	res.redirect('/')
+})
+
+app.get('/like_event/:event_id', (req, res) => {
+
+	res.redirect('/')
+})
+
+app.get('/dislike_event/:event_id', (req, res) => {
+
+	res.redirect('/')
+})
+
+app.get('/like_user/:user_id', (req, res) => {
+
+	res.redirect('/')
+})
+
+app.get('/dislike_user/:user_id', (req, res) => {
+
+	res.redirect('/')
 })
 // TODO ABOVE
 
@@ -458,6 +477,12 @@ app.get('/events/make_private/:event_id', async(req, res) => {
 	const updateEventResponse = await updateEvent
 
 	if(updateEventResponse) res.redirect('/admin_dashboard')
+})
+
+// Request to show the user's own account page
+app.get('/user/:user_id', (req, res) => {
+
+	res.render('user', {user: {name: 'GBedenko', isAdmin: true}})
 })
 
 // Runs the server on provided port
