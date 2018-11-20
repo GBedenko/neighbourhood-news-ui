@@ -35,43 +35,45 @@ app.get('/', async(req, res) => {
 // POST request for a new account being registered
 app.post('/register', async(req, res) => {
 
-	// Hash the password using bcrypt
-	const passwordHash = await bcrypt.hashSync(req.body.password, 10)
-	delete req.body.password
+	// // Hash the password using bcrypt
+	// const passwordHash = await bcrypt.hashSync(req.body.password, 10)
+	// delete req.body.password
 
-	const newUser = {
-		emailAddress: req.body.emailAddress,
-		userName: req.body.username,
-		password: passwordHash
-	}
+	// const newUser = {
+	// 	emailAddress: req.body.emailAddress,
+	// 	userName: req.body.username,
+	// 	password: passwordHash
+	// }
 	
-	const addUserResponse = await articlesMediator.addUser(newUser)
+	// const addUserResponse = await articlesMediator.addUser(newUser)
 	
-	if(addUserResponse) {
-		res.redirect('/all_posts')
-	} else {
-		res.render('welcome')
-	}
+	// if(addUserResponse) {
+	// 	res.redirect('/all_posts')
+	// } else {
+	// 	res.render('welcome')
+	// }
+	res.redirect('/all_posts')
 })
 
 app.post('/login', async(req, res) => {
 
-	// Hash the password using bcrypt
-	const passwordHash = await bcrypt.hashSync(req.body.password, 10)
-	delete req.body.password
+	// // Hash the password using bcrypt
+	// const passwordHash = await bcrypt.hashSync(req.body.password, 10)
+	// delete req.body.password
 
-	const existingUser = {
-		userName: req.body.username,
-		password: passwordHash
-	}
+	// const existingUser = {
+	// 	userName: req.body.username,
+	// 	password: passwordHash
+	// }
 
-	const checkUserCredientialsResponse = await articlesMediator.queryUser(existingUser)
+	// const checkUserCredientialsResponse = await articlesMediator.queryUser(existingUser)
 
-	if(checkUserCredientialsResponse) {
-		res.redirect('/all_posts')
-	} else {
-		res.render('welcome')
-	}
+	// if(checkUserCredientialsResponse) {
+	// 	res.redirect('/all_posts')
+	// } else {
+	// 	res.render('welcome')
+	// }
+	res.redirect('/all_posts')
 })
 
 // Endpoint to show all posts in UI (Homepage)
@@ -174,6 +176,9 @@ app.get('/articles/pin/:article_id', async(req, res) => {
 	const article = await getArticleByID
 	const articleJSON = JSON.parse(article)
 
+	// Change pinned status to true in the object
+	articleJSON.pinned = true
+
 	const updateArticle = articlesMediator.updateArticle(req.params.article_id, articleJSON).then((resp) => resp).catch((error) => console.log(error))
 
 	const updateArticleResponse = await updateArticle
@@ -181,7 +186,30 @@ app.get('/articles/pin/:article_id', async(req, res) => {
 	if(updateArticleResponse) res.redirect('/all_posts')
 })
 
+app.get('/articles/unpin/:article_id', async(req, res) => {
+	
+	// Retrieve the article object that needs to be unpinned
+	const getArticleByID = articlesMediator.getArticleByID(req.params.article_id).then((resp) => resp).catch((error) => console.log(error))
+	const article = await getArticleByID
+	const articleJSON = JSON.parse(article)
 
+	// Change pinned status to false in the object
+	articleJSON.pinned = false
+
+	const updateArticle = articlesMediator.updateArticle(req.params.article_id, articleJSON).then((resp) => resp).catch((error) => console.log(error))
+
+	const updateArticleResponse = await updateArticle
+
+	if(updateArticleResponse) res.redirect('/all_posts')
+})
+
+app.get('/events/pin/:event_id', (req, res) => {
+
+})
+
+app.get('/events/unpin/:event_id', (req, res) => {
+
+})
 
 
 // Endpoint for showing all Events in UI
@@ -318,18 +346,6 @@ app.get('/rate_article/:article_id', (req, res) => {
 app.get('/user/:user_id', (req, res) => {
 
 	res.render('user', {user: {name: 'GBedenko', isAdmin: true}})
-})
-
-app.get('/events/pin/:event_id', (req, res) => {
-
-})
-
-app.get('/articles/unpin_post/:article_id', (req, res) => {
-	
-})
-
-app.get('/events/unpin_post/:event_id', (req, res) => {
-
 })
 
 app.get('/articles/make_public/:article_id', (req, res) => {

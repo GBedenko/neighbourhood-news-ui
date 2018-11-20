@@ -43,10 +43,7 @@ exports.getEventByID = (eventID) => new Promise((resolve, reject) => {
 
 
 exports.updateArticle = (articleID, updatedArticleObject) => new Promise((resolve, reject) => {
-	
-	// Change pinned status to true in the object
-	updatedArticleObject.pinned = true
-	
+		
 	request.put({headers: {'content-type': 'application/json'}, url: articlesAPI + articleID, body: JSON.stringify(updatedArticleObject)}, (err, resp, body) => {
 
 		resolve(body)										
