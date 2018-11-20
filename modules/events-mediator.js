@@ -34,7 +34,7 @@ exports.getEventByID = (eventID) => new Promise((resolve, reject) => {
 })
 
 exports.updateEvent = (eventID, updatedEventObject) => new Promise((resolve, reject) => {
-	console.log("got ere")
+	
 	request.put({headers: {'content-type': 'application/json'}, url: eventsAPI + eventID, body: JSON.stringify(updatedEventObject)}, (err, resp, body) => {
 
 		resolve(body)										
