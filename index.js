@@ -462,6 +462,7 @@ app.get('/like_article/:article_id', async(req, res) => {
 	const updateArticle = articlesMediator.updateArticle(req.params.article_id, articleJSON).then((resp) => resp).catch((error) => console.log(error))
 
 	const updateArticleResponse = await updateArticle
+	console.log(updateArticleResponse)
 
 	if(updateArticleResponse) res.redirect('/articles/' + req.params.article_id)
 })
@@ -568,3 +569,5 @@ app.get('/user/:user_id', async(req, res) => {
 
 // Runs the server on provided port
 app.listen(port, () => console.log(`Server listening on port ${port}`));
+
+module.exports = app

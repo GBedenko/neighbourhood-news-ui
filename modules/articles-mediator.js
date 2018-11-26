@@ -36,7 +36,10 @@ exports.getArticleByID = (articleID) => new Promise((resolve, reject) => {
 })
 
 exports.updateArticle = (articleID, updatedArticleObject) => new Promise((resolve, reject) => {
-		
+	
+	// Delete id field before performing PUT request (otherwise will fail as this is the URI as well as a field)
+	delete updatedArticleObject._id
+
 	request.put({headers: {'content-type': 'application/json'}, url: articlesAPI + articleID, body: JSON.stringify(updatedArticleObject)}, (err, resp, body) => {
 
 		resolve(body)										

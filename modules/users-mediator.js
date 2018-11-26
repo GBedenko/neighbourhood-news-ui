@@ -29,6 +29,9 @@ exports.getUserByID = (userID) => new Promise((resolve, reject) => {
 
 exports.updateUser = (userID, updatedUserObject) => new Promise((resolve, reject) => {
 	
+	// Delete id field before performing PUT request (otherwise will fail as this is the URI as well as a field)
+	delete updatedUserObject._id
+
 	request.put({headers: {'content-type': 'application/json'}, url: usersAPI + userID, body: JSON.stringify(updatedUserObject)}, (err, resp, body) => {
 
 		resolve(body)										
