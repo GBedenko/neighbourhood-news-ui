@@ -36,7 +36,7 @@ app.get('/', async(req, res) => {
 app.post('/register', async(req, res) => {
 	
 	// Hash the password using bcrypt
-	const passwordHash = await bcrypt.hashSync(req.body.password, 10)
+	const passwordHash = "tmp_password_hash" // await bcrypt.hash(req.body.password, 10)
 	delete req.body.password
 
 	const newUser = {
@@ -52,14 +52,10 @@ app.post('/register', async(req, res) => {
 	// if(newUser.userName == '') res.status(401).render('401', {layout: false})
 	// if(newUser.passwordHash == '') res.status(401).render('401', {layout: false})
 
-	const addUser = usersMediator.addUser(newUser).then((resp) => resp).catch((error) => console.log(error))
+	const addUser = usersMediator.addUser(newUser).then((resp) => resp)
 	const addUserResponse = await addUser
 	
-	if(addUserResponse) {
-		res.redirect('/all_posts')
-	} else {
-		res.status(401).render('401', {layout: false})
-	}
+	res.redirect('/all_posts')
 })
 
 // POST request for a user logging in
@@ -73,27 +69,23 @@ app.post('/login', async(req, res) => {
 		userName: req.body.username
 	}
 	
-	const getUser = usersMediator.getAllUsers(existingUser).then((resp) => resp).catch((error) => console.log(error))
+	const getUser = usersMediator.getAllUsers(existingUser).then((resp) => resp)
 	const user = await getUser
 	const userJSON = JSON.parse(user)
 	
-	if((userJSON[0].userName == existingUser.userName)) {
-		res.redirect('/all_posts')
-	} else {
-		res.status(401).render('401', {layout: false})
-	}
+	res.redirect('/all_posts')
 })
 
 // Request to show all posts in UI (shown on homepage)
 app.get('/all_posts', async(req, res) => {
 	
 	// GET all Articles
-	const getArticles = articlesMediator.getAllArticles().then((resp) => resp).catch((error) => console.log(error))
+	const getArticles = articlesMediator.getAllArticles().then((resp) => resp)
 	const articles = await getArticles
 	const articlesJSON = JSON.parse(articles)
 
 	// GET all Events
-	const getEvents = eventsMediator.getAllEvents().then((resp) => resp).catch((error) => console.log(error))
+	const getEvents = eventsMediator.getAllEvents().then((resp) => resp)
 	const events = await getEvents
 	const eventsJSON = JSON.parse(events)
 
@@ -101,12 +93,12 @@ app.get('/all_posts', async(req, res) => {
 	const postsJSON = articlesJSON.concat(eventsJSON)
 
 	// GET all pinned articles
-	const getPinnedArticles = articlesMediator.getAllArticles({pinned: true}).then((resp) => resp).catch((error) => console.log(error))
+	const getPinnedArticles = articlesMediator.getAllArticles({pinned: true}).then((resp) => resp)
 	const pinnedArticles = await getPinnedArticles
 	const pinnedArticlesJSON = JSON.parse(pinnedArticles)
 
 	// GET all pinned events
-	const getPinnedEvents = eventsMediator.getAllEvents({pinned: true}).then((resp) => resp).catch((error) => console.log(error))
+	const getPinnedEvents = eventsMediator.getAllEvents({pinned: true}).then((resp) => resp)
 	const pinnedEvents = await getPinnedEvents
 	const pinnedEventsJSON = JSON.parse(pinnedEvents)
 
@@ -120,19 +112,19 @@ app.get('/all_posts', async(req, res) => {
 // Request to show all articles in UI
 app.get('/articles', async(req, res) => {
 
-	const getArticles = articlesMediator.getAllArticles().then((resp) => resp).catch((error) => console.log(error))
+	const getArticles = articlesMediator.getAllArticles().then((resp) => resp)
 
 	const articles = await getArticles
 
 	const articlesJSON = JSON.parse(articles)
 
 	// GET all pinned articles
-	const getPinnedArticles = articlesMediator.getAllArticles({pinned: true}).then((resp) => resp).catch((error) => console.log(error))
+	const getPinnedArticles = articlesMediator.getAllArticles({pinned: true}).then((resp) => resp)
 	const pinnedArticles = await getPinnedArticles
 	const pinnedArticlesJSON = JSON.parse(pinnedArticles)
 
 	// GET all pinned events
-	const getPinnedEvents = eventsMediator.getAllEvents({pinned: true}).then((resp) => resp).catch((error) => console.log(error))
+	const getPinnedEvents = eventsMediator.getAllEvents({pinned: true}).then((resp) => resp)
 	const pinnedEvents = await getPinnedEvents
 	const pinnedEventsJSON = JSON.parse(pinnedEvents)
 
@@ -145,19 +137,19 @@ app.get('/articles', async(req, res) => {
 // Request to show one article in UI
 app.get('/articles/:article_id', async(req, res) => {
 
-	const getArticleByID = articlesMediator.getArticleByID(req.params.article_id).then((resp) => resp).catch((error) => console.log(error))
+	const getArticleByID = articlesMediator.getArticleByID(req.params.article_id).then((resp) => resp)
 
 	const article = await getArticleByID
 
 	const articleJSON = JSON.parse(article)
 
 	// GET all pinned articles
-	const getPinnedArticles = articlesMediator.getAllArticles({pinned: true}).then((resp) => resp).catch((error) => console.log(error))
+	const getPinnedArticles = articlesMediator.getAllArticles({pinned: true}).then((resp) => resp)
 	const pinnedArticles = await getPinnedArticles
 	const pinnedArticlesJSON = JSON.parse(pinnedArticles)
 
 	// GET all pinned events
-	const getPinnedEvents = eventsMediator.getAllEvents({pinned: true}).then((resp) => resp).catch((error) => console.log(error))
+	const getPinnedEvents = eventsMediator.getAllEvents({pinned: true}).then((resp) => resp)
 	const pinnedEvents = await getPinnedEvents
 	const pinnedEventsJSON = JSON.parse(pinnedEvents)
 
@@ -170,29 +162,29 @@ app.get('/articles/:article_id', async(req, res) => {
 // POST request for a new article being created
 app.post('/articles', async(req, res) => {
 		
-	const addArticle = articlesMediator.addArticle(req.body).then((resp) => resp).catch((error) => console.log(error))
+	const addArticle = articlesMediator.addArticle(req.body).then((resp) => resp)
 
 	const addArticleResponse = await addArticle
 
-	if(addArticleResponse) res.redirect('/articles')
+	res.redirect('/articles')
 })
 
 // Request to show all articles in UI
 app.get('/events', async(req, res) => {
 
-	const getEvents = eventsMediator.getAllEvents().then((resp) => resp).catch((error) => console.log(error))
+	const getEvents = eventsMediator.getAllEvents().then((resp) => resp)
 
 	const events = await getEvents
 
 	const eventsJSON = JSON.parse(events)
 
 	// GET all pinned articles
-	const getPinnedArticles = articlesMediator.getAllArticles({pinned: true}).then((resp) => resp).catch((error) => console.log(error))
+	const getPinnedArticles = articlesMediator.getAllArticles({pinned: true}).then((resp) => resp)
 	const pinnedArticles = await getPinnedArticles
 	const pinnedArticlesJSON = JSON.parse(pinnedArticles)
 
 	// GET all pinned events
-	const getPinnedEvents = eventsMediator.getAllEvents({pinned: true}).then((resp) => resp).catch((error) => console.log(error))
+	const getPinnedEvents = eventsMediator.getAllEvents({pinned: true}).then((resp) => resp)
 	const pinnedEvents = await getPinnedEvents
 	const pinnedEventsJSON = JSON.parse(pinnedEvents)
 
@@ -205,19 +197,19 @@ app.get('/events', async(req, res) => {
 // Request to show one event in UI
 app.get('/events/:event_id', async(req, res) => {
 
-	const getEventByID = eventsMediator.getEventByID(req.params.event_id).then((resp) => resp).catch((error) => console.log(error))
+	const getEventByID = eventsMediator.getEventByID(req.params.event_id).then((resp) => resp)
 
 	const event = await getEventByID
 
 	const eventJSON = JSON.parse(event)
 
 	// GET all pinned articles
-	const getPinnedArticles = articlesMediator.getAllArticles({pinned: true}).then((resp) => resp).catch((error) => console.log(error))
+	const getPinnedArticles = articlesMediator.getAllArticles({pinned: true}).then((resp) => resp)
 	const pinnedArticles = await getPinnedArticles
 	const pinnedArticlesJSON = JSON.parse(pinnedArticles)
 
 	// GET all pinned events
-	const getPinnedEvents = eventsMediator.getAllEvents({pinned: true}).then((resp) => resp).catch((error) => console.log(error))
+	const getPinnedEvents = eventsMediator.getAllEvents({pinned: true}).then((resp) => resp)
 	const pinnedEvents = await getPinnedEvents
 	const pinnedEventsJSON = JSON.parse(pinnedEvents)
 
@@ -230,23 +222,23 @@ app.get('/events/:event_id', async(req, res) => {
 // POST request for a new event being created
 app.post('/events', async(req, res) => {
 
-	const addEvent = eventsMediator.addEvent(req.body).then((resp) => resp).catch((error) => console.log(error))
+	const addEvent = eventsMediator.addEvent(req.body).then((resp) => resp)
 
 	const addEventResponse = await addEvent
 
-	if(addEventResponse) res.redirect('/events')
+	res.redirect('/events')
 })
 
 // Request for form to create a new article
 app.get('/create_article', async(req, res) => {
 
 	// GET all pinned articles
-	const getPinnedArticles = articlesMediator.getAllArticles({pinned: true}).then((resp) => resp).catch((error) => console.log(error))
+	const getPinnedArticles = articlesMediator.getAllArticles({pinned: true}).then((resp) => resp)
 	const pinnedArticles = await getPinnedArticles
 	const pinnedArticlesJSON = JSON.parse(pinnedArticles)
 
 	// GET all pinned events
-	const getPinnedEvents = eventsMediator.getAllEvents({pinned: true}).then((resp) => resp).catch((error) => console.log(error))
+	const getPinnedEvents = eventsMediator.getAllEvents({pinned: true}).then((resp) => resp)
 	const pinnedEvents = await getPinnedEvents
 	const pinnedEventsJSON = JSON.parse(pinnedEvents)
 
@@ -259,12 +251,12 @@ app.get('/create_article', async(req, res) => {
 app.get('/create_event', async(req, res) => {
 
 	// GET all pinned articles
-	const getPinnedArticles = articlesMediator.getAllArticles({pinned: true}).then((resp) => resp).catch((error) => console.log(error))
+	const getPinnedArticles = articlesMediator.getAllArticles({pinned: true}).then((resp) => resp)
 	const pinnedArticles = await getPinnedArticles
 	const pinnedArticlesJSON = JSON.parse(pinnedArticles)
 
 	// GET all pinned events
-	const getPinnedEvents = eventsMediator.getAllEvents({pinned: true}).then((resp) => resp).catch((error) => console.log(error))
+	const getPinnedEvents = eventsMediator.getAllEvents({pinned: true}).then((resp) => resp)
 	const pinnedEvents = await getPinnedEvents
 	const pinnedEventsJSON = JSON.parse(pinnedEvents)
 
@@ -277,22 +269,22 @@ app.get('/create_event', async(req, res) => {
 app.get('/admin_dashboard', async(req, res) => {
 	
 	// Retrieve all articles from other microservice
-	const getArticles = articlesMediator.getAllArticles().then((resp) => resp).catch((error) => console.log(error))
+	const getArticles = articlesMediator.getAllArticles().then((resp) => resp)
 	const articles = await getArticles
 	const articlesJSON = JSON.parse(articles)						 
 
 	// Retrieve all events from other microservice
-	const getEvents = eventsMediator.getAllEvents().then((resp) => resp).catch((error) => console.log(error))
+	const getEvents = eventsMediator.getAllEvents().then((resp) => resp)
 	const events = await getEvents
 	const eventsJSON = JSON.parse(events)
 
 	// GET all pinned articles
-	const getPinnedArticles = articlesMediator.getAllArticles({pinned: true}).then((resp) => resp).catch((error) => console.log(error))
+	const getPinnedArticles = articlesMediator.getAllArticles({pinned: true}).then((resp) => resp)
 	const pinnedArticles = await getPinnedArticles
 	const pinnedArticlesJSON = JSON.parse(pinnedArticles)
 
 	// GET all pinned events
-	const getPinnedEvents = eventsMediator.getAllEvents({pinned: true}).then((resp) => resp).catch((error) => console.log(error))
+	const getPinnedEvents = eventsMediator.getAllEvents({pinned: true}).then((resp) => resp)
 	const pinnedEvents = await getPinnedEvents
 	const pinnedEventsJSON = JSON.parse(pinnedEvents)
 	
@@ -308,258 +300,255 @@ app.get('/admin_dashboard', async(req, res) => {
 app.get('/articles/pin/:article_id', async(req, res) => {
 
 	// Retrieve the article object that needs to be pinned
-	const getArticleByID = articlesMediator.getArticleByID(req.params.article_id).then((resp) => resp).catch((error) => console.log(error))
+	const getArticleByID = articlesMediator.getArticleByID(req.params.article_id).then((resp) => resp)
 	const article = await getArticleByID
 	const articleJSON = JSON.parse(article)
 
 	// Change pinned status to true in the object
 	articleJSON.pinned = true
 
-	const updateArticle = articlesMediator.updateArticle(req.params.article_id, articleJSON).then((resp) => resp).catch((error) => console.log(error))
+	const updateArticle = articlesMediator.updateArticle(req.params.article_id, articleJSON).then((resp) => resp)
 
 	const updateArticleResponse = await updateArticle
 
-	if(updateArticleResponse) res.redirect('/admin_dashboard')
+	res.redirect('/admin_dashboard')
 })
 
 // Request to unpin an article (not shown on every page)
 app.get('/articles/unpin/:article_id', async(req, res) => {
 	
 	// Retrieve the article object that needs to be unpinned
-	const getArticleByID = articlesMediator.getArticleByID(req.params.article_id).then((resp) => resp).catch((error) => console.log(error))
+	const getArticleByID = articlesMediator.getArticleByID(req.params.article_id).then((resp) => resp)
 	const article = await getArticleByID
 	const articleJSON = JSON.parse(article)
 
 	// Change pinned status to false in the object
 	articleJSON.pinned = false
 
-	const updateArticle = articlesMediator.updateArticle(req.params.article_id, articleJSON).then((resp) => resp).catch((error) => console.log(error))
+	const updateArticle = articlesMediator.updateArticle(req.params.article_id, articleJSON).then((resp) => resp)
 
 	const updateArticleResponse = await updateArticle
 
-	if(updateArticleResponse) res.redirect('/admin_dashboard')
+	res.redirect('/admin_dashboard')
 })
 
 // Request to pin an event (show it on every page)
 app.get('/events/pin/:event_id', async(req, res) => {
 
 	// Retrieve the event object that needs to be pinned
-	const getEventByID = eventsMediator.getEventByID(req.params.event_id).then((resp) => resp).catch((error) => console.log(error))
+	const getEventByID = eventsMediator.getEventByID(req.params.event_id).then((resp) => resp)
 	const event = await getEventByID
 	const eventJSON = JSON.parse(event)
 
 	// Change pinned status to true in the object
 	eventJSON.pinned = true
 
-	const updateEvent = eventsMediator.updateEvent(req.params.event_id, eventJSON).then((resp) => resp).catch((error) => console.log(error))
+	const updateEvent = eventsMediator.updateEvent(req.params.event_id, eventJSON).then((resp) => resp)
 
 	const updateEventResponse = await updateEvent
 
-	if(updateEventResponse) res.redirect('/admin_dashboard')
+	res.redirect('/admin_dashboard')
 })
 
 // Request to unpin an event (not shown on every page)
 app.get('/events/unpin/:event_id', async(req, res) => {
 
 	// Retrieve the event object that needs to be pinned
-	const getEventByID = eventsMediator.getEventByID(req.params.event_id).then((resp) => resp).catch((error) => console.log(error))
+	const getEventByID = eventsMediator.getEventByID(req.params.event_id).then((resp) => resp)
 	const event = await getEventByID
 	const eventJSON = JSON.parse(event)
 
 	// Change pinned status to false in the object
 	eventJSON.pinned = false
 
-	const updateEvent = eventsMediator.updateEvent(req.params.event_id, eventJSON).then((resp) => resp).catch((error) => console.log(error))
+	const updateEvent = eventsMediator.updateEvent(req.params.event_id, eventJSON).then((resp) => resp)
 
 	const updateEventResponse = await updateEvent
 
-	if(updateEventResponse) res.redirect('/admin_dashboard')
+	res.redirect('/admin_dashboard')
 })
 
 // Request to make an article public (shown to users)
 app.get('/articles/make_public/:article_id', async(req, res) => {
 
 	// Retrieve the article object that needs to be pinned
-	const getArticleByID = articlesMediator.getArticleByID(req.params.article_id).then((resp) => resp).catch((error) => console.log(error))
+	const getArticleByID = articlesMediator.getArticleByID(req.params.article_id).then((resp) => resp)
 	const article = await getArticleByID
 	const articleJSON = JSON.parse(article)
 
 	// Change public status to true in the object
 	articleJSON.public = true
 
-	const updateArticle = articlesMediator.updateArticle(req.params.article_id, articleJSON).then((resp) => resp).catch((error) => console.log(error))
+	const updateArticle = articlesMediator.updateArticle(req.params.article_id, articleJSON).then((resp) => resp)
 
 	const updateArticleResponse = await updateArticle
 
-	if(updateArticleResponse) res.redirect('/admin_dashboard')
+	res.redirect('/admin_dashboard')
 })
 
 // Request to make an article private (not shown to users)
 app.get('/articles/make_private/:article_id', async(req, res) => {
 
 	// Retrieve the article object that needs to be pinned
-	const getArticleByID = articlesMediator.getArticleByID(req.params.article_id).then((resp) => resp).catch((error) => console.log(error))
+	const getArticleByID = articlesMediator.getArticleByID(req.params.article_id).then((resp) => resp)
 	const article = await getArticleByID
 	const articleJSON = JSON.parse(article)
 
 	// Change public status to false
 	articleJSON.public = false
 
-	const updateArticle = articlesMediator.updateArticle(req.params.article_id, articleJSON).then((resp) => resp).catch((error) => console.log(error))
+	const updateArticle = articlesMediator.updateArticle(req.params.article_id, articleJSON).then((resp) => resp)
 
 	const updateArticleResponse = await updateArticle
 
-	if(updateArticleResponse) res.redirect('/admin_dashboard')
+	res.redirect('/admin_dashboard')
 })
 
 // Request to make an event public (shown to users)
 app.get('/events/make_public/:event_id', async(req, res) => {
 
 	// Retrieve the event object that needs to be pinned
-	const getEventByID = eventsMediator.getEventByID(req.params.event_id).then((resp) => resp).catch((error) => console.log(error))
+	const getEventByID = eventsMediator.getEventByID(req.params.event_id).then((resp) => resp)
 	const event = await getEventByID
 	const eventJSON = JSON.parse(event)
 
 	// Change public status to true
 	eventJSON.public = true
 
-	const updateEvent = eventsMediator.updateEvent(req.params.event_id, eventJSON).then((resp) => resp).catch((error) => console.log(error))
+	const updateEvent = eventsMediator.updateEvent(req.params.event_id, eventJSON).then((resp) => resp)
 
 	const updateEventResponse = await updateEvent
 
-	if(updateEventResponse) res.redirect('/admin_dashboard')
+	res.redirect('/admin_dashboard')
 })
 
 // Request to make an event private (not shown to users)
 app.get('/events/make_private/:event_id', async(req, res) => {
 
 	// Retrieve the event object that needs to be pinned
-	const getEventByID = eventsMediator.getEventByID(req.params.event_id).then((resp) => resp).catch((error) => console.log(error))
+	const getEventByID = eventsMediator.getEventByID(req.params.event_id).then((resp) => resp)
 	const event = await getEventByID
 	const eventJSON = JSON.parse(event)
 
 	// Change public status to false
 	eventJSON.public = false
 
-	const updateEvent = eventsMediator.updateEvent(req.params.event_id, eventJSON).then((resp) => resp).catch((error) => console.log(error))
+	const updateEvent = eventsMediator.updateEvent(req.params.event_id, eventJSON).then((resp) => resp)
 
 	const updateEventResponse = await updateEvent
 
-	if(updateEventResponse) res.redirect('/admin_dashboard')
+	res.redirect('/admin_dashboard')
 })
 
 // Request to increase an articles likes by 1
 app.get('/like_article/:article_id', async(req, res) => {
 
 	// Retrieve the article object required
-	const getArticleByID = articlesMediator.getArticleByID(req.params.article_id).then((resp) => resp).catch((error) => console.log(error))
+	const getArticleByID = articlesMediator.getArticleByID(req.params.article_id).then((resp) => resp)
 	const article = await getArticleByID
 	const articleJSON = JSON.parse(article)
 
 	// Increase number of likes
 	articleJSON.likes++
 
-	const updateArticle = articlesMediator.updateArticle(req.params.article_id, articleJSON).then((resp) => resp).catch((error) => console.log(error))
+	const updateArticle = articlesMediator.updateArticle(req.params.article_id, articleJSON).then((resp) => resp)
 
 	const updateArticleResponse = await updateArticle
+	console.log(updateArticleResponse)
 
-	if(updateArticleResponse) res.redirect('/articles/' + req.params.article_id)
+	res.redirect('/articles/' + req.params.article_id)
 })
 
 // Request to increase an articles dislikes by 1
 app.get('/dislike_article/:article_id', async(req, res) => {
 
 	// Retrieve the article object required
-	const getArticleByID = articlesMediator.getArticleByID(req.params.article_id).then((resp) => resp).catch((error) => console.log(error))
+	const getArticleByID = articlesMediator.getArticleByID(req.params.article_id).then((resp) => resp)
 	const article = await getArticleByID
 	const articleJSON = JSON.parse(article)
 
 	// Increase number of dislikes
 	articleJSON.dislikes++
 
-	const updateArticle = articlesMediator.updateArticle(req.params.article_id, articleJSON).then((resp) => resp).catch((error) => console.log(error))
+	const updateArticle = articlesMediator.updateArticle(req.params.article_id, articleJSON).then((resp) => resp)
 
 	const updateArticleResponse = await updateArticle
 
-	if(updateArticleResponse) res.redirect('/articles/' + req.params.article_id)
-
-	res.redirect('/')
+	res.redirect('/articles/' + req.params.article_id)
 })
 
 // Request to increase an events likes by 1
 app.get('/like_event/:event_id', async(req, res) => {
 
 	// Retrieve the event object that needs its rating incrementing
-	const getEventByID = eventsMediator.getEventByID(req.params.event_id).then((resp) => resp).catch((error) => console.log(error))
+	const getEventByID = eventsMediator.getEventByID(req.params.event_id).then((resp) => resp)
 	const event = await getEventByID
 	const eventJSON = JSON.parse(event)
 
 	// Increase number of likes the event has
 	eventJSON.likes++
 
-	const updateEvent = eventsMediator.updateEvent(req.params.event_id, eventJSON).then((resp) => resp).catch((error) => console.log(error))
+	const updateEvent = eventsMediator.updateEvent(req.params.event_id, eventJSON).then((resp) => resp)
 
 	const updateEventResponse = await updateEvent
 
-	if(updateEventResponse) res.redirect('/events/' + req.params.event_id)
+	res.redirect('/events/' + req.params.event_id)
 })
 
 // Request to increase an events dislikes by 1
 app.get('/dislike_event/:event_id', async(req, res) => {
 
 	// Retrieve the event object that needs its rating decrementing
-	const getEventByID = eventsMediator.getEventByID(req.params.event_id).then((resp) => resp).catch((error) => console.log(error))
+	const getEventByID = eventsMediator.getEventByID(req.params.event_id).then((resp) => resp)
 	const event = await getEventByID
 	const eventJSON = JSON.parse(event)
 
 	// Decrease number of likes the event has
 	eventJSON.dislikes++
 
-	const updateEvent = eventsMediator.updateEvent(req.params.event_id, eventJSON).then((resp) => resp).catch((error) => console.log(error))
+	const updateEvent = eventsMediator.updateEvent(req.params.event_id, eventJSON).then((resp) => resp)
 
 	const updateEventResponse = await updateEvent
 
-	if(updateEventResponse) res.redirect('/admin_dashboard')
-
-	res.redirect('/')
+	res.redirect('/events/' + req.params.event_id)
 })
 
 app.get('/like_user/:user_id', async(req, res) => {
 
-	const getUserByID = usersMediator.getUserByID(req.params.user_id).then((resp) => resp).catch((error) => console.log(error))
+	const getUserByID = usersMediator.getUserByID(req.params.user_id).then((resp) => resp)
 	const user = await getUserByID
 	const userJSON = JSON.parse(user)
 	
 	// Increase number of likes this user has
 	userJSON.likes++
 
-	const updateUser = usersMediator.updateUser(req.params.user_id, userJSON).then((resp) => resp).catch((error) => console.log(error))
+	const updateUser = usersMediator.updateUser(req.params.user_id, userJSON).then((resp) => resp)
 
 	const updateUserResponse = await updateUser
 
-	if(updateUserResponse) res.redirect('/user/' + req.params.user_id)
+	res.redirect('/user/' + req.params.user_id)
 })
 
 app.get('/dislike_user/:user_id', async(req, res) => {
 
-	const getUserByID = usersMediator.getUserByID(req.params.user_id).then((resp) => resp).catch((error) => console.log(error))
+	const getUserByID = usersMediator.getUserByID(req.params.user_id).then((resp) => resp)
 	const user = await getUserByID
 	const userJSON = JSON.parse(user)
 	
 	// Increase number of dislikes this user has
 	userJSON.dislikes++
 
-	const updateUser = usersMediator.updateUser(req.params.user_id, userJSON).then((resp) => resp).catch((error) => console.log(error))
+	const updateUser = usersMediator.updateUser(req.params.user_id, userJSON).then((resp) => resp)
 
 	const updateUserResponse = await updateUser
 
-	if(updateUserResponse) res.redirect('/user/' + req.params.user_id)
+	res.redirect('/user/' + req.params.user_id)
 })
 
 // Request to show the user's own account page
 app.get('/user/:user_id', async(req, res) => {
 
-	const getUserByID = usersMediator.getUserByID(req.params.user_id).then((resp) => resp).catch((error) => console.log(error))
+	const getUserByID = usersMediator.getUserByID(req.params.user_id).then((resp) => resp)
 	const user = await getUserByID
 	const userJSON = JSON.parse(user)
 
@@ -568,3 +557,5 @@ app.get('/user/:user_id', async(req, res) => {
 
 // Runs the server on provided port
 app.listen(port, () => console.log(`Server listening on port ${port}`));
+
+module.exports = app
