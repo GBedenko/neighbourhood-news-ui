@@ -11,13 +11,13 @@ articlesMediator.addArticle = (newArticleObject) => new Promise((resolve, reject
 // Mock calling Articles API to get all articles
 articlesMediator.getAllArticles = (query) => new Promise((resolve, reject) => {
 
-    resolve([{"_id": 1234, "heading": "Test Heading"}])
+    resolve('[{"_id": 1234, "heading": "Test Heading"}]')
 })
 
 // Mock calling Articles API to get one article by id
 articlesMediator.getArticleByID = (articleID) => new Promise((resolve, reject) => {
 
-    resolve({"_id": 1234, "heading": "Test Heading"})
+    resolve('{"_id": 1234, "heading": "Test Heading"}')
 })
 
 // Mock calling Articles API to update an article

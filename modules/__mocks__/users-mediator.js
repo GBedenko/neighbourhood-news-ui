@@ -11,13 +11,13 @@ usersMediator.addUser = (newUserObject) => new Promise((resolve, reject) => {
 // Mock calling Users API to get all users
 usersMediator.getAllUsers = (query) => new Promise((resolve, reject) => {
 
-    resolve([{"_id": 1234, "username": "test1234"}])
+    resolve('[{"_id": 1234, "username": "test1234"}]')
 })
 
 // Mock calling Users API to get one user by id
 usersMediator.getUserByID = (userID) => new Promise((resolve, reject) => {
 
-    resolve({"_id": 1234, "username": "test1234"})
+    resolve('{"_id": 1234, "username": "test1234"}')
 })
 
 // Mock calling Users API to update an user

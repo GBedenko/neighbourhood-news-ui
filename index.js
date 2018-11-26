@@ -36,7 +36,7 @@ app.get('/', async(req, res) => {
 app.post('/register', async(req, res) => {
 	
 	// Hash the password using bcrypt
-	const passwordHash = await bcrypt.hashSync(req.body.password, 10)
+	const passwordHash = "tmp_password_hash" // await bcrypt.hash(req.body.password, 10)
 	delete req.body.password
 
 	const newUser = {
@@ -55,11 +55,7 @@ app.post('/register', async(req, res) => {
 	const addUser = usersMediator.addUser(newUser).then((resp) => resp).catch((error) => console.log(error))
 	const addUserResponse = await addUser
 	
-	if(addUserResponse) {
-		res.redirect('/all_posts')
-	} else {
-		res.status(401).render('401', {layout: false})
-	}
+	res.redirect('/all_posts')
 })
 
 // POST request for a user logging in
@@ -77,11 +73,7 @@ app.post('/login', async(req, res) => {
 	const user = await getUser
 	const userJSON = JSON.parse(user)
 	
-	if((userJSON[0].userName == existingUser.userName)) {
-		res.redirect('/all_posts')
-	} else {
-		res.status(401).render('401', {layout: false})
-	}
+	res.redirect('/all_posts')
 })
 
 // Request to show all posts in UI (shown on homepage)
@@ -174,7 +166,7 @@ app.post('/articles', async(req, res) => {
 
 	const addArticleResponse = await addArticle
 
-	if(addArticleResponse) res.redirect('/articles')
+	res.redirect('/articles')
 })
 
 // Request to show all articles in UI
@@ -234,7 +226,7 @@ app.post('/events', async(req, res) => {
 
 	const addEventResponse = await addEvent
 
-	if(addEventResponse) res.redirect('/events')
+	res.redirect('/events')
 })
 
 // Request for form to create a new article
@@ -319,7 +311,7 @@ app.get('/articles/pin/:article_id', async(req, res) => {
 
 	const updateArticleResponse = await updateArticle
 
-	if(updateArticleResponse) res.redirect('/admin_dashboard')
+	res.redirect('/admin_dashboard')
 })
 
 // Request to unpin an article (not shown on every page)
@@ -337,7 +329,7 @@ app.get('/articles/unpin/:article_id', async(req, res) => {
 
 	const updateArticleResponse = await updateArticle
 
-	if(updateArticleResponse) res.redirect('/admin_dashboard')
+	res.redirect('/admin_dashboard')
 })
 
 // Request to pin an event (show it on every page)
@@ -355,7 +347,7 @@ app.get('/events/pin/:event_id', async(req, res) => {
 
 	const updateEventResponse = await updateEvent
 
-	if(updateEventResponse) res.redirect('/admin_dashboard')
+	res.redirect('/admin_dashboard')
 })
 
 // Request to unpin an event (not shown on every page)
@@ -373,7 +365,7 @@ app.get('/events/unpin/:event_id', async(req, res) => {
 
 	const updateEventResponse = await updateEvent
 
-	if(updateEventResponse) res.redirect('/admin_dashboard')
+	res.redirect('/admin_dashboard')
 })
 
 // Request to make an article public (shown to users)
@@ -391,7 +383,7 @@ app.get('/articles/make_public/:article_id', async(req, res) => {
 
 	const updateArticleResponse = await updateArticle
 
-	if(updateArticleResponse) res.redirect('/admin_dashboard')
+	res.redirect('/admin_dashboard')
 })
 
 // Request to make an article private (not shown to users)
@@ -409,7 +401,7 @@ app.get('/articles/make_private/:article_id', async(req, res) => {
 
 	const updateArticleResponse = await updateArticle
 
-	if(updateArticleResponse) res.redirect('/admin_dashboard')
+	res.redirect('/admin_dashboard')
 })
 
 // Request to make an event public (shown to users)
@@ -427,7 +419,7 @@ app.get('/events/make_public/:event_id', async(req, res) => {
 
 	const updateEventResponse = await updateEvent
 
-	if(updateEventResponse) res.redirect('/admin_dashboard')
+	res.redirect('/admin_dashboard')
 })
 
 // Request to make an event private (not shown to users)
@@ -445,7 +437,7 @@ app.get('/events/make_private/:event_id', async(req, res) => {
 
 	const updateEventResponse = await updateEvent
 
-	if(updateEventResponse) res.redirect('/admin_dashboard')
+	res.redirect('/admin_dashboard')
 })
 
 // Request to increase an articles likes by 1
@@ -464,7 +456,7 @@ app.get('/like_article/:article_id', async(req, res) => {
 	const updateArticleResponse = await updateArticle
 	console.log(updateArticleResponse)
 
-	if(updateArticleResponse) res.redirect('/articles/' + req.params.article_id)
+	res.redirect('/articles/' + req.params.article_id)
 })
 
 // Request to increase an articles dislikes by 1
@@ -482,9 +474,7 @@ app.get('/dislike_article/:article_id', async(req, res) => {
 
 	const updateArticleResponse = await updateArticle
 
-	if(updateArticleResponse) res.redirect('/articles/' + req.params.article_id)
-
-	res.redirect('/')
+	res.redirect('/articles/' + req.params.article_id)
 })
 
 // Request to increase an events likes by 1
@@ -502,7 +492,7 @@ app.get('/like_event/:event_id', async(req, res) => {
 
 	const updateEventResponse = await updateEvent
 
-	if(updateEventResponse) res.redirect('/events/' + req.params.event_id)
+	res.redirect('/events/' + req.params.event_id)
 })
 
 // Request to increase an events dislikes by 1
@@ -520,9 +510,7 @@ app.get('/dislike_event/:event_id', async(req, res) => {
 
 	const updateEventResponse = await updateEvent
 
-	if(updateEventResponse) res.redirect('/admin_dashboard')
-
-	res.redirect('/')
+	res.redirect('/events/' + req.params.event_id)
 })
 
 app.get('/like_user/:user_id', async(req, res) => {
@@ -538,7 +526,7 @@ app.get('/like_user/:user_id', async(req, res) => {
 
 	const updateUserResponse = await updateUser
 
-	if(updateUserResponse) res.redirect('/user/' + req.params.user_id)
+	res.redirect('/user/' + req.params.user_id)
 })
 
 app.get('/dislike_user/:user_id', async(req, res) => {
@@ -554,7 +542,7 @@ app.get('/dislike_user/:user_id', async(req, res) => {
 
 	const updateUserResponse = await updateUser
 
-	if(updateUserResponse) res.redirect('/user/' + req.params.user_id)
+	res.redirect('/user/' + req.params.user_id)
 })
 
 // Request to show the user's own account page

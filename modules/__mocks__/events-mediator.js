@@ -11,13 +11,13 @@ eventsMediator.addEvent = (newEventObject) => new Promise((resolve, reject) => {
 // Mock calling Events API to get all events
 eventsMediator.getAllEvents = (query) => new Promise((resolve, reject) => {
 
-    resolve([{"_id": 1234, "title": "Test Title"}])
+    resolve('[{"_id": 1234, "title": "Test Title"}]')
 })
 
 // Mock calling Events API to get one event by id
 eventsMediator.getEventByID = (eventID) => new Promise((resolve, reject) => {
 
-    resolve({"_id": 1234, "title": "Test Title"})
+    resolve('{"_id": 1234, "title": "Test Title"}')
 })
 
 // Mock calling Events API to update an event
