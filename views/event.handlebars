@@ -18,12 +18,11 @@
     <div class="sharingOptions">
         <div class="row">
             <ul>
-                <li><a href="/like_event/{{this.article._id}}">Like this post</a><p>{{this.event.likes}} people like this event</p></li>
-                <li><a href="/dislike_event/{{this.article._id}}">Dislike this post</a><p>{{this.event.dislikes}} people dislike this event</p></li>
+                <li><a href="/like_event/{{this.event._id}}">Like this post</a><p>{{this.event.likes}} people like this event</p></li>
+                <li><a href="/dislike_event/{{this.event._id}}">Dislike this post</a><p>{{this.event.dislikes}} people dislike this event</p></li>
             </ul>
             <ul>
-                <li><a href="/like_user/{{this.article.user}}">Like this user</a><p>{{this.user.likes}} people like this user</p></li>
-                <li><a href="/dislike_user/{{this.article.user}}">Dislike this user</a><p>{{this.user.dislikes}} people dislike this user</p></li></li>
+                <li><a href="/user/{{this.event.userID}}">View this event's author</a>></li>
             </ul>
         </div>
     </div>
