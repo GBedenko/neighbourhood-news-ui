@@ -1,0 +1,6 @@
+#!/bin/sh
+
+echo "Pre-flow-feature-finish git flow hook running"
+
+# Simple hook to run Jest test suite before a git push
+npm test
