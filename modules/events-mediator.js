@@ -37,6 +37,9 @@ exports.getEventByID = (eventID) => new Promise((resolve, reject) => {
 
 exports.updateEvent = (eventID, updatedEventObject) => new Promise((resolve, reject) => {
 	
+	// Delete id field before performing PUT request (otherwise will fail as this is the URI as well as a field)
+	delete updatedEventObject._id
+
 	request.put({headers: {'content-type': 'application/json'}, url: eventsAPI + eventID, body: JSON.stringify(updatedEventObject)}, (err, resp, body) => {
 
 		resolve(body)										

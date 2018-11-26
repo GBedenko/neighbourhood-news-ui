@@ -4,4 +4,3 @@ echo "Pre-commit git hook running"
 
 # Runs the linter on endpoints file and all files in modules for every git commit
 ./node_modules/.bin/eslint index.js modules/**
-
