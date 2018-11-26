@@ -6,9 +6,11 @@ const eventsAPI = "http://localhost:8081/api/v1.0/events/"
 
 exports.addEvent = (newEventObject) => new Promise((resolve, reject) => {
 	
-	// New events are private and not pinned by default
+	// Set default extra values for a new article object
 	newEventObject.public = false
 	newEventObject.pinned = false
+	newEventObject.likes = 0
+	newEventObject.dislikes = 0
 
 	// Send POST request to add new event in Articles and Events API
   	request.post({headers: {'content-type': 'application/json'}, url: eventsAPI, body: JSON.stringify(newEventObject)}, (err, resp, body) => {
