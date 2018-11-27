@@ -546,7 +546,7 @@ app.get('/dislike_user/:user_id', async(req, res) => {
 })
 
 // Request to show the user's own account page
-app.get('/user/:user_id', async(req, res) => {
+app.get('/users/:user_id', async(req, res) => {
 
 	const getUserByID = usersMediator.getUserByID(req.params.user_id).then((resp) => resp)
 	const user = await getUserByID
