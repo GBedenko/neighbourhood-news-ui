@@ -558,25 +558,25 @@ app.get('/users/:user_id', async(req, res) => {
 // Request to create a new comment for the provided article
 app.post('/article/add_comment/:article_id', async(req, res) => {
 
-	const commentObject = {postType: "article", post_id: req.params.article_id, comment: req.body}
+	const commentObject = {postType: "article", postID: req.params.article_id, comment: req.body.comment}
 
 	const addComment = commentsMediator.addComment(commentObject).then((resp) => resp)
 
 	const addCommentResponse = await addComment
 
-	res.redirect('/article/' + req.params.article_id)
+	res.redirect('/articles/' + req.params.article_id)
 })
 
 // Request to create a new comment for the provided event
 app.post('/event/add_comment/:event_id', async(req, res) => {
 
-	const commentObject = {postType: "event", post_id: req.params.event_id, comment: req.body}
+	const commentObject = {postType: "event", postID: req.params.event_id, comment: req.body.comment}
 
 	const addComment = commentsMediator.addComment(commentObject).then((resp) => resp)
 
 	const addCommentResponse = await addComment
 
-	res.redirect('/event/' + req.params.event_id)
+	res.redirect('/events/' + req.params.event_id)
 })
 
 // Runs the server on provided port

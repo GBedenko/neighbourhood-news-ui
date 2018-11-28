@@ -35,7 +35,7 @@
         {{/each}}
     </div>
     <div class="commentBox">
-        <form action="/event/add_comment/{{this.event.id}}" method="post">
+        <form action="/event/add_comment/{{this.event._id}}" method="post">
             <textarea name="comment" style="width:600px;height:50px;" placeholder="Add a comment..." ></textarea><br/>
             <button type="submit">Submit</button>
         </form>

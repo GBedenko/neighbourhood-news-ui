@@ -33,7 +33,7 @@
         {{/each}}
     </div>
     <div class="commentBox">
-        <form action="/article/add_comment/{{this.article.id}}" method="post">
+        <form action="/article/add_comment/{{this.article._id}}" method="post">
             <textarea name="comment" style="width:600px;height:50px;" placeholder="Add a comment..." ></textarea><br/>
             <button type="submit">Submit</button>
         </form>
