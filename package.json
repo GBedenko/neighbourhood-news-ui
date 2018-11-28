@@ -5,12 +5,22 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "test": "jest --coverage",
+    "test": "jest --coverage -c jest.config.json",
+    "acceptance-test": "jest -c jest.config.acceptance.json",
+    "start-and-acceptance-test": "./start-acceptance-tests.sh",
     "watch": "node_modules/.bin/jest --coverage --watchAll"
   },
   "jest": {
     "testEnvironment": "node",
-    "verbose": true
+    "verbose": true,
+    "coverageThreshold": {
+      "global": {
+        "branches": 100,
+        "functions": 100,
+        "lines": 100,
+        "statements": -10
+      }
+    }
   },
   "repository": {
     "type": "git",
@@ -24,6 +34,9 @@
     "express": "^4.16.4",
     "express-handlebars": "^3.0.0",
     "jest": "^23.6.0",
+    "nock": "^10.0.2",
+    "node-cmd": "^3.0.0",
+    "puppeteer": "^1.10.0",
     "supertest": "^3.3.0"
   }
 }
