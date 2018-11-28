@@ -357,15 +357,41 @@ describe('GET /dislike_user/:user_id', () => {
     })
 })
 
-describe('GET /user/:user_id', () => {
+describe('GET /users/:user_id', () => {
     
     // Test that this request redirects correctly
     test('Requesting endpoint returns a 302 redirect status code', async done => {
     
-        const response = await request(app).get('/user/1234')
+        const response = await request(app).get('/users/1234')
     
         expect(response.status).toEqual(200)
     
         done()
     })
 })
+
+// describe('POST /article/add_comment/:article_id', () => {
+    
+//     // Test that this request redirects correctly
+//     test('Requesting endpoint returns a 302 redirect status code', async done => {
+    
+//         const response = await request(app).post('/article/add_comment/1234').send({comment: "Test Comment"})
+    
+//         expect(response.status).toEqual(302)
+    
+//         done()
+//     })
+// })
+
+// describe('POST /event/add_comment/:event_id', () => {
+    
+//     // Test that this request redirects correctly
+//     test('Requesting endpoint returns a 302 redirect status code', async done => {
+    
+//         const response = await request(app).post('/events/add_comment/1234').send({comment: "Test Comment"})
+    
+//         expect(response.status).toEqual(302)
+    
+//         done()
+//     })
+// })

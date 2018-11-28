@@ -20,8 +20,22 @@
                 <li><a href="/dislike_article/{{this.article._id}}">Dislike this post</a><p>{{this.article.dislikes}} people dislike this article</p></li>
             </ul>
             <ul>
-                <li><a href="/user/{{this.article.userID}}">View this article's author</a></li>
+                <li><a href="/users/{{this.article.userID}}">View this article's author</a></li>
             </ul>
         </div>
+    </div>
+
+    <div class="commentsList">        
+        {{#each this.event.comments}}
+        <div>
+
+        </div>
+        {{/each}}
+    </div>
+    <div class="commentBox">
+        <form action="/event/add_comment/{{this.event.id}}" method="post">
+            <textarea name="comment" style="width:600px;height:50px;" placeholder="Add a comment..." ></textarea><br/>
+            <button type="submit">Submit</button>
+        </form>
     </div>
 </div>
