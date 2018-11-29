@@ -19,8 +19,11 @@ exports.addArticle = (newArticleObject) => new Promise((resolve, reject) => {
 	})
 })
 
-exports.getAllArticles = (query) => new Promise((resolve, reject) => {
+exports.getAllArticles = (query, sortQuery) => new Promise((resolve, reject) => {
 
+	// Append sort value to the request's body, if a sort value exists
+	if(sortQuery) query.sort = sortQuery
+	
 	request.get({headers: {'content-type': 'application/json'}, url: articlesAPI, body: JSON.stringify(query)}, (err, resp, body) => {
 
 		resolve(body)

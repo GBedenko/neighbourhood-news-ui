@@ -19,8 +19,11 @@ exports.addEvent = (newEventObject) => new Promise((resolve, reject) => {
 	})
 })
 
-exports.getAllEvents = (query) => new Promise((resolve, reject) => {
+exports.getAllEvents = (query, sortQuery) => new Promise((resolve, reject) => {
 
+	// Append sort value to the request's body, if a sort value exists
+	if(sortQuery) query.sort = sortQuery
+	
 	request.get({headers: {'content-type': 'application/json'}, url: eventsAPI, body: JSON.stringify(query)}, (err, resp, body) => {
 
 		resolve(body)

@@ -111,8 +111,8 @@ app.get('/all_posts', async(req, res) => {
 
 // Request to show all articles in UI
 app.get('/articles', async(req, res) => {
-
-	const getArticles = articlesMediator.getAllArticles().then((resp) => resp)
+	
+	const getArticles = articlesMediator.getAllArticles({}, req.query.sort).then((resp) => resp)
 
 	const articles = await getArticles
 
@@ -172,7 +172,7 @@ app.post('/articles', async(req, res) => {
 // Request to show all articles in UI
 app.get('/events', async(req, res) => {
 
-	const getEvents = eventsMediator.getAllEvents().then((resp) => resp)
+	const getEvents = eventsMediator.getAllEvents({}, req.query.sort).then((resp) => resp)
 
 	const events = await getEvents
 
