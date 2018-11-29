@@ -1,40 +1,6 @@
 <link href="/css/user.css" type="text/css" rel="stylesheet" />
 
-<h3>{{this.user.username}}'s Account</h3>
+<h3>{{user.username}}'s Account</h3>
 
-<a href="/like_user/{{this.user._id}}">Like this user</a><p>{{this.user.likes}} people like this user</p>
-<a href="/dislike_user/{{this.user._id}}">Dislike this user</a><p>{{this.user.likes}} people dislike this user</p>
-
-<div class="usersPosts">
-    <h4>{{this.user.username}}'s Posts:</h4>
-    <table class="table">
-    <thead>
-        <tr>
-        <th scope="col"></th>
-        <th scope="col"></th>
-        <th scope="col"></th>
-        <th scope="col"></th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-        <th scope="row"></th>
-        <td></td>
-        <td></td>
-        <td></td>
-        </tr>
-        <tr>
-        <th scope="row"></th>
-        <td></td>
-        <td></td>
-        <td></td>
-        </tr>
-        <tr>
-        <th scope="row"></th>
-        <td></td>
-        <td></td>
-        <td></td>
-        </tr>
-    </tbody>
-    </table>
-</div>
+<a href="/like_user/{{user._id}}">Like this user</a><p>{{this.user.likes}} people like this user</p>
+<a href="/dislike_user/{{user._id}}">Dislike this user</a><p>{{this.user.dislikes}} people dislike this user</p>

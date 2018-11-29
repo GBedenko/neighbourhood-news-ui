@@ -15,7 +15,7 @@
         {{#each articles}}
         <tr>
             <td><a href="/articles/{{this._id}}">{{this.heading}}</a></td>
-            <td>{{this.user}}</td>
+            <td><a href="/users/{{this.user}}">{{this.user}}</a></td>
             {{#if this.pinned}}
             <td><a href="/articles/unpin/{{this._id}}">Unpin this Post</a></td>
             {{else}}
@@ -50,7 +50,7 @@
         {{#each events}}
         <tr>
             <td><a href="/events/{{this._id}}">{{this.title}}</a></td>
-            <td>{{this.user}}</td>
+            <td><a href="/users/{{this.user}}">{{this.user}}</a></td>
 
             {{#if this.pinned}}
             <td><a href="/events/unpin/{{this._id}}">Unpin this Post</a></td>
