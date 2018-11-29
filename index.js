@@ -526,7 +526,7 @@ app.get('/like_user/:user_id', async(req, res) => {
 
 	const updateUserResponse = await updateUser
 
-	res.redirect('/user/' + req.params.user_id)
+	res.redirect('/users/' + userJSON.username)
 })
 
 app.get('/dislike_user/:user_id', async(req, res) => {
@@ -542,17 +542,29 @@ app.get('/dislike_user/:user_id', async(req, res) => {
 
 	const updateUserResponse = await updateUser
 
-	res.redirect('/user/' + req.params.user_id)
+	res.redirect('/users/' + userJSON.username)
 })
 
 // Request to show the user's own account page
-app.get('/users/:user_id', async(req, res) => {
+app.get('/users/:username', async(req, res) => {
 
-	const getUserByID = usersMediator.getUserByID(req.params.user_id).then((resp) => resp)
-	const user = await getUserByID
+	const getUser = usersMediator.getAllUsers({username: req.params.username}).then((resp) => resp)
+	const user = await getUser
 	const userJSON = JSON.parse(user)
 
-	res.render('user', {user: userJSON})
+	// GET all pinned articles
+	const getPinnedArticles = articlesMediator.getAllArticles({pinned: true}).then((resp) => resp)
+	const pinnedArticles = await getPinnedArticles
+	const pinnedArticlesJSON = JSON.parse(pinnedArticles)
+
+	// GET all pinned events
+	const getPinnedEvents = eventsMediator.getAllEvents({pinned: true}).then((resp) => resp)
+	const pinnedEvents = await getPinnedEvents
+	const pinnedEventsJSON = JSON.parse(pinnedEvents)
+	
+	res.render('user', {user: userJSON[0],
+						pinnedArticles: pinnedArticlesJSON,
+						pinnedEvents: pinnedEventsJSON })
 })
 
 // Request to create a new comment for the provided article
