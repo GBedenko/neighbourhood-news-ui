@@ -21,15 +21,27 @@ describe('Getting all events call to other microservice', async() => {
 
 	test('Getting all events returns an array', async done => {
 
-                expect.assertions(1)
-                
-                const response = await eventsMediator.getAllEvents()
-                
-                // Expect to be undefined because remote API won't be running during test execution
-                expect(response).toBeUndefined()
-                
-                done()
+            expect.assertions(1)
+            
+            const response = await eventsMediator.getAllEvents()
+            
+            // Expect to be undefined because remote API won't be running during test execution
+            expect(response).toBeUndefined()
+            
+            done()
 	})
+        
+    test('Getting all events and sending a search criteria', async done => {
+
+            expect.assertions(1)
+            
+            const response = await eventsMediator.getAllEvents({}, {})
+            
+            // Expect to be undefined because remote API won't be running during test execution
+            expect(response).toBeUndefined()
+            
+            done()
+    })
 })
 
 describe('Getting one event by id call to other microservice', async() => { 
