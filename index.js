@@ -80,12 +80,12 @@ app.post('/login', async(req, res) => {
 app.get('/all_posts', async(req, res) => {
 	
 	// GET all Articles
-	const getArticles = articlesMediator.getAllArticles().then((resp) => resp)
+	const getArticles = articlesMediator.getAllArticles({public: true}).then((resp) => resp)
 	const articles = await getArticles
 	const articlesJSON = JSON.parse(articles)
 
 	// GET all Events
-	const getEvents = eventsMediator.getAllEvents().then((resp) => resp)
+	const getEvents = eventsMediator.getAllEvents({public: true}).then((resp) => resp)
 	const events = await getEvents
 	const eventsJSON = JSON.parse(events)
 
@@ -93,12 +93,12 @@ app.get('/all_posts', async(req, res) => {
 	const postsJSON = articlesJSON.concat(eventsJSON)
 
 	// GET all pinned articles
-	const getPinnedArticles = articlesMediator.getAllArticles({pinned: true}).then((resp) => resp)
+	const getPinnedArticles = articlesMediator.getAllArticles({pinned: true, public: true}).then((resp) => resp)
 	const pinnedArticles = await getPinnedArticles
 	const pinnedArticlesJSON = JSON.parse(pinnedArticles)
 
 	// GET all pinned events
-	const getPinnedEvents = eventsMediator.getAllEvents({pinned: true}).then((resp) => resp)
+	const getPinnedEvents = eventsMediator.getAllEvents({pinned: true, public: true}).then((resp) => resp)
 	const pinnedEvents = await getPinnedEvents
 	const pinnedEventsJSON = JSON.parse(pinnedEvents)
 
@@ -112,19 +112,19 @@ app.get('/all_posts', async(req, res) => {
 // Request to show all articles in UI
 app.get('/articles', async(req, res) => {
 	
-	const getArticles = articlesMediator.getAllArticles({}, req.query.sort).then((resp) => resp)
+	const getArticles = articlesMediator.getAllArticles({public: true}, req.query.sort).then((resp) => resp)
 
 	const articles = await getArticles
 
 	const articlesJSON = JSON.parse(articles)
 
 	// GET all pinned articles
-	const getPinnedArticles = articlesMediator.getAllArticles({pinned: true}).then((resp) => resp)
+	const getPinnedArticles = articlesMediator.getAllArticles({pinned: true, public: true}).then((resp) => resp)
 	const pinnedArticles = await getPinnedArticles
 	const pinnedArticlesJSON = JSON.parse(pinnedArticles)
 
 	// GET all pinned events
-	const getPinnedEvents = eventsMediator.getAllEvents({pinned: true}).then((resp) => resp)
+	const getPinnedEvents = eventsMediator.getAllEvents({pinned: true, public: true}).then((resp) => resp)
 	const pinnedEvents = await getPinnedEvents
 	const pinnedEventsJSON = JSON.parse(pinnedEvents)
 
@@ -144,12 +144,12 @@ app.get('/articles/:article_id', async(req, res) => {
 	const articleJSON = JSON.parse(article)
 
 	// GET all pinned articles
-	const getPinnedArticles = articlesMediator.getAllArticles({pinned: true}).then((resp) => resp)
+	const getPinnedArticles = articlesMediator.getAllArticles({pinned: true, public: true}).then((resp) => resp)
 	const pinnedArticles = await getPinnedArticles
 	const pinnedArticlesJSON = JSON.parse(pinnedArticles)
 
 	// GET all pinned events
-	const getPinnedEvents = eventsMediator.getAllEvents({pinned: true}).then((resp) => resp)
+	const getPinnedEvents = eventsMediator.getAllEvents({pinned: true, public: true}).then((resp) => resp)
 	const pinnedEvents = await getPinnedEvents
 	const pinnedEventsJSON = JSON.parse(pinnedEvents)
 
@@ -172,19 +172,19 @@ app.post('/articles', async(req, res) => {
 // Request to show all articles in UI
 app.get('/events', async(req, res) => {
 
-	const getEvents = eventsMediator.getAllEvents({}, req.query.sort).then((resp) => resp)
+	const getEvents = eventsMediator.getAllEvents({public: true}, req.query.sort).then((resp) => resp)
 
 	const events = await getEvents
 
 	const eventsJSON = JSON.parse(events)
 
 	// GET all pinned articles
-	const getPinnedArticles = articlesMediator.getAllArticles({pinned: true}).then((resp) => resp)
+	const getPinnedArticles = articlesMediator.getAllArticles({pinned: true, public: true}).then((resp) => resp)
 	const pinnedArticles = await getPinnedArticles
 	const pinnedArticlesJSON = JSON.parse(pinnedArticles)
 
 	// GET all pinned events
-	const getPinnedEvents = eventsMediator.getAllEvents({pinned: true}).then((resp) => resp)
+	const getPinnedEvents = eventsMediator.getAllEvents({pinned: true, public: true}).then((resp) => resp)
 	const pinnedEvents = await getPinnedEvents
 	const pinnedEventsJSON = JSON.parse(pinnedEvents)
 
@@ -204,12 +204,12 @@ app.get('/events/:event_id', async(req, res) => {
 	const eventJSON = JSON.parse(event)
 
 	// GET all pinned articles
-	const getPinnedArticles = articlesMediator.getAllArticles({pinned: true}).then((resp) => resp)
+	const getPinnedArticles = articlesMediator.getAllArticles({pinned: true, public: true}).then((resp) => resp)
 	const pinnedArticles = await getPinnedArticles
 	const pinnedArticlesJSON = JSON.parse(pinnedArticles)
 
 	// GET all pinned events
-	const getPinnedEvents = eventsMediator.getAllEvents({pinned: true}).then((resp) => resp)
+	const getPinnedEvents = eventsMediator.getAllEvents({pinned: true, public: true}).then((resp) => resp)
 	const pinnedEvents = await getPinnedEvents
 	const pinnedEventsJSON = JSON.parse(pinnedEvents)
 
@@ -233,12 +233,12 @@ app.post('/events', async(req, res) => {
 app.get('/create_article', async(req, res) => {
 
 	// GET all pinned articles
-	const getPinnedArticles = articlesMediator.getAllArticles({pinned: true}).then((resp) => resp)
+	const getPinnedArticles = articlesMediator.getAllArticles({pinned: true, public: true}).then((resp) => resp)
 	const pinnedArticles = await getPinnedArticles
 	const pinnedArticlesJSON = JSON.parse(pinnedArticles)
 
 	// GET all pinned events
-	const getPinnedEvents = eventsMediator.getAllEvents({pinned: true}).then((resp) => resp)
+	const getPinnedEvents = eventsMediator.getAllEvents({pinned: true, public: true}).then((resp) => resp)
 	const pinnedEvents = await getPinnedEvents
 	const pinnedEventsJSON = JSON.parse(pinnedEvents)
 
@@ -251,12 +251,12 @@ app.get('/create_article', async(req, res) => {
 app.get('/create_event', async(req, res) => {
 
 	// GET all pinned articles
-	const getPinnedArticles = articlesMediator.getAllArticles({pinned: true}).then((resp) => resp)
+	const getPinnedArticles = articlesMediator.getAllArticles({pinned: true, public: true}).then((resp) => resp)
 	const pinnedArticles = await getPinnedArticles
 	const pinnedArticlesJSON = JSON.parse(pinnedArticles)
 
 	// GET all pinned events
-	const getPinnedEvents = eventsMediator.getAllEvents({pinned: true}).then((resp) => resp)
+	const getPinnedEvents = eventsMediator.getAllEvents({pinned: true, public: true}).then((resp) => resp)
 	const pinnedEvents = await getPinnedEvents
 	const pinnedEventsJSON = JSON.parse(pinnedEvents)
 
@@ -279,12 +279,12 @@ app.get('/admin_dashboard', async(req, res) => {
 	const eventsJSON = JSON.parse(events)
 
 	// GET all pinned articles
-	const getPinnedArticles = articlesMediator.getAllArticles({pinned: true}).then((resp) => resp)
+	const getPinnedArticles = articlesMediator.getAllArticles({pinned: true, public: true}).then((resp) => resp)
 	const pinnedArticles = await getPinnedArticles
 	const pinnedArticlesJSON = JSON.parse(pinnedArticles)
 
 	// GET all pinned events
-	const getPinnedEvents = eventsMediator.getAllEvents({pinned: true}).then((resp) => resp)
+	const getPinnedEvents = eventsMediator.getAllEvents({pinned: true, public: true}).then((resp) => resp)
 	const pinnedEvents = await getPinnedEvents
 	const pinnedEventsJSON = JSON.parse(pinnedEvents)
 	
@@ -553,12 +553,12 @@ app.get('/users/:username', async(req, res) => {
 	const userJSON = JSON.parse(user)
 
 	// GET all pinned articles
-	const getPinnedArticles = articlesMediator.getAllArticles({pinned: true}).then((resp) => resp)
+	const getPinnedArticles = articlesMediator.getAllArticles({pinned: true, public: true}).then((resp) => resp)
 	const pinnedArticles = await getPinnedArticles
 	const pinnedArticlesJSON = JSON.parse(pinnedArticles)
 
 	// GET all pinned events
-	const getPinnedEvents = eventsMediator.getAllEvents({pinned: true}).then((resp) => resp)
+	const getPinnedEvents = eventsMediator.getAllEvents({pinned: true, public: true}).then((resp) => resp)
 	const pinnedEvents = await getPinnedEvents
 	const pinnedEventsJSON = JSON.parse(pinnedEvents)
 	
