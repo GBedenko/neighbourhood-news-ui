@@ -39,7 +39,7 @@ describe('POST /login', () => {
     
         const response = await request(app).post('/login').send({emailAddress: "test@email", username: "test_username", password: "test_password"})
     
-        expect(response.status).toEqual(302)
+        expect(response.status).toEqual(401)
     
         done()
     })
