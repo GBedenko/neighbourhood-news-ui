@@ -17,10 +17,6 @@ app.set('view engine', 'handlebars')
 // UI microservice uses port 8080
 const port = 8080
 
-// Import other required libraries
-const bcrypt = require('bcrypt')
-const request = require('request')
-
 // Import mediators to link with other microservices
 const articlesMediator = require('./modules/articles-mediator')
 const commentsMediator = require('./modules/comments-mediator')
@@ -60,20 +56,15 @@ app.post('/register', async(req, res) => {
 
 // POST request for a user logging in
 app.post('/login', async(req, res) => {
-
-	// // Hash the password using bcrypt
-	// const passwordHash = await bcrypt.hashSync(req.body.password, 10)
-	// delete req.body.password
-
-	const existingUser = {
-		userName: req.body.username
+	
+	const authenticateUser = usersMediator.authenticateUser(req.body).then((resp) => resp)
+	const authenticateResponse = await authenticateUser
+	console.log(authenticateResponse)
+	if(authenticateResponse) {
+		res.redirect('/all_posts')
+	} else {
+		res.status(401).send()
 	}
-	
-	const getUser = usersMediator.getAllUsers(existingUser).then((resp) => resp)
-	const user = await getUser
-	const userJSON = JSON.parse(user)
-	
-	res.redirect('/all_posts')
 })
 
 // Request to show all posts in UI (shown on homepage)
