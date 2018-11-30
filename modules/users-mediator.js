@@ -28,14 +28,16 @@ exports.authenticateUser = (userObject) => new Promise((resolve, reject) => {
 	authorizationHeader = "Basic " + authorizationHeader
 	
 	// HEAD request to the Users API, which will return appropiate status code for whether the user is authorised or not
-	request.head(usersAPI + userObject.username, {headers: {'Authorization': authorizationHeader}}), (err, resp, body) => {
+	request.head(usersAPI + userObject.username, {headers: {'Authorization': authorizationHeader}}, (err, resp, body) => {
 
-		// console.log(usersAPI + userObject.username)
-		// console.log(resp.status)
-		// console.log(body)
-		console.log(resp)
-		resolve(true)
-	}
+		if(resp.statusCode == 200) {			
+			resolve(true)
+		
+		} else {
+			resolve(false)
+		}
+		
+	})
 })
 
 exports.getAllUsers = (query) => new Promise((resolve, reject) => {

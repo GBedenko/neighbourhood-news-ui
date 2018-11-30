@@ -57,13 +57,15 @@ app.post('/register', async(req, res) => {
 // POST request for a user logging in
 app.post('/login', async(req, res) => {
 	
-	const authenticateUser = usersMediator.authenticateUser(req.body).then((resp) => resp)
-	const authenticateResponse = await authenticateUser
-	console.log(authenticateResponse)
-	if(authenticateResponse) {
+	// Using the login form, send client's input to be authenticated
+	const authenticateUser = await usersMediator.authenticateUser(req.body)
+
+	if(authenticateUser) {
+		// If user is authenticated, direct user to the website
 		res.redirect('/all_posts')
 	} else {
-		res.status(401).send()
+		// Otherwise, display 401 error page
+		res.status(401).render('401', {layout: false})
 	}
 })
 
