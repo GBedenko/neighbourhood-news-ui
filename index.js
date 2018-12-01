@@ -32,13 +32,16 @@ app.get('/', async(req, res) => {
 
 // POST request for a new account being registered
 app.post('/register', async(req, res) => {
-	
+	console.log(req.body.password)
 	if(req.body.email == '') res.status(401).render('401', {layout: false})
 	if(req.body.username == '') res.status(401).render('401', {layout: false})
 	if(req.body.password == '') res.status(401).render('401', {layout: false})
 
 	// Hash the password using bcrypt
-	const passwordHash = await bcrypt.hash(req.body.password, 10)
+	const passwordHash = await bcrypt.hash(req.body.password, 10, (err, hash) => {
+		 console.log(err)
+	})
+
 	delete req.body.password
 
 	const newUser = {

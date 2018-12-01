@@ -24,7 +24,7 @@ describe('POST /register', () => {
     // Test that a request recieves the correct status code
     test('Requesting endpoint returns a 302 redirect status code', async done => {
     
-        const response = await request(app).post('/register').send({emailAddress: "test@email", username: "test_username", password: "test_password"})
+        const response = await request(app).post('/register').send({email: "test@email", username: "test_username", password: "test_password"})
     
         expect(response.status).toEqual(302)
     
