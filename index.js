@@ -10,9 +10,17 @@ const app = express()
 const handlebars = require('express-handlebars').create({defaultLayout: 'main'})
 const bodyParser = require('body-parser')
 app.use(express.static(__dirname + '/public'))
+app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 app.engine('handlebars', handlebars.engine)
 app.set('view engine', 'handlebars')
+
+// Import package used for storing cookies
+const cookieParser = require('cookie-parser')
+app.use(cookieParser())
+
+// Import package for hashing password input
+const bcrypt = require('bcrypt')
 
 // UI microservice uses port 8080
 const port = 8080
@@ -23,8 +31,6 @@ const commentsMediator = require('./modules/comments-mediator')
 const eventsMediator = require('./modules/events-mediator')
 const usersMediator = require('./modules/users-mediator')
 
-const bcrypt = require('bcrypt')
-
 // Request for the root page renders the welcome/login/register page (every user must have an account)
 app.get('/', async(req, res) => {
 	res.render('welcome', {layout: false})
@@ -32,26 +38,26 @@ app.get('/', async(req, res) => {
 
 // POST request for a new account being registered
 app.post('/register', async(req, res) => {
-	console.log(req.body.password)
-	if(req.body.email == '') res.status(401).render('401', {layout: false})
-	if(req.body.username == '') res.status(401).render('401', {layout: false})
-	if(req.body.password == '') res.status(401).render('401', {layout: false})
-
+	
 	// Hash the password using bcrypt
-	const passwordHash = await bcrypt.hash(req.body.password, 10, (err, hash) => {
-		 console.log(err)
-	})
-
+	const passwordHash = await bcrypt.hash(req.body.password, 10)
 	delete req.body.password
 
+	// Create a new object for the user including the password hashed
 	const newUser = {
 		emailAddress: req.body.email,
 		username: req.body.username,
 		password: passwordHash
 	}
 	
+	// Call the usersMediator to send a post request for the new user
 	const addUser = await usersMediator.addUser(newUser).then((resp) => resp)
 	
+	// Set session cookies for the username and if they are an admin
+	res.cookie('username', newUser.username)
+	res.cookie('isAdmin', false)
+
+	// Direct the user to the main page within the application
 	res.redirect('/all_posts')
 })
 
@@ -62,8 +68,18 @@ app.post('/login', async(req, res) => {
 	const authenticateUser = await usersMediator.authenticateUser(req.body)
 
 	if(authenticateUser) {
+
+		//If authenticated, retrieve all details of the user who just logged in
+		const loggedInUser = await usersMediator.getAllUsers({username: req.body.username})		
+		const loggedInUserJSON = JSON.parse(loggedInUser)
+
+		// Retrieve their username and if they are an admin and store as cookies
+		res.cookie('username', loggedInUserJSON.username)
+		res.cookie('isAdmin', loggedInUserJSON.admin)
+
 		// If user is authenticated, direct user to the website
 		res.redirect('/all_posts')
+
 	} else {
 		// Otherwise, display 401 error page
 		res.status(401).render('401', {layout: false})
@@ -97,7 +113,7 @@ app.get('/all_posts', async(req, res) => {
 	const pinnedEventsJSON = JSON.parse(pinnedEvents)
 
 	// Show all posts and pinned content to the UI
-	res.render('all_posts', {user: {name: 'GBedenko', isAdmin: true},
+	res.render('all_posts', {user: {username: req.cookies.username, isAdmin: req.cookies.isAdmin},
 							 posts: postsJSON,
 							 pinnedArticles: pinnedArticlesJSON,
 							 pinnedEvents: pinnedEventsJSON })
@@ -122,7 +138,7 @@ app.get('/articles', async(req, res) => {
 	const pinnedEvents = await getPinnedEvents
 	const pinnedEventsJSON = JSON.parse(pinnedEvents)
 
-	res.render('articles', {user: {name: 'GBedenko', isAdmin: true},
+	res.render('articles', {user: {username: req.cookies.username, isAdmin: req.cookies.isAdmin},
 							articles: articlesJSON,
 							pinnedArticles: pinnedArticlesJSON,
 							pinnedEvents: pinnedEventsJSON })
@@ -147,7 +163,7 @@ app.get('/articles/:article_id', async(req, res) => {
 	const pinnedEvents = await getPinnedEvents
 	const pinnedEventsJSON = JSON.parse(pinnedEvents)
 
-	res.render('article', {user: {name: 'GBedenko', isAdmin: true},
+	res.render('article', {user: {username: req.cookies.username, isAdmin: req.cookies.isAdmin},
 							article: articleJSON,
 							pinnedArticles: pinnedArticlesJSON,
 							pinnedEvents: pinnedEventsJSON })
@@ -182,7 +198,7 @@ app.get('/events', async(req, res) => {
 	const pinnedEvents = await getPinnedEvents
 	const pinnedEventsJSON = JSON.parse(pinnedEvents)
 
-	res.render('events', {user: {name: 'GBedenko', isAdmin: true},
+	res.render('events', {user: {username: req.cookies.username, isAdmin: req.cookies.isAdmin},
 						  events: eventsJSON,
 						  pinnedArticles: pinnedArticlesJSON,
 						  pinnedEvents: pinnedEventsJSON })
@@ -207,7 +223,7 @@ app.get('/events/:event_id', async(req, res) => {
 	const pinnedEvents = await getPinnedEvents
 	const pinnedEventsJSON = JSON.parse(pinnedEvents)
 
-	res.render('event', {user: {name: 'GBedenko', isAdmin: true},
+	res.render('event', {user: {username: req.cookies.username, isAdmin: req.cookies.isAdmin},
 						  event: eventJSON,
 						  pinnedArticles: pinnedArticlesJSON,
 						  pinnedEvents: pinnedEventsJSON })
@@ -236,7 +252,7 @@ app.get('/create_article', async(req, res) => {
 	const pinnedEvents = await getPinnedEvents
 	const pinnedEventsJSON = JSON.parse(pinnedEvents)
 
-	res.render('create_article', {user: {name: 'GBedenko', isAdmin: true},
+	res.render('create_article', {user: {username: req.cookies.username, isAdmin: req.cookies.isAdmin},
 								  pinnedArticles: pinnedArticlesJSON,
 								  pinnedEvents: pinnedEventsJSON })
 })
@@ -254,7 +270,7 @@ app.get('/create_event', async(req, res) => {
 	const pinnedEvents = await getPinnedEvents
 	const pinnedEventsJSON = JSON.parse(pinnedEvents)
 
-	res.render('create_event', {user: {name: 'GBedenko', isAdmin: true},
+	res.render('create_event', {user: {username: req.cookies.username, isAdmin: req.cookies.isAdmin},
 								  pinnedArticles: pinnedArticlesJSON,
 								  pinnedEvents: pinnedEventsJSON })
 })
@@ -283,7 +299,7 @@ app.get('/admin_dashboard', async(req, res) => {
 	const pinnedEventsJSON = JSON.parse(pinnedEvents)
 	
 	// Render both lists to the required UI template
-	res.render('admin_dashboard', {user: {name: 'GBedenko', isAdmin: true},
+	res.render('admin_dashboard', {user: {username: req.cookies.username, isAdmin: req.cookies.isAdmin},
 								   articles: articlesJSON,
 								   events: eventsJSON,
 								   pinnedArticles: pinnedArticlesJSON,
@@ -448,7 +464,6 @@ app.get('/like_article/:article_id', async(req, res) => {
 	const updateArticle = articlesMediator.updateArticle(req.params.article_id, articleJSON).then((resp) => resp)
 
 	const updateArticleResponse = await updateArticle
-	console.log(updateArticleResponse)
 
 	res.redirect('/articles/' + req.params.article_id)
 })

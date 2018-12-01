@@ -9,5 +9,5 @@
       "statements": -20
     }
   },
-  "testPathIgnorePatterns": ["acceptance"]
+  "testPathIgnorePatterns": ["acceptance", "authenticate"]
 }

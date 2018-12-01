@@ -35,9 +35,19 @@ describe('POST /register', () => {
 describe('POST /login', () => {
     
     // Test that a request recieves the correct status code
-    test('Requesting endpoint returns a 302 redirect status code', async done => {
+    test('Logging in with correct credentials returns a 302 redirect status code', async done => {
     
         const response = await request(app).post('/login').send({emailAddress: "test@email", username: "test_username", password: "test_password"})
+    
+        expect(response.status).toEqual(302)
+    
+        done()
+    })
+    
+    // Test that a request recieves the correct status code
+    test('Logging in with incorrect credentials returns a 401 unauthorised status code', async done => {
+    
+        const response = await request(app).post('/login').send({emailAddress: "test@email", username: "test_username", password: "wrong_password"})
     
         expect(response.status).toEqual(401)
     

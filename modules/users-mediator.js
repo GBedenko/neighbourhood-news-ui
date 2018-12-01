@@ -14,8 +14,9 @@ exports.addUser = (newUserObject) => new Promise((resolve, reject) => {
 	})
 })
 
+/*istanbul ignore next*/
 exports.authenticateUser = (userObject) => new Promise((resolve, reject) => {
-
+	
 	// Using Basic Authorizations standards for authentication requests between user and backend APIs
 
 	// Join the username and password with a colon seperator
@@ -36,10 +37,11 @@ exports.authenticateUser = (userObject) => new Promise((resolve, reject) => {
 		} else {
 			resolve(false)
 		}
-		
+	
 	})
 })
 
+/*istanbul ignore next*/
 exports.getAllUsers = (query) => new Promise((resolve, reject) => {
 	request.get({headers: {'content-type': 'application/json'}, url: usersAPI, body: JSON.stringify(query)}, (err, resp, body) => {
 		
