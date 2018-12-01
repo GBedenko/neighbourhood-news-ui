@@ -23,6 +23,8 @@ const commentsMediator = require('./modules/comments-mediator')
 const eventsMediator = require('./modules/events-mediator')
 const usersMediator = require('./modules/users-mediator')
 
+const bcrypt = require('bcrypt')
+
 // Request for the root page renders the welcome/login/register page (every user must have an account)
 app.get('/', async(req, res) => {
 	res.render('welcome', {layout: false})
@@ -31,25 +33,21 @@ app.get('/', async(req, res) => {
 // POST request for a new account being registered
 app.post('/register', async(req, res) => {
 	
+	if(req.body.email == '') res.status(401).render('401', {layout: false})
+	if(req.body.username == '') res.status(401).render('401', {layout: false})
+	if(req.body.password == '') res.status(401).render('401', {layout: false})
+
 	// Hash the password using bcrypt
-	const passwordHash = "tmp_password_hash" // await bcrypt.hash(req.body.password, 10)
+	const passwordHash = await bcrypt.hash(req.body.password, 10)
 	delete req.body.password
 
 	const newUser = {
 		emailAddress: req.body.email,
 		username: req.body.username,
-		password: passwordHash,
-		admin: false,
-		likes: 0,
-		dislikes: 0
+		password: passwordHash
 	}
 	
-	// if(newUser.emailAddress == '') res.status(401).render('401', {layout: false})
-	// if(newUser.userName == '') res.status(401).render('401', {layout: false})
-	// if(newUser.passwordHash == '') res.status(401).render('401', {layout: false})
-
-	const addUser = usersMediator.addUser(newUser).then((resp) => resp)
-	const addUserResponse = await addUser
+	const addUser = await usersMediator.addUser(newUser).then((resp) => resp)
 	
 	res.redirect('/all_posts')
 })
