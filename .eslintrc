@@ -15,7 +15,6 @@
     "camelcase": [2, {"properties": "never"}],
     "complexity": ["error", 4],
     "eol-last": "warn",
-    "eqeqeq": "error",
     "global-require": "error",
     "handle-callback-err": "warn",
     "indent": [1, "tab", {"SwitchCase": 1}],

@@ -22,15 +22,15 @@
                 <li><a href="/dislike_event/{{this.event._id}}">Dislike this post</a><p>{{this.event.dislikes}} people dislike this event</p></li>
             </ul>
             <ul>
-                <li><a href="/users/{{this.event.userID}}">View this event's author</a></li>
+                <li><a href="/users/{{this.event.user}}">View this event's author</a></li>
             </ul>
         </div>
     </div>
 
     <div class="commentsList">        
         {{#each this.event.comments}}
-        <div>
-            <p>A comment...</p>
+        <div class="comment">
+            <p>{{this.comment}}</p>
         </div>
         {{/each}}
     </div>
