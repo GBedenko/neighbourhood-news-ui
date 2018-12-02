@@ -1,6 +1,8 @@
 'use strict'
 
-const request = require('request');
+// Import required libraries
+const request = require('request')
+const bcrypt = require('bcrypt')
 
 const usersAPI = "http://localhost:8083/api/v1.0/users/"
 
@@ -12,6 +14,34 @@ exports.addUser = (newUserObject) => new Promise((resolve, reject) => {
 	})
 })
 
+/*istanbul ignore next*/
+exports.authenticateUser = (userObject) => new Promise((resolve, reject) => {
+	
+	// Using Basic Authorizations standards for authentication requests between user and backend APIs
+
+	// Join the username and password with a colon seperator
+	let authorizationHeader = userObject.username + ":" + userObject.password
+	
+	// Encode the username and password using base 64
+	authorizationHeader = Buffer.from(authorizationHeader).toString('base64')
+	
+	// Append Basic to the front to show server that this is a Basic Auth request
+	authorizationHeader = "Basic " + authorizationHeader
+	
+	// HEAD request to the Users API, which will return appropiate status code for whether the user is authorised or not
+	request.head(usersAPI + userObject.username, {headers: {'Authorization': authorizationHeader}}, (err, resp, body) => {
+
+		if(resp.statusCode == 200) {			
+			resolve(true)
+		
+		} else {
+			resolve(false)
+		}
+	
+	})
+})
+
+/*istanbul ignore next*/
 exports.getAllUsers = (query) => new Promise((resolve, reject) => {
 	request.get({headers: {'content-type': 'application/json'}, url: usersAPI, body: JSON.stringify(query)}, (err, resp, body) => {
 		

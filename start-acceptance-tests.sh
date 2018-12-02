@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-./start-microservices.sh 20 & npm run acceptance-test
+./start-microservices.sh 200 & npm run acceptance-test
