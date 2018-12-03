@@ -15,6 +15,11 @@ beforeEach( async() => {
     await page.setViewport({ width: 1920, height: 1080});
 })
 
+afterAll( async() => {
+	await page.close()
+	await browser.close()
+})
+
 describe('View Webpages', () => {
 
 	test('Can view all posts', async done => {
@@ -136,4 +141,57 @@ describe('View Webpages', () => {
 		await browser.close()
 		done()
 	})
+})
+
+describe('Logging in to the application', () => {
+
+	test('Logging in with correct credentials redirects to all_posts page', async done => {
+
+		// Go to welcome page
+		await page.waitFor(1000)
+		await page.goto('http://localhost:8080', { waitUntil: 'domcontentloaded' })
+
+		// Enter login details and log in
+		await page.waitFor(1000)
+		await page.waitForSelector('input[name=email]')
+		await page.click('input[name=username]')
+		await page.type('input[name=username]', 'Test1')
+		await page.waitFor(1000)
+		await page.type('input[name=password]', 'test')
+		await page.waitFor(1000)
+		await page.keyboard.press('Enter');
+
+		await page.waitFor(1000)
+		const url = await page.url()
+		
+		expect(url).toBe('http://localhost:8080/all_posts')
+
+		done()
+
+	}, 10000)
+
+	test('Logging in with incorrect credentials redirects to 404 page', async done => {
+
+		// Go to welcome page
+		await page.waitFor(1000)
+		await page.goto('http://localhost:8080', { waitUntil: 'domcontentloaded' })
+
+		// Enter login details and log in
+		await page.waitFor(1000)
+		await page.waitForSelector('input[name=email]')
+		await page.click('input[name=username]')
+		await page.type('input[name=username]', 'NotAUser')
+		await page.waitFor(1000)
+		await page.type('input[name=password]', 'notapassword')
+		await page.waitFor(1000)
+		await page.keyboard.press('Enter');
+
+		await page.waitFor(1000)
+		const url = await page.url()
+		
+		expect(url).toBe('http://localhost:8080/login')
+
+		done()
+
+	}, 10000)
 })
