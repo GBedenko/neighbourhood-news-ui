@@ -8,6 +8,7 @@
     "test": "jest --coverage -c jest.config.json",
     "acceptance-test": "jest -c jest.config.acceptance.json",
     "start-and-acceptance-test": "./start-acceptance-tests.sh",
+    "demo": "node product-demo.js",
     "watch": "node_modules/.bin/jest --coverage --watchAll"
   },
   "jest": {
