@@ -46,11 +46,59 @@ describe('Webpages appear correctly', () => {
 		done()
 	})
 
+	test('View articles list sorted by highest rated displays correctly', async done => {
+
+		await page.goto('http://localhost:8080/articles?sort=highest_rated', { waitUntil: 'domcontentloaded' })
+
+		await page.screenshot({ path: 'screenshots/articles_highest_rated.png', fullPage: true })
+
+        const title = await page.title()        
+		expect(title).toBe('Local News Application - Genaro Bedenko')
+		
+		done()
+	})
+
+	test('View articles list sorted by lowest rated displays correctly', async done => {
+
+		await page.goto('http://localhost:8080/articles?sort=lowest_rated', { waitUntil: 'domcontentloaded' })
+
+		await page.screenshot({ path: 'screenshots/articles_lowest_rated.png', fullPage: true })
+
+        const title = await page.title()        
+		expect(title).toBe('Local News Application - Genaro Bedenko')
+		
+		done()
+	})
+
 	test('View events list displays correctly', async done => {
 		
 		await page.goto('http://localhost:8080/events', { waitUntil: 'domcontentloaded' })
 		
 		await page.screenshot({ path: 'screenshots/events.png', fullPage: true })
+
+        const title = await page.title()        
+		expect(title).toBe('Local News Application - Genaro Bedenko')
+		
+		done()
+	})
+
+	test('View events list sorted by highest rated displays correctly', async done => {
+
+		await page.goto('http://localhost:8080/events?sort=highest_rated', { waitUntil: 'domcontentloaded' })
+
+		await page.screenshot({ path: 'screenshots/events_highest_rated.png', fullPage: true })
+
+        const title = await page.title()        
+		expect(title).toBe('Local News Application - Genaro Bedenko')
+		
+		done()
+	})
+
+	test('View events list sorted by lowest rated displays correctly', async done => {
+
+		await page.goto('http://localhost:8080/events?sort=lowest_rated', { waitUntil: 'domcontentloaded' })
+
+		await page.screenshot({ path: 'screenshots/events_lowest_rated.png', fullPage: true })
 
         const title = await page.title()        
 		expect(title).toBe('Local News Application - Genaro Bedenko')
@@ -121,8 +169,6 @@ describe('Webpages appear correctly', () => {
 	test('View user page displays correctly', async done => {
 		
 		await page.goto('http://localhost:8080/users/5bf49a2c9cf07a6751732c49', { waitUntil: 'domcontentloaded' })
-
-		await page.screenshot({ path: 'screenshots/user.png', fullPage: true })
 
 		const title = await page.title()		
 		expect(title).toBe('Local News Application - Genaro Bedenko')

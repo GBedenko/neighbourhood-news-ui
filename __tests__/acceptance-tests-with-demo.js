@@ -192,4 +192,17 @@ describe('Demo of Navigating through Web Application', () => {
         done()
 
     }, 6000)
+
+	test('Navigating to a user account page', async done => {
+
+        // View a user
+        await page.goto('http://localhost:8080/users/Test2', { waitUntil: 'domcontentloaded' })
+        await page.screenshot({ path: 'screenshots/user.png', fullPage: true })
+
+        await page.waitFor(1000)
+        expect(page.url()).toBe('http://localhost:8080/users/Test2')
+
+        done()
+
+    }, 6000)
 })
