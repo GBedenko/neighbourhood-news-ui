@@ -240,3 +240,137 @@ describe('Logging in to the application', () => {
 
 	}, 10000)
 })
+
+
+describe('Pinned posts shown on every page', () => {
+
+	test('View all posts page displays pinned content sidebar', async done => {
+	
+		await page.goto('http://localhost:8080/all_posts', { waitUntil: 'domcontentloaded' })
+
+		const pinned_content = await page.$('.pinned_content')
+		expect(pinned_content).toBeTruthy()
+		
+		done()
+	})
+
+	test('View articles page displays pinned content sidebar', async done => {
+	
+		await page.goto('http://localhost:8080/articles', { waitUntil: 'domcontentloaded' })
+
+		const pinned_content = await page.$('.pinned_content')
+		expect(pinned_content).toBeTruthy()
+		
+		done()
+	})
+
+	test('View articles sorted by highest page displays pinned content sidebar', async done => {
+	
+		await page.goto('http://localhost:8080/articles?sort=highest_rated', { waitUntil: 'domcontentloaded' })
+
+		const pinned_content = await page.$('.pinned_content')
+		expect(pinned_content).toBeTruthy()
+		
+		done()
+	})
+
+	test('View articles sorted by lowest page displays pinned content sidebar', async done => {
+	
+		await page.goto('http://localhost:8080/articles?sort=lowest_rated', { waitUntil: 'domcontentloaded' })
+
+		const pinned_content = await page.$('.pinned_content')
+		expect(pinned_content).toBeTruthy()
+		
+		done()
+	})
+
+	test('View events page displays pinned content sidebar', async done => {
+	
+		await page.goto('http://localhost:8080/events', { waitUntil: 'domcontentloaded' })
+
+		const pinned_content = await page.$('.pinned_content')
+		expect(pinned_content).toBeTruthy()
+		
+		done()
+	})
+
+	test('View events sorted by highest page displays pinned content sidebar', async done => {
+	
+		await page.goto('http://localhost:8080/events?sort=highest_rated', { waitUntil: 'domcontentloaded' })
+
+		const pinned_content = await page.$('.pinned_content')
+		expect(pinned_content).toBeTruthy()
+		
+		done()
+	})
+
+	test('View events sorted by lowest page displays pinned content sidebar', async done => {
+	
+		await page.goto('http://localhost:8080/events?sort=lowest_rated', { waitUntil: 'domcontentloaded' })
+
+		const pinned_content = await page.$('.pinned_content')
+		expect(pinned_content).toBeTruthy()
+		
+		done()
+	})
+
+	test('View article page displays pinned content sidebar', async done => {
+	
+		await page.goto('http://localhost:8080/articles/5bf45d17a86fb42417eb7792', { waitUntil: 'domcontentloaded' })
+
+		const pinned_content = await page.$('.pinned_content')
+		expect(pinned_content).toBeTruthy()
+		
+		done()
+	})
+
+	test('View event page displays pinned content sidebar', async done => {
+	
+		await page.goto('http://localhost:8080/events/5bf27fe84212f00c80d5011a', { waitUntil: 'domcontentloaded' })
+
+		const pinned_content = await page.$('.pinned_content')
+		expect(pinned_content).toBeTruthy()
+		
+		done()
+	})
+
+	test('View create article page displays pinned content sidebar', async done => {
+	
+		await page.goto('http://localhost:8080/create_article', { waitUntil: 'domcontentloaded' })
+
+		const pinned_content = await page.$('.pinned_content')
+		expect(pinned_content).toBeTruthy()
+		
+		done()
+	})
+
+	test('View create event page displays pinned content sidebar', async done => {
+	
+		await page.goto('http://localhost:8080/create_event', { waitUntil: 'domcontentloaded' })
+
+		const pinned_content = await page.$('.pinned_content')
+		expect(pinned_content).toBeTruthy()
+		
+		done()
+	})
+
+	test('View admin dashboard page displays pinned content sidebar', async done => {
+	
+		await page.goto('http://localhost:8080/admin_dashboard', { waitUntil: 'domcontentloaded' })
+
+		const pinned_content = await page.$('.pinned_content')
+		expect(pinned_content).toBeTruthy()
+		
+		done()
+	})
+
+	test('View user page displays pinned content sidebar', async done => {
+	
+		await page.goto('http://localhost:8080/users/5bf49a2c9cf07a6751732c49', { waitUntil: 'domcontentloaded' })
+
+		const pinned_content = await page.$('.pinned_content')
+		expect(pinned_content).toBeTruthy()
+		
+		done()
+	})
+})
