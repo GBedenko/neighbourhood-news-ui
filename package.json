@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node index.js",
     "test": "jest --coverage -c jest.config.json",
-    "acceptance-tests": "jest -c jest.config.acceptance.json --forceExit",
+    "acceptance-tests": "jest -c jest.config.acceptance.json",
     "demo": "node product-demo.js",
     "watch": "node_modules/.bin/jest --coverage --watchAll"
   },

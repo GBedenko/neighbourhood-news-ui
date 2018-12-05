@@ -50,9 +50,11 @@ describe('Demo of Navigating through Web Application', () => {
 
         done()
 
-    }, 6000)
+    }, 10000)
 
 	test('Navigating to view articles only page', async done => {
+
+        await page.waitFor(1500)
 
         // Go to articles only        
         await page.waitForSelector('a[id=articles]')
@@ -67,6 +69,8 @@ describe('Demo of Navigating through Web Application', () => {
 
 	test('Navigating to view events only page', async done => {
 
+        await page.waitFor(1500)
+
         // Go to events only
         await page.waitForSelector('a[id=events]')
         await page.click('a[id=events]')
@@ -79,6 +83,8 @@ describe('Demo of Navigating through Web Application', () => {
     }, 6000)
 
 	test('Navigating to view articles sorted by highest page', async done => {
+
+        await page.waitFor(1000)
 
         // Go to articles highest rated
         await page.waitForSelector('a[id=articles_highest_rated]')
@@ -93,6 +99,8 @@ describe('Demo of Navigating through Web Application', () => {
 
 	test('Navigating to view articles sorted by lowest page', async done => {
 
+        await page.waitFor(1000)
+
         // Go to articles lowest rated        
         await page.waitForSelector('a[id=articles_lowest_rated]')
         await page.click('a[id=articles_lowest_rated]')
@@ -105,6 +113,8 @@ describe('Demo of Navigating through Web Application', () => {
     }, 6000)
 
 	test('Navigating to view events sorted by highest page', async done => {
+
+        await page.waitFor(1000)
 
         // Go to events highest rated
         await page.waitForSelector('a[id=events_highest_rated]')
@@ -119,6 +129,8 @@ describe('Demo of Navigating through Web Application', () => {
 
 	test('Navigating to view events sorted by lowest page', async done => {
 
+        await page.waitFor(1000)
+
         // Go to events lowest rated
         await page.waitForSelector('a[id=events_lowest_rated]')
         await page.click('a[id=events_lowest_rated]')
@@ -131,6 +143,8 @@ describe('Demo of Navigating through Web Application', () => {
     }, 6000)
 
 	test('Navigating to admin dashboard page', async done => {
+
+        await page.waitFor(1000)
 
         // Go to admin dashboard
         await page.waitForSelector('a[id=admin_dashboard]')
@@ -145,6 +159,8 @@ describe('Demo of Navigating through Web Application', () => {
 
 	test('Navigating to create an article page', async done => {
 
+        await page.waitFor(2000)
+
         // Go to create article
         await page.waitForSelector('a[id=create_article]')
         await page.click('a[id=create_article]')
@@ -157,6 +173,8 @@ describe('Demo of Navigating through Web Application', () => {
     }, 6000)
 
 	test('Navigating to create an event page', async done => {
+
+        await page.waitFor(1500)
 
         // Go to create event
         await page.waitForSelector('a[id=create_event]')
@@ -171,6 +189,8 @@ describe('Demo of Navigating through Web Application', () => {
 
 	test('Navigating to view an article page', async done => {
 
+        await page.waitFor(1500)
+
         // View an article
         await page.goto('http://localhost:8080/articles/5bf45d17a86fb42417eb7792', { waitUntil: 'domcontentloaded' })
 
@@ -182,6 +202,8 @@ describe('Demo of Navigating through Web Application', () => {
     }, 6000)
 
 	test('Navigating to view an event page', async done => {
+
+        await page.waitFor(1500)
 
         // View an event
         await page.goto('http://localhost:8080/events/5bf27fe84212f00c80d5011a', { waitUntil: 'domcontentloaded' })
@@ -195,11 +217,15 @@ describe('Demo of Navigating through Web Application', () => {
 
 	test('Navigating to a user account page', async done => {
 
+        await page.waitFor(1500)
+
         // View a user
         await page.goto('http://localhost:8080/users/Test2', { waitUntil: 'domcontentloaded' })
 
         await page.waitFor(1000)
         expect(page.url()).toBe('http://localhost:8080/users/Test2')
+
+        await page.waitFor(1500)
 
         done()
 
