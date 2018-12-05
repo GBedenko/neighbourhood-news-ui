@@ -105,6 +105,7 @@ describe('Snapshots of interfaces have not changed', () => {
 
 		await page.goto('http://localhost:8080/articles/5bf45d17a86fb42417eb7792', { waitUntil: 'domcontentloaded' })
 
+        await page.waitFor(1000)
 		const screenshot = await page.screenshot()
 
 		expect(screenshot).toMatchImageSnapshot({customSnapshotIdentifier: 'article'})
@@ -116,6 +117,7 @@ describe('Snapshots of interfaces have not changed', () => {
 
 		await page.goto('http://localhost:8080/events/5bf27fe84212f00c80d5011a', { waitUntil: 'domcontentloaded' })
 
+        await page.waitFor(1000)
 		const screenshot = await page.screenshot()
 
 		expect(screenshot).toMatchImageSnapshot({customSnapshotIdentifier: 'event'})
@@ -171,6 +173,7 @@ describe('Snapshots of interfaces have not changed', () => {
 
 		await page.goto('http://localhost:8080', { waitUntil: 'domcontentloaded' })
 
+        await page.waitFor(1000)
 		const screenshot = await page.screenshot()
 
 		expect(screenshot).toMatchImageSnapshot({customSnapshotIdentifier: 'welcome'})
