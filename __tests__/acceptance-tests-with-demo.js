@@ -197,7 +197,6 @@ describe('Demo of Navigating through Web Application', () => {
 
         // View a user
         await page.goto('http://localhost:8080/users/Test2', { waitUntil: 'domcontentloaded' })
-        await page.screenshot({ path: 'screenshots/user.png', fullPage: true })
 
         await page.waitFor(1000)
         expect(page.url()).toBe('http://localhost:8080/users/Test2')
