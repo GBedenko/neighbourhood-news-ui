@@ -6,6 +6,10 @@ const articlesAPI = 'http://localhost:8081/api/v1.0/articles/'
 
 exports.addArticle = (newArticleObject) => new Promise((resolve, reject) => {
 
+	if(Object.keys(newArticleObject).length == 0) {
+		reject(new Error('Trying to add an empty object'))
+	}
+
 	// Set default extra values for a new article object
 	newArticleObject.public = false
 	newArticleObject.pinned = false
@@ -39,6 +43,10 @@ exports.getArticleByID = (articleID) => new Promise((resolve, reject) => {
 })
 
 exports.updateArticle = (articleID, updatedArticleObject) => new Promise((resolve, reject) => {
+
+	if(Object.keys(updatedArticleObject).length == 0) {
+		reject(new Error('Trying to update an empty object'))
+	}
 
 	// Delete id field before performing PUT request (otherwise will fail as this is the URI as well as a field)
 	delete updatedArticleObject._id

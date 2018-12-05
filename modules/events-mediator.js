@@ -6,6 +6,10 @@ const eventsAPI = 'http://localhost:8081/api/v1.0/events/'
 
 exports.addEvent = (newEventObject) => new Promise((resolve, reject) => {
 
+	if(Object.keys(newEventObject).length == 0) {
+		reject(new Error('Trying to add an empty object'))
+	}
+
 	// Set default extra values for a new article object
 	newEventObject.public = false
 	newEventObject.pinned = false
@@ -39,6 +43,10 @@ exports.getEventByID = (eventID) => new Promise((resolve, reject) => {
 })
 
 exports.updateEvent = (eventID, updatedEventObject) => new Promise((resolve, reject) => {
+
+	if(Object.keys(updatedEventObject).length == 0) {
+		reject(new Error('Trying to update an empty object'))
+	}
 
 	// Delete id field before performing PUT request (otherwise will fail as this is the URI as well as a field)
 	delete updatedEventObject._id

@@ -7,7 +7,11 @@ const usersAPI = 'http://localhost:8083/api/v1.0/users/'
 
 exports.addUser = (newUserObject) => new Promise((resolve, reject) => {
 
-  	request.post({headers: {'content-type': 'application/json'}, url: usersAPI, body: JSON.stringify(newUserObject)}, (err, resp, body) => {
+	if(Object.keys(newUserObject).length == 0) {
+		reject(new Error('Trying to add an empty object'))
+	}
+	
+	request.post({headers: {'content-type': 'application/json'}, url: usersAPI, body: JSON.stringify(newUserObject)}, (err, resp, body) => {
 
 		resolve(body)
 	})
@@ -57,6 +61,10 @@ exports.getUserByID = (userID) => new Promise((resolve, reject) => {
 })
 
 exports.updateUser = (userID, updatedUserObject) => new Promise((resolve, reject) => {
+
+	if(Object.keys(updatedUserObject).length == 0) {
+		reject(new Error('Trying to update an empty object'))
+	}
 
 	// Delete id field before performing PUT request (otherwise will fail as this is the URI as well as a field)
 	delete updatedUserObject._id
