@@ -15,7 +15,7 @@ describe('Demo of Navigating through Web Application', () => {
         })
         let pages = await browser.pages()
         page = pages[0]
-        await page.setViewport({ width: 1850, height: 1080});
+        await page.setViewport({ width: 1850, height: 1080})
     })
     
     afterAll( async() => {
@@ -43,7 +43,7 @@ describe('Demo of Navigating through Web Application', () => {
         await page.waitFor(1000)
         await page.type('input[name=password]', 'test')
         await page.waitFor(1000)
-        await page.keyboard.press('Enter');
+        await page.keyboard.press('Enter')
 
         await page.waitFor(1000)
         expect(page.url()).toBe('http://localhost:8080/all_posts')

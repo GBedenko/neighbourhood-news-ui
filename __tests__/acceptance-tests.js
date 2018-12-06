@@ -14,7 +14,7 @@ beforeAll( async() => {
 		args: [`--window-size=${1920},${1080}`, '--disable-http2']
 	})
 	page = await browser.newPage()
-    await page.setViewport({ width: 1920, height: 1080});
+    await page.setViewport({ width: 1920, height: 1080})
 })
 
 afterAll( async() => {
@@ -181,7 +181,7 @@ describe('Logging in to the application', () => {
 		await page.waitFor(1000)
 		await page.type('input[name=password]', 'test')
 		await page.waitFor(1000)
-		await page.keyboard.press('Enter');
+		await page.keyboard.press('Enter')
 
 		await page.waitFor(1000)
 		const url = await page.url()
@@ -206,7 +206,7 @@ describe('Logging in to the application', () => {
 		await page.waitFor(1000)
 		await page.type('input[name=password]', 'notapassword')
 		await page.waitFor(1000)
-		await page.keyboard.press('Enter');
+		await page.keyboard.press('Enter')
 
 		await page.waitFor(1000)
 		const url = await page.url()

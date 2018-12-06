@@ -14,7 +14,7 @@ beforeAll( async() => {
 		args: [`--window-size=${1920},${1080}`, '--disable-http2']
 	})
 	page = await browser.newPage()
-    await page.setViewport({ width: 1920, height: 1080});
+    await page.setViewport({ width: 1920, height: 1080})
 })
 
 afterAll( async() => {
