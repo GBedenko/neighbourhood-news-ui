@@ -12,25 +12,25 @@
 <body>
 	<header>
 		<ul class="upper_navbar">
-			<li><a href="/all_posts">Local News and Events Application by Genaro Bedenko</a></li>
-			<li><a href="/create_article">Create Article</a></li>
-			<li><a href="/create_event">Create Event</a></li>
+			<li><a id="home" href="/all_posts">Local News and Events Application by Genaro Bedenko</a></li>
+			<li><a id="create_article" href="/create_article">Create Article</a></li>
+			<li><a id="create_event" href="/create_event">Create Event</a></li>
 			
 			<div id="user_logged_in">
 				{{#if user.isAdmin}}
-					<li><a href="/admin_dashboard">Admin Dashboard</a></li>
+					<li><a id="admin_dashboard" href="/admin_dashboard">Admin Dashboard</a></li>
 				{{/if}}
 			</div>
 		</ul>
 
 		<ul class="lower_navbar">
-			<li><a class="active" href="/all_posts">Home</a></li>
-			<li><a href="/articles">News Articles</a></li>
-			<li><a href="/events">Local Events</a></li>
-			<li><a href="/articles?sort=highest_rated">Highest Rated Articles</a></li>
-			<li><a href="/articles?sort=lowest_rated">Lowest Rated Articles</a></li>
-			<li><a href="/events?sort=highest_rated">Highest Rated Events</a></li>
-			<li><a href="/events?sort=lowest_rated">Lowest Rated Events</a></li>
+			<li><a id="all_posts" class="active" href="/all_posts">Home</a></li>
+			<li><a id="articles" href="/articles">News Articles</a></li>
+			<li><a id="events" href="/events">Local Events</a></li>
+			<li><a id="articles_highest_rated" href="/articles?sort=highest_rated">Highest Rated Articles</a></li>
+			<li><a id="articles_lowest_rated" href="/articles?sort=lowest_rated">Lowest Rated Articles</a></li>
+			<li><a id="events_highest_rated" href="/events?sort=highest_rated">Highest Rated Events</a></li>
+			<li><a id="events_lowest_rated" href="/events?sort=lowest_rated">Lowest Rated Events</a></li>
 		</ul>
 	</header>	
 

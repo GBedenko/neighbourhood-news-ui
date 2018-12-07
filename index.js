@@ -2,7 +2,7 @@
 
 'use strict'
 
-console.log("Booting Up UI Server...")
+console.log('Booting Up UI Server...')
 
 // Express and Handlebars setup
 const express = require('express')
@@ -38,9 +38,12 @@ app.get('/', async(req, res) => {
 
 // POST request for a new account being registered
 app.post('/register', async(req, res) => {
-	
+
+	// Define salt to pass no magic numbers linter setting
+	const salt = 10
+
 	// Hash the password using bcrypt
-	const passwordHash = await bcrypt.hash(req.body.password, 10)
+	const passwordHash = await bcrypt.hash(req.body.password, salt)
 	delete req.body.password
 
 	// Create a new object for the user including the password hashed
@@ -49,10 +52,10 @@ app.post('/register', async(req, res) => {
 		username: req.body.username,
 		password: passwordHash
 	}
-	
+
 	// Call the usersMediator to send a post request for the new user
 	const addUser = await usersMediator.addUser(newUser).then((resp) => resp)
-	
+
 	// Set session cookies for the username and if they are an admin
 	res.cookie('username', newUser.username)
 	res.cookie('isAdmin', false)
@@ -63,14 +66,14 @@ app.post('/register', async(req, res) => {
 
 // POST request for a user logging in
 app.post('/login', async(req, res) => {
-	
+
 	// Using the login form, send client's input to be authenticated
 	const authenticateUser = await usersMediator.authenticateUser(req.body)
 
 	if(authenticateUser) {
 
 		//If authenticated, retrieve all details of the user who just logged in
-		const loggedInUser = await usersMediator.getAllUsers({username: req.body.username})		
+		const loggedInUser = await usersMediator.getAllUsers({username: req.body.username})
 		const loggedInUserJSON = JSON.parse(loggedInUser)
 
 		// Retrieve their username and if they are an admin and store as cookies
@@ -81,14 +84,18 @@ app.post('/login', async(req, res) => {
 		res.redirect('/all_posts')
 
 	} else {
+
+		// Unauthorised status code (defined to pass magic numbers linter setting)
+		const unauthorisedStatusCode = 401
+
 		// Otherwise, display 401 error page
-		res.status(401).render('401', {layout: false})
+		res.status(unauthorisedStatusCode).render('401', {layout: false})
 	}
 })
 
 // Request to show all posts in UI (shown on homepage)
 app.get('/all_posts', async(req, res) => {
-	
+
 	// GET all Articles
 	const getArticles = articlesMediator.getAllArticles({public: true}).then((resp) => resp)
 	const articles = await getArticles
@@ -121,7 +128,7 @@ app.get('/all_posts', async(req, res) => {
 
 // Request to show all articles in UI
 app.get('/articles', async(req, res) => {
-	
+
 	const getArticles = articlesMediator.getAllArticles({public: true}, req.query.sort).then((resp) => resp)
 
 	const articles = await getArticles
@@ -139,9 +146,9 @@ app.get('/articles', async(req, res) => {
 	const pinnedEventsJSON = JSON.parse(pinnedEvents)
 
 	res.render('articles', {user: {username: req.cookies.username, isAdmin: req.cookies.isAdmin},
-							articles: articlesJSON,
-							pinnedArticles: pinnedArticlesJSON,
-							pinnedEvents: pinnedEventsJSON })
+		articles: articlesJSON,
+		pinnedArticles: pinnedArticlesJSON,
+		pinnedEvents: pinnedEventsJSON })
 })
 
 // Request to show one article in UI
@@ -164,14 +171,14 @@ app.get('/articles/:article_id', async(req, res) => {
 	const pinnedEventsJSON = JSON.parse(pinnedEvents)
 
 	res.render('article', {user: {username: req.cookies.username, isAdmin: req.cookies.isAdmin},
-							article: articleJSON,
-							pinnedArticles: pinnedArticlesJSON,
-							pinnedEvents: pinnedEventsJSON })
+		article: articleJSON,
+		pinnedArticles: pinnedArticlesJSON,
+		pinnedEvents: pinnedEventsJSON })
 })
 
 // POST request for a new article being created
 app.post('/articles', async(req, res) => {
-		
+
 	const addArticle = articlesMediator.addArticle(req.body).then((resp) => resp)
 
 	const addArticleResponse = await addArticle
@@ -277,11 +284,11 @@ app.get('/create_event', async(req, res) => {
 
 // Request the Admin Dashboard showing all articles and events
 app.get('/admin_dashboard', async(req, res) => {
-	
+
 	// Retrieve all articles from other microservice
 	const getArticles = articlesMediator.getAllArticles().then((resp) => resp)
 	const articles = await getArticles
-	const articlesJSON = JSON.parse(articles)						 
+	const articlesJSON = JSON.parse(articles)
 
 	// Retrieve all events from other microservice
 	const getEvents = eventsMediator.getAllEvents().then((resp) => resp)
@@ -297,7 +304,7 @@ app.get('/admin_dashboard', async(req, res) => {
 	const getPinnedEvents = eventsMediator.getAllEvents({pinned: true, public: true}).then((resp) => resp)
 	const pinnedEvents = await getPinnedEvents
 	const pinnedEventsJSON = JSON.parse(pinnedEvents)
-	
+
 	// Render both lists to the required UI template
 	res.render('admin_dashboard', {user: {username: req.cookies.username, isAdmin: req.cookies.isAdmin},
 								   articles: articlesJSON,
@@ -326,7 +333,7 @@ app.get('/articles/pin/:article_id', async(req, res) => {
 
 // Request to unpin an article (not shown on every page)
 app.get('/articles/unpin/:article_id', async(req, res) => {
-	
+
 	// Retrieve the article object that needs to be unpinned
 	const getArticleByID = articlesMediator.getArticleByID(req.params.article_id).then((resp) => resp)
 	const article = await getArticleByID
@@ -527,7 +534,7 @@ app.get('/like_user/:user_id', async(req, res) => {
 	const getUserByID = usersMediator.getUserByID(req.params.user_id).then((resp) => resp)
 	const user = await getUserByID
 	const userJSON = JSON.parse(user)
-	
+
 	// Increase number of likes this user has
 	userJSON.likes++
 
@@ -543,7 +550,7 @@ app.get('/dislike_user/:user_id', async(req, res) => {
 	const getUserByID = usersMediator.getUserByID(req.params.user_id).then((resp) => resp)
 	const user = await getUserByID
 	const userJSON = JSON.parse(user)
-	
+
 	// Increase number of dislikes this user has
 	userJSON.dislikes++
 
@@ -570,16 +577,16 @@ app.get('/users/:username', async(req, res) => {
 	const getPinnedEvents = eventsMediator.getAllEvents({pinned: true, public: true}).then((resp) => resp)
 	const pinnedEvents = await getPinnedEvents
 	const pinnedEventsJSON = JSON.parse(pinnedEvents)
-	
+
 	res.render('user', {user: userJSON[0],
-						pinnedArticles: pinnedArticlesJSON,
-						pinnedEvents: pinnedEventsJSON })
+		pinnedArticles: pinnedArticlesJSON,
+		pinnedEvents: pinnedEventsJSON })
 })
 
 // Request to create a new comment for the provided article
 app.post('/article/add_comment/:article_id', async(req, res) => {
 
-	const commentObject = {postType: "article", postID: req.params.article_id, comment: req.body.comment}
+	const commentObject = {postType: 'article', postID: req.params.article_id, comment: req.body.comment}
 
 	const addComment = commentsMediator.addComment(commentObject).then((resp) => resp)
 
@@ -591,7 +598,7 @@ app.post('/article/add_comment/:article_id', async(req, res) => {
 // Request to create a new comment for the provided event
 app.post('/event/add_comment/:event_id', async(req, res) => {
 
-	const commentObject = {postType: "event", postID: req.params.event_id, comment: req.body.comment}
+	const commentObject = {postType: 'event', postID: req.params.event_id, comment: req.body.comment}
 
 	const addComment = commentsMediator.addComment(commentObject).then((resp) => resp)
 
@@ -601,6 +608,6 @@ app.post('/event/add_comment/:event_id', async(req, res) => {
 })
 
 // Runs the server on provided port
-app.listen(port, () => console.log(`Server listening on port ${port}`));
+app.listen(port, () => console.log(`Server listening on port ${port}`))
 
 module.exports = app

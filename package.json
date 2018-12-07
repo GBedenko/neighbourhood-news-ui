@@ -6,8 +6,8 @@
   "scripts": {
     "start": "node index.js",
     "test": "jest --coverage -c jest.config.json",
-    "acceptance-test": "jest -c jest.config.acceptance.json",
-    "start-and-acceptance-test": "./start-acceptance-tests.sh",
+    "acceptance-tests": "jest -c jest.config.acceptance.json",
+    "demo": "node product-demo.js",
     "watch": "node_modules/.bin/jest --coverage --watchAll"
   },
   "jest": {
@@ -35,6 +35,7 @@
     "express": "^4.16.4",
     "express-handlebars": "^3.0.0",
     "jest": "^23.6.0",
+    "jest-image-snapshot": "^2.7.0",
     "nock": "^10.0.2",
     "node-cmd": "^3.0.0",
     "puppeteer": "^1.10.0",

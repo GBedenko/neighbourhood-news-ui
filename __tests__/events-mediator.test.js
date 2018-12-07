@@ -6,15 +6,26 @@ describe('Adding a new event call to other microservice', async() => {
 
 	test('Adding a new event request', async done => {
 
-                expect.assertions(1)
-                
-                const response = await eventsMediator.addEvent({"heading": "Test Heading"})
-                
-                // Expect to be undefined because remote API won't be running during test execution
-                expect(response).toBeUndefined()
-                
-                done()
-	})
+        expect.assertions(1)
+        
+        const response = await eventsMediator.addEvent({"heading": "Test Heading"})
+        
+        // Expect to be undefined because remote API won't be running during test execution
+        expect(response).toBeUndefined()
+        
+        done()
+    })
+    
+    test('Adding an empty event is rejected and doesnt call other API', async done => {
+
+        const response = await eventsMediator.addEvent({})
+                                                .then((response) => response)
+                                                .catch((reason) => reason)
+        
+        expect(response).toEqual(Error('Trying to add an empty object'))
+        
+        done()
+    })
 })
 
 describe('Getting all events call to other microservice', async() => { 
@@ -61,7 +72,7 @@ describe('Getting one event by id call to other microservice', async() => {
 
 describe('Updating an event call to other microservice', async() => { 
 
-	test('Pinning an event changes the new event object to have pinned equal true', async done => {
+	test('Updating an event successfully calls the API for an update request', async done => {
 
                 expect.assertions(1)
                                 
@@ -71,7 +82,18 @@ describe('Updating an event call to other microservice', async() => {
                 expect(response).toBeUndefined()
                 
                 done()
-	})
+    })
+        
+    test('Updating an event with an empty object is rejected and doesnt call other API', async done => {
+
+        const response = await eventsMediator.updateEvent(1234, {})
+                                                .then((response) => response)
+                                                .catch((reason) => reason)
+        
+        expect(response).toEqual(Error('Trying to update an empty object'))
+        
+        done()
+    })
 })
 
 describe('Deleting an event call to other microservice', async() => { 
