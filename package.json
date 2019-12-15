@@ -1,7 +1,7 @@
 {
-  "name": "bedenkog-local-news-ui",
+  "name": "neighbourhood-news-ui",
   "version": "1.0.0",
-  "description": "API for UI only (Part of Local News Application)",
+  "description": "API for User Interface Microservice (Part of Neighbourhood News Application)",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
@@ -24,9 +24,9 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.coventry.ac.uk/340CT-1819SEPJAN/bedenkog-local-news-ui"
+    "url": "https://github.com/gbedenko/neighbourhood-news-ui"
   },
-  "author": "bedenkog",
+  "author": "gbedenko",
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^3.0.2",
