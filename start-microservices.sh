@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 
 # Start all the servers for each microservice
-node ../bedenkog-local-news-articles-and-events/articles-and-events-api.js&
-node ../bedenkog-local-news-comments/comments-api.js&
-node ../bedenkog-local-news-ui/index.js&
-node ../bedenkog-local-news-users/users-api.js&
+node ../neighbourhood-news-articles-and-events/articles-and-events-api.js&
+node ../neighbourhood-news-comments/comments-api.js&
+node ../neighbourhood-news-ui/index.js&
+node ../neighbourhood-news-users/users-api.js&
 
 # Delay for however long user requests
 sleep $1
